@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Ceria: Perkalian & Pembagian Kelas 3 SD</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Afacad+Flux:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #ff823a;
+            --secondary: #dcfd8b;
+            --accent: #bc84ee;
+            --blue: #c2e9ff;
+            --dark: #1e293b;
+            --white: #ffffff;
+            --bg-slide: #fffaf0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #e2e8f0;
+            font-family: 'Afacad Flux', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Wrapper Slide dengan Sistem Scroll Snap */
+        .presentation-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 40px 60px;
+            scroll-snap-align: start;
+            position: relative;
+            background: var(--bg-slide);
+            border: 15px solid var(--white);
+            overflow: hidden;
+        }
+
+        .theme-cover { background-color: var(--secondary); justify-content: center !important; }
+        .theme-bab { background-color: var(--primary); justify-content: center !important; }
+        .theme-subbab { background-color: var(--accent); justify-content: center !important; }
+
+        .slide::before {
+            content: ''; position: absolute; top: -100px; right: -100px;
+            width: 300px; height: 300px; background: rgba(220, 253, 139, 0.3);
+            border-radius: 50%; z-index: 0;
+        }
+        .slide::after {
+            content: ''; position: absolute; bottom: -50px; left: -50px;
+            width: 200px; height: 200px; background: rgba(188, 132, 238, 0.2);
+            border-radius: 50%; z-index: 0;
+        }
+        .slide > * { position: relative; z-index: 1; }
+
+        h1 { font-family: 'Comfortaa', cursive; font-size: 4.5rem; color: var(--dark); text-align: center; line-height: 1.2; }
+        h2 { font-family: 'Comfortaa', cursive; font-size: 3rem; color: var(--dark); }
+        h3 { font-family: 'Comfortaa', cursive; font-size: 1.8rem; color: #4f46e5; margin-bottom: 15px; }
+        p { font-size: 1.5rem; color: #334155; line-height: 1.5; }
+        ul { font-size: 1.4rem; color: #334155; list-style-position: inside; }
+        li { margin-bottom: 10px; }
+
+        .slide-title {
+            width: 100%;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            border-bottom: 5px solid var(--primary);
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        .content-area { flex-grow: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; align-items: center; }
+        .flex-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+
+        .interactive-box {
+            background: var(--white);
+            border: 4px dashed var(--accent);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 6px 6px 0px #fdd5bd;
+            width: 100%;
+        }
+
+        .btn-check {
+            background: var(--primary);
+            color: var(--white);
+            border: 3px solid var(--dark);
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 0 var(--dark);
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--dark); }
+        .btn-check:active { transform: translateY(5px); box-shadow: 0 0px 0 var(--dark); }
+
+        input[type="number"], input[type="text"] {
+            border: 3px solid var(--dark);
+            border-radius: 10px;
+            padding: 8px;
+            font-size: 1.3rem;
+            width: 110px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .exercise-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .exercise-table th { background: var(--primary); color: var(--white); padding: 15px; font-size: 1.3rem; border: 2px solid var(--dark); }
+        .exercise-table td { padding: 12px; text-align: center; font-size: 1.2rem; border: 2px solid #cbd5e1; }
+
+        /* Gaya Khusus Tabel Perkalian Dasar */
+        .mult-table { border-collapse: collapse; margin: 0 auto; background: var(--white); border: 3px solid var(--dark); }
+        .mult-table td { border: 1px solid #cbd5e1; width: 42px; height: 42px; text-align: center; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .mult-table th { background: var(--secondary); border: 2px solid var(--dark); width: 42px; height: 42px; font-size: 1.1rem; }
+        
+        /* Variasi Highlight Baru */
+        .highlight-target { background: #ff477e !important; color: white; animation: pulse 0.5s infinite alternate; }
+        .highlight-line { background: #fff3cd; }
+        .highlight-header { background: #4f46e5 !important; color: white !important; font-weight: bold; }
+
+        .math-vertical {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: right;
+            width: 140px;
+            margin: 10px auto;
+            line-height: 1.2;
+            letter-spacing: 5px;
+        }
+        .math-line { border-bottom: 4px solid var(--dark); margin-bottom: 5px; display: block; width: 100%; }
+
+        .donut-plate-big { background: #e2e8f0; border: 4px dashed var(--dark); padding: 20px; border-radius: 25px; min-height: 110px; text-align: center; margin-bottom: 25px; }
+        .donut-basket { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .donut-item { font-size: 2.8rem; display: inline-block; transition: all 0.4s ease; }
+        .plates-row { display: flex; justify-content: space-around; width: 100%; margin-top: 15px; }
+        .plate-child { width: 110px; height: 110px; border: 4px solid var(--primary); background: var(--white); border-radius: 50%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 5px; position: relative; box-shadow: 0 6px 0 #ddd; }
+        .plate-label { position: absolute; bottom: -30px; font-weight: bold; font-size: 1.1rem; }
+
+        .bingo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 420px; margin: 0 auto; }
+        .bingo-cell { height: 75px; background: var(--white); border: 3px solid var(--dark); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; position: relative; box-shadow: 0 4px 0 var(--dark); }
+        .bingo-cell.pink { background-color: #ffc2e2 !important; }
+        .bingo-cell.blue { background-color: #c2e9ff !important; }
+        .bingo-btns { display: flex; gap: 4px; margin-top: 5px; }
+        .btn-b-p1 { background: #ec4899; color: white; border: none; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-b-p2 { background: #3b82f6; color: white; border: none; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .nav-hint { position: absolute; bottom: 25px; right: 40px; font-size: 1.1rem; background: rgba(0,0,0,0.6); color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; animation: bounce 1s infinite alternate; }
+
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+    </style>
+</head>
+<body>
+
+<div class="presentation-wrapper">
+
+    <div class="slide theme-cover">
+        <div class="flex-center">
+            <h1 style="text-shadow: 4px 4px 0px var(--white); font-size: 5rem;">PERKALIAN & PEMBAGIAN</h1>
+            <p style="font-size: 2.2rem; font-weight: bold; color: #1e3a8a; margin-top: 15px;">Petualangan Matematika Ceria Kelas 3 SD 🎒</p>
+            <div style="font-size: 7rem; margin-top: 30px;">✏️ 🔢 🧮 🌟</div>
+        </div>
+        <div class="nav-hint">Scroll Kebawah / Geser Jam 🖱️</div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Tantangan Detektif! 🕵️‍♂️</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="background: #eef2ff; text-align: center;">
+                    <div style="font-size: 6rem; margin-bottom: 10px;">🐐</div>
+                    <p style="font-size: 1.8rem; font-weight: bold;">"1 ekor kambing memiliki 4 kaki."</p>
+                </div>
+                <div class="interactive-box">
+                    <h3>Pertanyaan:</h3>
+                    <p style="margin-bottom: 15px;">Jika ada <b>10 ekor kambing</b> berkumpul di padang rumput, berapakah jumlah total seluruh kaki kambing?</p>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <input type="number" id="ans_pemantik" placeholder="Ketik...">
+                        <button class="btn-check" onclick="cekSoalMurni('ans_pemantik', 40, 'Hebat! Kamu benar, totalnya ada 40 kaki!')">Periksa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Target Belajar Kita 🎯</h2>
+        <div class="content-area">
+            <div class="two-column" style="align-items: stretch;">
+                <div class="interactive-box" style="background: #fffbeb; border-color: var(--primary);">
+                    <h3 style="color: var(--primary);"><i class="fa-solid fa-square-xmark"></i> Target Perkalian</h3>
+                    <ul>
+                        <li>Memahami perkalian sebagai penjumlahan berulang.</li>
+                        <li>Bisa menghitung perkalian bersusun ke bawah.</li>
+                        <li>Mampu memecahkan masalah soal cerita di kehidupan nyata.</li>
+                    </ul>
+                </div>
+                <div class="interactive-box" style="background: #f0fdf4; border-color: #22c55e;">
+                    <h3 style="color: #22c55e;"><i class="fa-solid fa-square-minus"></i> Target Pembagian</h3>
+                    <ul>
+                        <li>Memahami pembagian sebagai pengurangan berulang sampai habis.</li>
+                        <li>Bisa menghitung pembagian bersusun (Porogapit).</li>
+                        <li>Mampu menyelesaikan masalah pembagian sehari-hari.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide theme-bab">
+        <div class="flex-center">
+            <div style="font-size: 8rem; color: white;">✖️</div>
+            <h1 style="color: var(--white); text-shadow: 4px 4px 0px var(--dark); font-size: 5.5rem;">BAB 1: PERKALIAN</h1>
+            <p style="color: var(--secondary); font-size: 2rem; font-weight: bold; margin-top: 10px;">Mari Belajar Menjumlahkan Secara Cepat!</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Kue di Dalam Piring 🍪</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="text-align: center; background: #fff1f2;">
+                    <div style="font-size: 2.2rem; margin-bottom: 15px;">
+                        🍽️(🍪🍪🍪) 🍽️(🍪🍪🍪) 🍽️(🍪🍪🍪) 🍽️(🍪🍪🍪) 🍽️(🍪🍪🍪)
+                    </div>
+                    <p>Ada <b>5 piring</b>, masing-masing piring berisi <b>3 kue</b>.</p>
+                </div>
+                <div class="interactive-box">
+                    <h3>Bentuk Penjumlahan Berulang:</h3>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary); margin: 10px 0;">
+                        3 + 3 + 3 + 3 + 3 = 15
+                    </div>
+                    <p>Karena angka 3 dijumlahkan berulang sebanyak <b>5 kali</b>, maka ditulis dalam perkalian:</p>
+                    <div style="background: var(--dark); color: var(--secondary); text-align: center; padding: 15px; border-radius: 15px; font-size: 2.5rem; font-weight: bold; margin-top: 15px;">
+                        5 × 3 = 15
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Latihan Konsep Dasar 📝</h2>
+        <div class="content-area">
+            <table class="exercise-table">
+                <thead>
+                    <tr>
+                        <th>Gambar Soal</th>
+                        <th>Bentuk Penjumlahan</th>
+                        <th>Bentuk Perkalian</th>
+                        <th>Banyaknya Kue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>4 piring</b>, masing-masing <b>2 kue</b></td>
+                        <td><input type="text" placeholder="2+2+2+2" style="width:140px;"></td>
+                        <td><input type="text" placeholder="4x2" style="width:100px;"></td>
+                        <td><input type="number" style="width:80px;"></td>
+                    </tr>
+                    <tr>
+                        <td><b>3 piring</b>, masing-masing <b>5 kue</b></td>
+                        <td><input type="text" style="width:140px;"></td>
+                        <td><input type="text" style="width:100px;"></td>
+                        <td><input type="number" style="width:80px;"></td>
+                    </tr>
+                    <tr>
+                        <td><b>2 piring</b>, masing-masing <b>8 kue</b></td>
+                        <td><input type="text" style="width:140px;"></td>
+                        <td><input type="text" style="width:100px;"></td>
+                        <td><input type="number" style="width:80px;"></td>
+                    </tr>
+                    <tr>
+                        <td><b>6 piring</b>, masing-masing <b>4 kue</b></td>
+                        <td><input type="text" style="width:140px;"></td>
+                        <td><input type="text" style="width:100px;"></td>
+                        <td><input type="number" style="width:80px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-check" onclick="alert('Hebat, periksa kembali apakah pengali didepan adalah jumlah kelompoknya!')">Kunci Jawaban</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Tabel Perkalian Pintar 📊</h2>
+        <div class="content-area">
+            <div class="two-column" style="grid-template-columns: 1fr 1.8fr;">
+                <div class="interactive-box">
+                    <h3>Detektor Jawaban:</h3>
+                    <p style="font-size:1.1rem; margin-bottom:10px;">Masukkan angka perkalian yang ingin dicari (1-10):</p>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                        <input type="number" id="inp_mul_x" min="1" max="10" style="width: 75px;" placeholder="Baris">
+                        <span style="font-size: 1.5rem; font-weight: bold;">×</span>
+                        <input type="number" id="inp_mul_y" min="1" max="10" style="width: 75px;" placeholder="Kolom">
+                    </div>
+                    <button class="btn-check" onclick="nyalakanTabelPerkalian(true)">Cari Angka 🔍</button>
+                    <div id="out_mul_res" style="font-size: 2.2rem; font-weight: bold; margin-top: 20px; color: var(--primary); text-align: center;"></div>
+                </div>
+                <div>
+                    <table class="mult-table" id="tabel_matrix_perkalian"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Belajar Perkalian Bersusun 📉</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box">
+                    <h3>Contoh: \(24 \times 3\)</h3>
+                    <ol style="font-size: 1.25rem;">
+                        <li><b>Langkah 1 (Satuan):</b> Kalikan \(4 \times 3 = 12\). Tulis angka <b>2</b> di bawah, lalu simpan angka <b>1</b> di atas puluhan.</li>
+                        <li><b>Langkah 2 (Puluhan):</b> Kalikan \(2 \times 3 = 6\).</li>
+                        <li><b>Langkah 3 (Jumlahkan):</b> Tambahkan hasil puluhan dengan simpanan tadi: \(6 + 1 = 7\). Tulis angka <b>7</b>.</li>
+                        <li>Maka, hasil akhirnya adalah <b>72</b>!</li>
+                    </ol>
+                </div>
+                <div class="interactive-box" style="background: var(--dark); color: white; border-color: var(--secondary);">
+                    <div style="font-family: monospace; font-size: 3rem; text-align: right; width: 150px; margin: 0 auto;">
+                        <span style="font-size: 1.2rem; color: var(--secondary);">¹(simpan)</span><br>
+                        24<br>
+                        3<br>
+                        <span class="math-line" style="border-color: white;"></span>
+                        72
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Latihan: Puluhan × Satuan ⭐</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 1:</b> 32 × 4</p>
+                    <div class="math-vertical">32<br>4<span class="math-line"></span></div>
+                    <input type="number" id="p9_ans1" placeholder="Jawaban">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 2:</b> 15 × 6</p>
+                    <div class="math-vertical">15<br>6<span class="math-line"></span></div>
+                    <input type="number" id="p9_ans2" placeholder="Jawaban">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 3:</b> 48 × 2</p>
+                    <div class="math-vertical">48<br>2<span class="math-line"></span></div>
+                    <input type="number" id="p9_ans3" placeholder="Jawaban">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 4:</b> 27 × 5</p>
+                    <div class="math-vertical">27<br>5<span class="math-line"></span></div>
+                    <input type="number" id="p9_ans4" placeholder="Jawaban">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 5:</b> 61 × 3</p>
+                    <div class="math-vertical">61<br>3<span class="math-line"></span></div>
+                    <input type="number" id="p9_ans5" placeholder="Jawaban">
+                </div>
+                <div class="flex-center">
+                    <button class="btn-check" onclick="cekKolektifSlide9()">Periksa Semua</button>
+                    <p id="p9_fb" style="font-weight:bold; margin-top:10px;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Latihan: Puluhan × Puluhan 🔥</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 1:</b> 12 × 13</p>
+                    <div class="math-vertical" style="font-size:2rem;">12<br>13<span class="math-line"></span></div>
+                    <input type="number" id="p10_ans1">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 2:</b> 21 × 11</p>
+                    <div class="math-vertical" style="font-size:2rem;">21<br>11<span class="math-line"></span></div>
+                    <input type="number" id="p10_ans2">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 3:</b> 15 × 10</p>
+                    <div class="math-vertical" style="font-size:2rem;">15<br>10<span class="math-line"></span></div>
+                    <input type="number" id="p10_ans3">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 4:</b> 30 × 12</p>
+                    <div class="math-vertical" style="font-size:2rem;">30<br>12<span class="math-line"></span></div>
+                    <input type="number" id="p10_ans4">
+                </div>
+                <div class="interactive-box" style="text-align: center;">
+                    <p><b>Soal 5:</b> 14 × 20</p>
+                    <div class="math-vertical" style="font-size:2rem;">14<br>20<span class="math-line"></span></div>
+                    <input type="number" id="p10_ans5">
+                </div>
+                <div class="flex-center">
+                    <button class="btn-check" onclick="cekKolektifSlide10()">Periksa Hasil</button>
+                    <p id="p10_fb" style="font-weight:bold; margin-top:10px;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Analisis Soal Cerita 📖</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="background: #fffbeb;">
+                    <h3>Cerita Masalah:</h3>
+                    <p style="font-size: 1.6rem; line-height: 1.6;">"Budi membeli <b>6 kotak pensil warna</b>. Setelah dibuka, ternyata isi setiap kotak adalah <b>12 buah pensil</b>. Berapakah jumlah seluruh pensil milik Budi?"</p>
+                </div>
+                <div class="interactive-box" style="background: #f0fdf4; border-color: #22c55e;">
+                    <h3>Langkah Pembahasan:</h3>
+                    <p><b>Diketahui:</b> 6 kotak, masing-masing isi 12.</p>
+                    <p><b>Model Operasi:</b> 6 dikali 12 (6 x 12)</p>
+                    <div style="font-size: 2.2rem; margin: 15px 0; font-weight: bold; color: #16a34a; text-align: center;">
+                        6 x 12 = 72
+                    </div>
+                    <p>Jadi, total seluruh pensil Budi adalah <b>72 buah</b>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Tantangan Soal Cerita Mandiri 🧠</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="interactive-box">
+                    <p style="font-size: 1.2rem;">1. Ada 5 armada bus pariwisata. Tiap bus diisi 40 siswa. Berapa total siswa?</p>
+                    <div style="margin-top: 10px;"><input type="number" id="sc12_1"> <button class="btn-check" style="font-size:0.9rem; padding:4px 10px;" onclick="cekSoalMurni('sc12_1', 200, 'Tepat sekali! 5 x 40 = 200')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size: 1.2rem;">2. Ibu memanggang 8 loyang bolu. Tiap loyang dipotong jadi 15 bagian. Berapa jumlah kue?</p>
+                    <div style="margin-top: 10px;"><input type="number" id="sc12_2"> <button class="btn-check" style="font-size:0.9rem; padding:4px 10px;" onclick="cekSoalMurni('sc12_2', 120, 'Luar biasa! 8 x 15 = 120')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size: 1.2rem;">3. Paman menanam mangga sebanyak 12 baris. Tiap baris berisi 7 pohon. Berapa total pohon?</p>
+                    <div style="margin-top: 10px;"><input type="number" id="sc12_3"> <button class="btn-check" style="font-size:0.9rem; padding:4px 10px;" onclick="cekSoalMurni('sc12_3', 84, 'Benar! 12 x 7 = 84')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size: 1.2rem;">4. Rani menabung uang Rp2.000 setiap hari. Berapa rupiah uang Rani setelah 10 hari?</p>
+                    <div style="margin-top: 10px;"><input type="number" id="sc12_4"> <button class="btn-check" style="font-size:0.9rem; padding:4px 10px;" onclick="cekSoalMurni('sc12_4', 20000, 'Sempurna! 10 x 2000 = 20000')">Cek</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Kunci & Analisis Jawaban 🔑</h2>
+        <div class="content-area">
+            <div class="interactive-box" style="line-height: 2;">
+                <p>🟢 <b>Pembahasan Soal 1:</b> 5 Bus × 40 Siswa = <b>200 Siswa</b> semuanya.</p>
+                <p>🟢 <b>Pembahasan Soal 2:</b> 8 Loyang × 15 Potong = <b>120 Potong Kue</b>.</p>
+                <p>🟢 <b>Pembahasan Soal 3:</b> 12 Baris × 7 Pohon = <b>84 Pohon Mangga</b>.</p>
+                <p>🟢 <b>Pembahasan Soal 4:</b> 10 Hari × Rp2.000 = <b>Rp20.000</b>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide theme-subbab">
+        <div class="flex-center">
+            <div style="font-size: 8rem; color: white;">➗</div>
+            <h1 style="color: var(--white); text-shadow: 4px 4px 0px var(--dark); font-size: 5.5rem;">SUBBAB: PEMBAGIAN</h1>
+            <p style="color: var(--secondary); font-size: 2rem; font-weight: bold; margin-top: 10px;">Membagi Sama Rata Hingga Adil!</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Simulasi Membagi Donat 🍩</h2>
+        <div class="content-area">
+            <p style="margin-bottom: 10px; font-size: 1.25rem;">Ada <b>10 donat</b> di piring besar. Kita akan bagikan secara adil ke <b>5 piring kecil</b> di bawah!</p>
+            
+            <div class="donut-plate-big">
+                <div class="donut-basket" id="wadah_donut_induk"></div>
+                <p style="margin-top: 10px; font-weight: bold;">Sisa Donat Induk: <span id="label_angka_donut">10</span></p>
+            </div>
+
+            <div class="plates-row">
+                <div class="plate-child" id="piring_c1"></div>
+                <div class="plate-child" id="piring_c2"></div>
+                <div class="plate-child" id="piring_c3"></div>
+                <div class="plate-child" id="piring_c4"></div>
+                <div class="plate-child" id="piring_c5"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 45px; display: flex; gap: 15px; justify-content: center;">
+                <button class="btn-check" onclick="jalankanSimulasiDonut()">Bagikan 1 Putaran (Ambil 5)</button>
+                <button class="btn-check" style="background:#64748b;" onclick="resetSimulasiDonut()">Isi Ulang Donat</button>
+            </div>
+            <p id="log_simulasi_donut" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--primary); font-size: 1.4rem;"></p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Pembagian = Pengurangan Berulang 🧩</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box">
+                    <h3>Catatan Logika:</h3>
+                    <p>Dari simulasi donat tadi, kita melakukan pengurangan kelompok:</p>
+                    <p style="font-weight: bold; font-size: 1.6rem; color: #ef4444; margin: 10px 0;">
+                        10 − 5 − 5 = 0
+                    </p>
+                    <p>Kita mengambil makanan sebanyak <b>2 kali</b> sampai isi piring besar kosong bersih.</p>
+                </div>
+                <div class="interactive-box" style="text-align: center; background: var(--blue);">
+                    <p>Karena dilakukan 2 kali pengurangan berulang, ditulis:</p>
+                    <h2 style="font-size: 4rem; color: #1e3a8a; margin: 15px 0;">10 ÷ 5 = 2</h2>
+                    <p>Artinya, masing-masing piring kecil pas mendapatkan <b>2 donat asli</b>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Tantangan Kuis: Mari Berbagi! 🍎</h2>
+        <div class="content-area">
+            <div id="box_game_berbagi" class="interactive-box" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <p id="txt_game_berbagi" style="font-size: 2rem; margin-bottom: 20px;">Ada <b>12 Jeruk</b> dibagikan kepada <b>3 Orang</b>.</p>
+                <p style="margin-bottom: 15px;">Berapakah buah yang diterima setiap orang?</p>
+                <input type="number" id="inp_game_berbagi" placeholder="Hitung...">
+                <button class="btn-check" style="margin-left:10px;" onclick="validasiGameBerbagi()">Periksa Jawaban</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Mengenal Pembagian Bersisa 🍎⚠️</h2>
+        <div class="content-area">
+            <div class="interactive-box" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p>Terkadang ada kondisi di mana benda tidak bisa habis dibagi secara adil.</p>
+                <p style="font-weight: bold; margin: 15px 0; font-size: 1.8rem; color: var(--primary);">Contoh: 11 Jeruk dibagikan kepada 5 orang.</p>
+                <p>Masing-masing orang mendapatkan berapa jeruk, dan sisa berapa di piring utama?</p>
+                <div style="font-size: 1.8rem; margin: 20px 0;">
+                    11 ÷ 5 = <input type="number" id="inp_sisa_hasil" style="width:70px;"> Sisanya = <input type="number" id="inp_sisa_benda" style="width:70px;">
+                </div>
+                <button class="btn-check" onclick="cekJawabanSisa()">Kunci Hasil</button>
+                <p id="fb_sisa_jawab" style="margin-top: 15px; font-weight: bold; font-size: 1.4rem;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Mencari Pembagian Lewat Tabel Perkalian 📊</h2>
+        <div class="content-area">
+            <div class="two-column" style="grid-template-columns: 1fr 1.5fr;">
+                <div class="interactive-box">
+                    <h3>Pencari Kebalikan Perkalian:</h3>
+                    <p style="font-size: 1rem; margin-bottom: 10px;">Gunakan konsep kebalikan untuk menemukan hasil bagi!</p>
+                    <div style="margin-bottom: 15px; display: flex; gap: 5px; align-items: center;">
+                        <input type="number" id="inp_div_target" style="width:85px;" placeholder="Angka"> 
+                        <span style="font-size:1.5rem; font-weight:bold;">÷</span> 
+                        <input type="number" id="inp_div_sor" style="width:85px;" placeholder="Pembagi">
+                    </div>
+                    <button class="btn-check" onclick="nyalakanTabelPembagian()">Sorot Jalur Tabel 🔍</button>
+                    <div id="out_div_res" style="font-size: 1.8rem; font-weight: bold; margin-top: 20px; color: #4f46e5; text-align: center;"></div>
+                </div>
+                <div class="interactive-box" style="background: #f8fafc; padding: 15px;">
+                    <table class="mult-table" id="tabel_matrix_pembagian"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Pembagian Bersusun (Porogapit) 📑</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="line-height: 1.8;">
+                    <h3>Cara Menghitung \(72 \div 3\)</h3>
+                    <li><b>Bagi Puluhan:</b> Angka depan \(7 ÷ 3\) dapat <b>2</b> (sisa 1). Tulis 2 di bagian atas.</li>
+                        <li><b>Kalikan:</b> \(2 \times 3 = 6\). Tulis angka 6 di bawah angka 7, lalu kurangkan: \(7 - 6 = 1\).</li>
+                        <li><b>Turunkan Satuan:</b> Turunkan angka 2 ke bawah, sekarang terbentuk angka <b>12</b>.</li>
+                        <li><b>Bagi Lagi:</b> \(12 ÷ 3 = 4\). Tulis angka 4 di atas.</li>
+                        <li><b>Habis:</b> \(4 \times 3 = 12\), kurangkan \(12 - 12 = 0\). Hasilnya adalah <b>24</b>!</li>
+                </div>
+                <div class="interactive-box" style="background: var(--dark); color: white; text-align: center; font-family: monospace; font-size: 2.2rem; padding: 40px 10px;">
+                    &nbsp;&nbsp;&nbsp;24  (Hasil)<br>
+                    &nbsp;_____<br>
+                    3 / 72<br>
+                    &nbsp;&nbsp;&nbsp;6<br>
+                    &nbsp;&nbsp;--- -<br>
+                    &nbsp;&nbsp;&nbsp;12<br>
+                    &nbsp;&nbsp;&nbsp;12<br>
+                    &nbsp;&nbsp;--- -<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;0  (Habis!)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Uji Kemampuan Porogapit Ratusan 🧠</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                <div class="interactive-box">1. \(144 \div 4 =\) <input type="number" id="p21_1"></div>
+                <div class="interactive-box">2. \(255 \div 5 =\) <input type="number" id="p21_2"></div>
+                <div class="interactive-box">3. \(336 \div 3 =\) <input type="number" id="p21_3"></div>
+                <div class="interactive-box">4. \(448 \div 2 =\) <input type="number" id="p21_4"></div>
+                <div class="flex-center" style="grid-column: span 2;">
+                    <button class="btn-check" onclick="cekKolektifPorogapit()">Validasi Jawaban</button>
+                    <p id="p21_fb" style="font-weight:bold; margin-top:10px; font-size: 1.3rem;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Soal Cerita Pembagian 📖</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="background: #fff1f2;">
+                    <h3>Cerita Masalah:</h3>
+                    <p style="font-size: 1.5rem; line-height: 1.7;">"Ibu memiliki <b>45 butir permen</b> manis. Rencananya permen tersebut akan dimasukkan kantong plastik dan dibagikan kepada <b>9 orang anak</b> secara adil. Berapa butir permen yang didapat setiap anak?"</p>
+                </div>
+                <div class="interactive-box" style="background: #f0fdf4; border-color: #22c55e;">
+                    <h3>Penyelesaian:</h3>
+                    <p>Total Permen = 45</p>
+                    <p>Dibagi = 9 Anak</p>
+                    <div style="font-size: 2.2rem; font-weight: bold; text-align: center; margin: 15px 0; color: #16a34a;">
+                        $$45 \div 9 = 5$$
+                    </div>
+                    <p>Maka, setiap anak akan membawa pulang masing-masing <b>5 butir permen</b>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Kuis Mandiri Cerita Pembagian 🧩</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="interactive-box">
+                    <p style="font-size:1.15rem;">1. Sebanyak 80 buah mangga dimasukkan ke dalam 4 keranjang sama rata. Berapa isi tiap keranjang?</p>
+                    <div style="margin-top:10px;"><input type="number" id="sc23_1"> <button class="btn-check" style="font-size:0.85rem; padding:4px 8px;" onclick="cekSoalMurni('sc23_1', 20, 'Tepat!')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size:1.15rem;">2. Ada 60 butir telur ayam petelur akan dibagikan kepada 5 tetangga. Berapa butir telur per orang?</p>
+                    <div style="margin-top:10px;"><input type="number" id="sc23_2"> <button class="btn-check" style="font-size:0.85rem; padding:4px 8px;" onclick="cekSoalMurni('sc23_2', 12, 'Luar biasa!')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size:1.15rem;">3. Uang saku Rp10.000 ingin dibagi rata kepada 2 orang adik terkecil. Berapa rupiah yang diterima masing-masing?</p>
+                    <div style="margin-top:10px;"><input type="number" id="sc23_3"> <button class="btn-check" style="font-size:0.85rem; padding:4px 8px;" onclick="cekSoalMurni('sc23_3', 5000, 'Sempurna!')">Cek</button></div>
+                </div>
+                <div class="interactive-box">
+                    <p style="font-size:1.15rem;">4. Koleksi 36 buku cerita ditata rapi ke dalam 3 rak buku sekolah. Berapa buku isi setiap rak?</p>
+                    <div style="margin-top:10px;"><input type="number" id="sc23_4"> <button class="btn-check" style="font-size:0.85rem; padding:4px 8px;" onclick="cekSoalMurni('sc23_4', 12, 'Benar!')">Cek</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Kunci Analisis Pembagian 🔑</h2>
+        <div class="content-area">
+            <div class="interactive-box" style="line-height: 2.2;">
+                <p>🔵 <b>Jawaban Soal 1:</b> 80 Mangga ÷ 4 Keranjang = <b>20 Mangga</b> per wadah.</p>
+                <p>🔵 <b>Jawaban Soal 2:</b> 60 Telur ÷ 5 Rumah Tetangga = <b>12 Butir Telur</b>.</p>
+                <p>🔵 <b>Jawaban Soal 3:</b> Rp10.000 ÷ 2 Anak = <b>Rp5.000</b>.</p>
+                <p>🔵 <b>Jawaban Soal 4:</b> 36 Buku ÷ 3 Rak = <b>12 Buku Cerita</b>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide theme-bab">
+        <div class="flex-center">
+            <div style="font-size: 6rem;">🎮</div>
+            <h1 style="color: white; font-size: 4.5rem; text-shadow: 3px 3px 0px var(--dark);">WAKTUNYA GAME BINGO!</h1>
+            <p style="color: var(--secondary); font-size: 1.6rem; margin: 15px 0;">Mari berkompetisi sehat antara Siswa 1 dan Siswa 2!</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Papan Arena BINGO Matematika 🎲</h2>
+        <div class="content-area">
+            <div class="two-column" style="grid-template-columns: 1.2fr 1fr;">
+                <div>
+                    <div style="background: #f1f5f9; padding: 10px; border-radius: 12px; margin-bottom: 12px; font-size: 1.05rem; border: 2px solid var(--dark);">
+                        <b>Pemain 1 (Pink):</b> <input type="text" id="p26_name1" value="Siswa 1" style="width:105px; font-size:1rem; padding:4px;"> 
+                        | Skor: <span id="p26_score1" style="font-weight:bold; color:#ec4899;">0</span><br>
+                        <b>Pemain 2 (Biru):</b> <input type="text" id="p26_name2" value="Siswa 2" style="width:105px; font-size:1rem; padding:4px;"> 
+                        | Skor: <span id="p26_score2" style="font-weight:bold; color:#3b82f6;">0</span>
+                    </div>
+                    
+                    <div class="bingo-grid" id="container_papan_bingo"></div>
+                    <h3 id="txt_pemenang_bingo" style="margin-top: 15px; text-align: center; color: var(--primary);"></h3>
+                </div>
+                
+                <div class="interactive-box" style="overflow-y: auto; max-height: 480px; background: white;">
+                    <h3 style="font-size: 1.4rem;"><i class="fa-solid fa-list-check"></i> Daftar Soal Pertanyaan</h3>
+                    <div id="container_daftar_soal_bingo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="slide-title">Rangkuman Ilmu Hari Ini 🧠</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="interactive-box" style="background:#fffbeb; height:100%;">
+                    <h3>⭐ Kesimpulan Inti:</h3>
+                    <p style="font-size:1.25rem; line-height:1.7;">
+                        1. <b>Perkalian</b> adalah cara cepat menghitung penjumlahan benda yang bermuatan angka sama secara berulang.<br><br>
+                        2. <b>Pembagian</b> merupakan aksi membagi adil kumpulan objek dengan metode pengurangan bertahap hingga menyentuh angka nol (habis).
+                    </p>
+                </div>
+                <div class="interactive-box" style="background:#f0fdf4; height:100%;">
+                    <h3>💡 Tips Sukses Detektif:</h3>
+                    <p style="font-size:1.25rem; line-height:1.7;">Kunci utama agar mahir menghitung di kelas 3 ke atas adalah sering berlatih dan menghafalkan pola <b>Tabel Perkalian Dasar 1-10</b>. Jika perkalianmu lancar, pembagian pasti terasa sangat mudah!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide theme-cover">
+        <div class="flex-center">
+            <h1 style="font-size: 5rem; text-shadow: 3px 3px 0px white;">LUAR BIASA! 🥳</h1>
+            <p style="font-size: 2rem; font-weight: bold; margin-top: 15px;">Kamu Resmi Menjadi Juara Matematika Hari Ini!</p>
+            <div style="font-size: 7rem; margin-top: 20px;">🏫 🎉 🎒 ✨</div>
+            <p style="font-size: 1.2rem; color: #475569; margin-top: 30px;">Presentasi Selesai - Terima Kasih</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- UTILITY GLOBAL CHECK ---
+    function cekSoalMurni(idElemen, kunciJawaban, pesanSukses) {
+        let inputSiswa = document.getElementById(idElemen).value;
+        if(parseInt(inputSiswa) === kunciJawaban) {
+            alert("🎉 " + pesanSukses);
+        } else {
+            alert("❌ Ups! Hitunganmu kurang tepat. Coba hitung lagi pelan-pelan ya!");
+        }
+    }
+
+    // --- BUILD TABEL MATRIKS PERKALIAN DASAR (DIBUAT DUA KALI AGAR ID-NYA UNIK) ---
+    function bangunTabelPerkalian(idTargetContainer, idPrefix) {
+        const tabelContainer = document.getElementById(idTargetContainer);
+        let htmlStruktur = '<thead><tr><th>×</th>';
+        for (let k = 1; k <= 10; k++) htmlStruktur += `<th id="${idPrefix}_head_k_${k}">${k}</th>`;
+        htmlStruktur += '</tr></thead><tbody>';
+
+        for (let b = 1; b <= 10; b++) {
+            htmlStruktur += `<tr><th id="${idPrefix}_head_b_${b}">${b}</th>`;
+            for (let k = 1; k <= 10; k++) {
+                htmlStruktur += `<td id="${idPrefix}_cell_${b}_${k}">${b * k}</td>`;
+            }
+            htmlStruktur += '</tr>';
+        }
+        htmlStruktur += '</tbody>';
+        tabelContainer.innerHTML = htmlStruktur;
+    }
+    
+    // Inisialisasi tabel di Slide Perkalian dan Slide Pembagian
+    bangunTabelPerkalian('tabel_matrix_perkalian', 'mul');
+    bangunTabelPerkalian('tabel_matrix_pembagian', 'div');
+
+    // --- LOGIKA HIGHLIGHT SLIDE PERKALIAN (SLIDE 7) ---
+    function nyalakanTabelPerkalian(pemicuEfekTeks) {
+        let b = parseInt(document.getElementById('inp_mul_x').value);
+        let k = parseInt(document.getElementById('inp_mul_y').value);
+        
+        // Reset seluruh warna kelas tabel perkalian
+        document.querySelectorAll('#tabel_matrix_perkalian td, #tabel_matrix_perkalian th').forEach(el => el.className = "");
+        
+        if (b >= 1 && b <= 10 && k >= 1 && k <= 10) {
+            for(let i=1; i<=10; i++) {
+                document.getElementById(`mul_cell_${b}_i` ? `mul_cell_${b}_${i}` : '').className = "highlight-line";
+                document.getElementById(`mul_cell_${i}_${k}`).className = "highlight-line";
+            }
+            document.getElementById(`mul_cell_${b}_${k}`).className = "highlight-target";
+            if(pemicuEfekTeks) {
+                document.getElementById('out_mul_res').innerText = `Hasil: ${b} × ${k} = ${b * k}`;
+            }
+        }
+    }
+
+    // --- BARU: LOGIKA HIGHLIGHT SLIDE PEMBAGIAN YANG BENAR (SLIDE 19) ---
+    function nyalakanTabelPembagian() {
+        let targetAngka = parseInt(document.getElementById('inp_div_target').value); // Yang Dibagi (a)
+        let pembagi = parseInt(document.getElementById('inp_div_sor').value);        // Pembagi (b)
+        let outBox = document.getElementById('out_div_res');
+        
+        // Reset warna seluruh sel dan header di tabel pembagian
+        document.querySelectorAll('#tabel_matrix_pembagian td, #tabel_matrix_pembagian th').forEach(el => el.className = "");
+        outBox.innerText = "";
+
+        if (isNaN(targetAngka) || isNaN(pembagi) || pembagi < 1 || pembagi > 10) {
+            alert("Masukkan angka pembagi antara 1 sampai 10!");
+            return;
+        }
+
+        let ditemukan = false;
+        let barisPilihan = pembagi; 
+
+        // 1. Berikan highlight line pada baris pembagi yang dipilih siswa
+        for (let k = 1; k <= 10; k++) {
+            document.getElementById(`div_cell_${barisPilihan}_${k}`).className = "highlight-line";
+        }
+
+        // 2. Cari angka target yang dibagi (a) di dalam baris tersebut
+        for (let k = 1; k <= 10; k++) {
+            let cell = document.getElementById(`div_cell_${barisPilihan}_${k}`);
+            if (parseInt(cell.innerText) === targetAngka) {
+                let hasilBagi = k; // Hasil Bagi (c) didapatkan dari koordinat kolom kepala
+                
+                // Beri warna khusus pada komponen inti pembagian
+                document.getElementById(`div_head_b_${barisPilihan}`).className = "highlight-header"; // Pembagi (b)
+                cell.className = "highlight-target";                                               // Bilangan yang dibagi (a)
+                document.getElementById(`div_head_k_${hasilBagi}`).className = "highlight-header";    // Hasil bagi (c)
+                
+                outBox.innerHTML = `Ketemu!<br><span style="color:var(--primary);">${targetAngka}</span> ÷ <span style="color:green;">${pembagi}</span> = <span style="color:#4f46e5;">${hasilBagi}</span>`;
+                ditemukan = true;
+                break;
+            }
+        }
+
+        if (!ditemukan) {
+            alert(`Angka ${targetAngka} tidak habis dibagi ${pembagi} (tidak ditemukan pada baris perkalian ${pembagi})`);
+        }
+    }
+
+    // --- CHECKER KOLEKTIF SLIDE 9 ---
+    function cekKolektifSlide9() {
+        let k1 = parseInt(document.getElementById('p9_ans1').value) === 128;
+        let k2 = parseInt(document.getElementById('p9_ans2').value) === 90;
+        let k3 = parseInt(document.getElementById('p9_ans3').value) === 96;
+        let k4 = parseInt(document.getElementById('p9_ans4').value) === 135;
+        let k5 = parseInt(document.getElementById('p9_ans5').value) === 183;
+        let fb = document.getElementById('p9_fb');
+        if(k1 && k2 && k3 && k4 && k5) {
+            fb.style.color = "green"; fb.innerText = "✅ Semua Jawaban Benar (128, 90, 96, 135, 183)!";
+        } else {
+            fb.style.color = "red"; fb.innerText = "❌ Masih ada jawaban keliru. Periksa lagi!";
+        }
+    }
+
+    // --- CHECKER KOLEKTIF SLIDE 10 ---
+    function cekKolektifSlide10() {
+        let k1 = parseInt(document.getElementById('p10_ans1').value) === 156;
+        let k2 = parseInt(document.getElementById('p10_ans2').value) === 231;
+        let k3 = parseInt(document.getElementById('p10_ans3').value) === 150;
+        let k4 = parseInt(document.getElementById('p10_ans4').value) === 360;
+        let k5 = parseInt(document.getElementById('p10_ans5').value) === 280;
+        let fb = document.getElementById('p10_fb');
+        if(k1 && k2 && k3 && k4 && k5) {
+            fb.style.color = "green"; fb.innerText = "✅ Hebat! 5 Soal Terpecahkan Sempurna!";
+        } else {
+            fb.style.color = "red"; fb.innerText = "❌ Ada hasil kali yang belum tepat.";
+        }
+    }
+
+    // --- SIMULASI DONUT (SLIDE 15) ---
+    let sisaDonutMurni = 10;
+    function resetSimulasiDonut() {
+        sisaDonutMurni = 10;
+        document.getElementById('label_angka_donut').innerText = sisaDonutMurni;
+        document.getElementById('log_simulasi_donut').innerText = "";
+        
+        let wadahInduk = document.getElementById('wadah_donut_induk');
+        wadahInduk.innerHTML = "";
+        for(let i=0; i<10; i++) wadahInduk.innerHTML += '<span class="donut-item" id="dnt_'+i+'">🍩</span>';
+        
+        for(let c=1; c<=5; c++) document.getElementById('piring_c'+c).innerHTML = "";
+    }
+    resetSimulasiDonut();
+
+    function jalankanSimulasiDonut() {
+        if(sisaDonutMurni <= 0) {
+            alert("Donut di piring induk sudah habis dibagi!");
+            return;
+        }
+        sisaDonutMurni -= 5;
+        document.getElementById('label_angka_donut').innerText = sisaDonutMurni;
+        
+        let wadahInduk = document.getElementById('wadah_donut_induk');
+        wadahInduk.innerHTML = "";
+        for(let i=0; i<sisaDonutMurni; i++) wadahInduk.innerHTML += '<span class="donut-item">🍩</span>';
+
+        for(let c=1; c<=5; c++) {
+            document.getElementById('piring_c'+c).innerHTML += '<span class="donut-item" style="font-size:1.5rem; margin:2px;">🍩</span>';
+        }
+
+        if(sisaDonutMurni === 5) {
+            document.getElementById('log_simulasi_donut').innerText = "Putaran 1: Membagi 5 kue ➔ Sisa Donat = 10 − 5 = 5";
+        } else if(sisaDonutMurni === 0) {
+            document.getElementById('log_simulasi_donut').innerText = "Putaran 2: Membagi 5 kue lagi ➔ Sisa Donat = 5 − 5 = 0 (Habis!)";
+        }
+    }
+
+    // --- GAME MARI BERBAGI MINI (SLIDE 17) ---
+    let indexTahapGameBerbagi = 0;
+    const databaseGameBerbagi = [
+        { teks: "Ada <b>12 Jeruk</b> dibagikan kepada <b>3 Orang</b>.", kunci: 4 },
+        { teks: "Ada <b>20 Apel</b> dibagikan kepada <b>4 Orang</b>.", kunci: 5 },
+        { teks: "Ada <b>15 Kue</b> dibagikan kepada <b>5 Orang</b>.", kunci: 3 }
+    ];
+
+    function validasiGameBerbagi() {
+        let inputSiswa = parseInt(document.getElementById('inp_game_berbagi').value);
+        let dataSekarang = databaseGameBerbagi[indexTahapGameBerbagi];
+        
+        if (inputSiswa === dataSekarang.kunci) {
+            indexTahapGameBerbagi++;
+            if (indexTahapGameBerbagi < databaseGameBerbagi.length) {
+                alert("🎉 Benar! Ayo lanjut ke tantangan kelompok berikutnya.");
+                document.getElementById('txt_game_berbagi').innerHTML = databaseGameBerbagi[indexTahapGameBerbagi].teks;
+                document.getElementById('inp_game_berbagi').value = "";
+            } else {
+                document.getElementById('box_game_berbagi').innerHTML = "<h3 style='color:green;'>🏆 Hebat! Kamu Berhasil Menyelesaikan Semua Sesi Berbagi Tanpa Sisa!</h3>";
+            }
+        } else {
+            alert("❌ Kurang tepat, ayo coba hitung atau gunakan pengurangan berulang!");
+        }
+    }
+
+    // --- CHECKER PEMBAGIAN SISA (SLIDE 18) ---
+    function cekJawabanSisa() {
+        let hasil = parseInt(document.getElementById('inp_sisa_hasil').value);
+        let sisa = parseInt(document.getElementById('inp_sisa_benda').value);
+        let fb = document.getElementById('fb_sisa_jawab');
+        if(hasil === 2 && sisa === 1) {
+            fb.style.color = "green"; fb.innerText = "🥳 Tepat! Setiap orang mendapat 2 jeruk, dan 1 jeruk tersisa di piring.";
+        } else {
+            fb.style.color = "red"; fb.innerText = "❌ Pembagian sisanya belum tepat, coba pakai gambar coretan!";
+        }
+    }
+
+    // --- CHECKER POROGAPIT (SLIDE 21) ---
+    function cekKolektifPorogapit() {
+        let a1 = parseInt(document.getElementById('p21_1').value) === 36;
+        let a2 = parseInt(document.getElementById('p21_2').value) === 51;
+        let a3 = parseInt(document.getElementById('p21_3').value) === 112;
+        let a4 = parseInt(document.getElementById('p21_4').value) === 224;
+        let fb = document.getElementById('p21_fb');
+        if(a1 && a2 && a3 && a4) {
+            fb.style.color = "green"; fb.innerText = "✅ Selamat! Jawaban Porogapitmu 100% Sempurna (36, 51, 112, 224).";
+        } else {
+            fb.style.color = "red"; fb.innerText = "❌ Beberapa hasil bagi bersusun masih keliru.";
+        }
+    }
+
+    // --- GAME ENGINE BINGO MATEMATIKA (SLIDE 26) ---
+    const kunciJawabanBingo = [6, 12, 15, 20, 25, 8, 9, 30, 4, 2, 10, 100, 18, 24, 7, 40, 5, 21, 16, 50, 3, 80, 1, 0, 14];
+    const teksSoalBingo = [
+        "1. 2 × 3", "2. 4 × 3", "3. 5 × 3", "4. 5 × 4", "5. 5 × 5",
+        "6. 16 ÷ 2", "7. 27 ÷ 3", "8. 6 × 5", "9. 12 ÷ 3", "10. 10 ÷ 5",
+        "11. 20 ÷ 2", "12. 10 × 10", "13. 9 × 2", "14. 8 × 3", "15. 49 ÷ 7",
+        "16. 8 × 5", "17. 25 ÷ 5", "18. 7 × 3", "19. 4 × 4", "20. 100 ÷ 2",
+        "21. 9 ÷ 3", "22. 8 × 10", "23. 5 ÷ 5", "24. 0 × 10", "25. 2 × 7"
+    ];
+
+    function rakitKomponenBingo() {
+        const gridPapan = document.getElementById('container_papan_bingo');
+        const daftarSoalBox = document.getElementById('container_daftar_soal_bingo');
+        
+        gridPapan.innerHTML = "";
+        daftarSoalBox.innerHTML = "";
+
+        for (let i = 1; i <= 25; i++) {
+            gridPapan.innerHTML += `
+                <div class="bingo-cell" id="bcell_${i}">
+                    <span>${i}</span>
+                    <div class="bingo-btns">
+                        <button class="btn-b-p1" onclick="warnaiPetakBingo(${i}, 'pink')">P1</button>
+                        <button class="btn-b-p2" onclick="warnaiPetakBingo(${i}, 'blue')">P2</button>
+                    </div>
+                </div>`;
+            
+            daftarSoalBox.innerHTML += `
+                <div style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:6px; border-radius:8px;">
+                    <span style="font-weight:bold; font-size:1.1rem;">${teksSoalBingo[i-1]}</span>
+                    <input type="number" id="binp_${i}" style="width:75px; font-size:1.1rem;" onchange="validasiInputKunciBingo(${i})">
+                </div>`;
+        }
+    }
+    rakitKomponenBingo();
+
+    function warnaiPetakBingo(idNomor, warnaYgDipilih) {
+        let targetPetak = document.getElementById(`bcell_${idNomor}`);
+        targetPetak.className = "bingo-cell " + warnaYgDipilih;
+        hitungSkorAkhirBingo();
+    }
+
+    function validasiInputKunciBingo(idNomor) {
+        let inputKonten = parseInt(document.getElementById(`binp_${idNomor}`).value);
+        let targetInputHTML = document.getElementById(`binp_${idNomor}`);
+        
+        if (inputKonten === kunciJawabanBingo[idNomor - 1]) {
+            targetInputHTML.style.backgroundColor = "#dcfd8b"; 
+            targetInputHTML.style.color = "#1e293b";
+        } else {
+            targetInputHTML.style.backgroundColor = "#ffc2e2"; 
+        }
+    }
+
+    function hitungSkorAkhirBingo() {
+        let totalPink = document.querySelectorAll('.bingo-cell.pink').length;
+        let totalBiru = document.querySelectorAll('.bingo-cell.blue').length;
+        
+        document.getElementById('p26_score1').innerText = totalPink;
+        document.getElementById('p26_score2').innerText = totalBiru;
+
+        if (totalPink + totalBiru === 25) {
+            let namaP1 = document.getElementById('p26_name1').value;
+            let namaP2 = document.getElementById('p26_name2').value;
+            let teksPemenang = "";
+
+            if (totalPink > totalBiru) {
+                teksPemenang = `🎉 Hore! Game Selesai, Pemenangnya adalah ${namaP1}!`;
+            } else if (totalBiru > totalPink) {
+                teksPemenang = `🎉 Hore! Game Selesai, Pemenangnya adalah ${namaP2}!`;
+            } else {
+                teksPemenang = "⚖️ Hasil Pertandingan Seri / Seimbang!";
+            }
+            document.getElementById('txt_pemenang_bingo').innerText = teksPemenang;
+        }
+    }
+</script>
+
+</body>
+</html>
