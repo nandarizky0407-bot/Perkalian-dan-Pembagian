@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Operasi Ribuan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 15px;
+            color: #334155;
+        }
+        h1, h2, h3, .font-kids { font-family: 'Baloo 2', cursive; }
+        .font-game { font-family: 'Bangers', cursive; letter-spacing: 2px; }
+        
+        .slide { display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .slide.active { display: flex; }
+        
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+        .shake-anim { animation: shake 0.4s ease-in-out; }
+
+        .btn-kid { transition: all 0.1s; box-shadow: 0 5px 0px rgba(0,0,0,0.3); }
+        .btn-kid:hover { transform: translateY(2px); box-shadow: 0 3px 0px rgba(0,0,0,0.3); }
+        .btn-kid:active { transform: translateY(5px); box-shadow: none; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .op-btn { transition: all 0.3s; }
+        .op-btn.correct { background-color: #22c55e !important; color: white; border-color: #16a34a !important; transform: scale(1.1); }
+        .op-btn.wrong { background-color: #ef4444 !important; color: white; border-color: #dc2626 !important; animation: shake 0.4s; }
+
+        /* Modal Styles */
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.9); z-index: 50; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+
+        .input-correct { border-color: #22c55e !important; background-color: #dcfce7 !important; color: #166534 !important; }
+        .input-wrong { border-color: #ef4444 !important; background-color: #fee2e2 !important; color: #991b1b !important; }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-6xl h-[90vh] min-h-[650px] bg-slate-50 rounded-[30px] shadow-2xl flex flex-col overflow-hidden border-[6px] border-slate-700 relative">
+        
+        <!-- Header -->
+        <div class="bg-slate-800 px-6 py-4 flex justify-between items-center z-10 shrink-0 border-b-[4px] border-slate-900">
+            <div class="flex items-center gap-3 text-sky-400">
+                <i class="fa-solid fa-rocket text-3xl"></i>
+                <h1 class="font-game text-2xl tracking-widest hidden sm:block text-white">MATH TITANS</h1>
+            </div>
+            
+            <div id="student-badge" class="hidden items-center gap-4 bg-slate-700 px-5 py-2 rounded-full font-bold text-sm shadow-inner border-2 border-slate-600">
+                <div class="text-sky-400"><i class="fa-solid fa-user-ninja"></i> <span id="s1-name-display">P1</span></div>
+                <div class="text-rose-400"><i class="fa-solid fa-user-astronaut"></i> <span id="s2-name-display">P2</span></div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="navSlide(-1)" class="w-10 h-10 rounded-xl bg-slate-600 text-white shadow-sm border-b-4 border-slate-700 btn-kid flex items-center justify-center" id="btn-prev" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="slide-indicator" class="flex items-center font-bold text-slate-300">1/8</span>
+                <button onclick="navSlide(1)" class="w-10 h-10 rounded-xl bg-sky-500 text-white shadow-sm border-b-4 border-sky-600 btn-kid flex items-center justify-center" id="btn-next" disabled><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-grow overflow-y-auto custom-scrollbar relative bg-slate-100">
+            
+            <!-- SLIDE 1: COVER -->
+            <div id="slide-1" class="slide active flex-col justify-center items-center h-full p-8 text-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+                <h1 class="font-game text-6xl md:text-8xl font-extrabold text-slate-800 mb-2 drop-shadow-md">
+                    OPERASI <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-600">RIBUAN</span>
+                </h1>
+                <p class="text-slate-600 text-xl font-bold mb-10 uppercase tracking-widest">Siapkan Senjata Matematikamu!</p>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-xl border-[4px] border-slate-300 w-full max-w-lg z-10 space-y-6">
+                    <h2 class="font-kids text-2xl font-bold text-slate-800">Masukkan Nama Player</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-left text-sm font-bold text-sky-500 mb-2"><i class="fa-solid fa-user-ninja"></i> Player 1 (Biru)</label>
+                            <input type="text" id="input-s1" placeholder="P1 Name..." class="w-full bg-sky-50 border-2 border-sky-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 font-bold text-center uppercase">
+                        </div>
+                        <div>
+                            <label class="block text-left text-sm font-bold text-rose-500 mb-2"><i class="fa-solid fa-user-astronaut"></i> Player 2 (Merah)</label>
+                            <input type="text" id="input-s2" placeholder="P2 Name..." class="w-full bg-rose-50 border-2 border-rose-300 rounded-xl px-4 py-3 outline-none focus:border-rose-500 font-bold text-center uppercase">
+                        </div>
+                    </div>
+                    <button onclick="startApp()" class="w-full bg-amber-400 text-amber-900 font-game tracking-widest text-3xl py-3 rounded-2xl border-b-[6px] border-amber-500 btn-kid mt-4">START BATTLE! <i class="fa-solid fa-bolt ml-2"></i></button>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: TUJUAN -->
+            <div id="slide-2" class="slide flex-col justify-center items-center h-full p-8 text-center">
+                <h2 class="font-game text-5xl text-slate-800 mb-8 tracking-widest">MISI HARI INI</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-4 border-slate-200 flex flex-col items-center">
+                        <div class="w-16 h-16 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center text-3xl mb-4"><i class="fa-solid fa-calculator"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Hitung Cepat</h3>
+                        <p class="text-slate-500 text-sm font-semibold">Menguasai perkalian bersusun dan pembagian ribuan dengan porogapit.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-4 border-slate-200 flex flex-col items-center">
+                        <div class="w-16 h-16 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center text-3xl mb-4"><i class="fa-solid fa-mask"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Trik Rahasia</h3>
+                        <p class="text-slate-500 text-sm font-semibold">Mempelajari jalan pintas ala Ninja untuk menghitung tanpa coret-coretan panjang.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-4 border-slate-200 flex flex-col items-center">
+                        <div class="w-16 h-16 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-3xl mb-4"><i class="fa-solid fa-gamepad"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Duel Matematika</h3>
+                        <p class="text-slate-500 text-sm font-semibold">Menguji kecepatan dan ketepatan dalam arena permainan dan latihan mandiri.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: PERKALIAN -->
+            <div id="slide-3" class="slide flex-col h-full p-8 overflow-y-auto">
+                <h2 class="font-game text-4xl text-sky-600 mb-6 text-center tracking-widest"><i class="fa-solid fa-xmark"></i> JURUS PERKALIAN</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <!-- Basic Method -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-3xl border-4 border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-slate-800 text-lg mb-4 border-b-2 border-slate-100 pb-2">1. Puluhan x Puluhan</h3>
+                            <div class="flex items-center gap-6">
+                                <div class="font-mono text-2xl font-bold text-slate-700 bg-slate-100 p-4 rounded-xl border-2 border-slate-300 tracking-widest text-right w-32">
+                                    &nbsp;24<br><u>&nbsp;15</u>x<br>120<br><u>24&nbsp;</u>+<br>360
+                                </div>
+                                <p class="text-sm font-semibold text-slate-600">Kalikan angka 5 dengan 24, lalu angka 1 dengan 24 (geser ke kiri 1 digit). Terakhir, jumlahkan.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-4 border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-slate-800 text-lg mb-4 border-b-2 border-slate-100 pb-2">2. Ratusan x Ratusan</h3>
+                            <div class="flex items-center gap-6">
+                                <div class="font-mono text-xl font-bold text-slate-700 bg-slate-100 p-4 rounded-xl border-2 border-slate-300 tracking-widest text-right w-40">
+                                    &nbsp;&nbsp;125<br><u>&nbsp;&nbsp;102</u>x<br>&nbsp;&nbsp;250<br>&nbsp;000<br><u>125&nbsp;&nbsp;</u>+<br>12750
+                                </div>
+                                <p class="text-sm font-semibold text-slate-600">Prinsipnya sama, pastikan penempatan angkanya bergeser ke kiri satu langkah setiap baris baru!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Secret Tricks -->
+                    <div class="bg-sky-100 p-6 rounded-3xl border-4 border-sky-300 flex flex-col justify-center h-full">
+                        <h3 class="font-game text-3xl text-sky-800 mb-6 text-center">GULUNGAN RAHASIA</h3>
+                        <div class="space-y-4">
+                            <button onclick="openModal('trik-kali-1')" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Trik Kelipatan 10</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                            <button onclick="openModal('trik-kali-2')" class="w-full bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Trik Kilat x 11</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                            <button onclick="openModal('trik-kali-3')" class="w-full bg-slate-800 hover:bg-slate-700 text-rose-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Jurus x 25</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: PEMBAGIAN -->
+            <div id="slide-4" class="slide flex-col h-full p-8 overflow-y-auto">
+                <h2 class="font-game text-4xl text-rose-500 mb-6 text-center tracking-widest"><i class="fa-solid fa-divide"></i> JURUS PEMBAGIAN</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start h-full">
+                    <!-- Basic Method -->
+                    <div class="bg-white p-6 rounded-3xl border-4 border-slate-200 shadow-sm h-full">
+                        <h3 class="font-bold text-slate-800 text-lg mb-4 border-b-2 border-slate-100 pb-2">Pembagian Porogapit (Ribuan)</h3>
+                        <p class="text-sm font-semibold text-slate-600 mb-6">Membagi angka ribuan dengan satuan. Contoh: <span class="font-bold text-rose-600">4325 ÷ 5</span></p>
+                        
+                        <div class="flex justify-center">
+                            <div class="font-mono text-2xl font-bold text-slate-700 bg-slate-100 p-6 rounded-xl border-2 border-slate-300 leading-relaxed">
+                                &nbsp;&nbsp;&nbsp;&nbsp;0865<br>
+                                &nbsp;&nbsp;______<br>
+                                5 / 4325<br>
+                                &nbsp;&nbsp;&nbsp;<u>40</u> -<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;32<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<u>30</u> -<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>25</u> -<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Secret Tricks -->
+                    <div class="bg-rose-100 p-6 rounded-3xl border-4 border-rose-300 flex flex-col justify-center h-full">
+                        <h3 class="font-game text-3xl text-rose-800 mb-6 text-center">GULUNGAN RAHASIA</h3>
+                        <div class="space-y-4">
+                            <button onclick="openModal('trik-bagi-1')" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Trik Coret Nol</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                            <button onclick="openModal('trik-bagi-2')" class="w-full bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Jurus Bagi 5</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                            <button onclick="openModal('trik-bagi-3')" class="w-full bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-between border-b-4 border-slate-900 btn-kid uppercase tracking-wider">
+                                <span><i class="fa-solid fa-scroll mr-2"></i> Cepat Bagi 2</span>
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: GAME BATTLE -->
+            <div id="slide-5" class="slide flex-col h-full overflow-hidden bg-slate-800 relative">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
+                
+                <div class="relative z-10 flex flex-col h-full p-6">
+                    <h2 class="font-game text-5xl text-amber-400 text-center tracking-widest mb-2 drop-shadow-md">BATTLE ARENA</h2>
+                    <p class="text-slate-300 text-center font-bold mb-6">Siapa cepat dia dapat! Jawab dengan benar untuk mengurangi HP lawan.</p>
+                    
+                    <!-- HP Bars -->
+                    <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border-[3px] border-slate-700 mb-6">
+                        <div class="w-1/3">
+                            <div class="flex justify-between text-sky-400 font-bold mb-1"><span id="game-p1-name" class="uppercase">P1</span> <span>HP: <span id="hp1-text">100</span></span></div>
+                            <div class="w-full bg-slate-700 h-6 rounded-full overflow-hidden border-2 border-slate-600">
+                                <div id="hp1-bar" class="bg-sky-500 h-full transition-all duration-300 w-full"></div>
+                            </div>
+                        </div>
+                        <div class="text-4xl font-game text-amber-400 drop-shadow-lg animate-pulse">VS</div>
+                        <div class="w-1/3">
+                            <div class="flex justify-between text-rose-400 font-bold mb-1"><span>HP: <span id="hp2-text">100</span></span> <span id="game-p2-name" class="uppercase">P2</span></div>
+                            <div class="w-full bg-slate-700 h-6 rounded-full overflow-hidden border-2 border-slate-600">
+                                <div id="hp2-bar" class="bg-rose-500 h-full transition-all duration-300 w-full float-right"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Battle Area -->
+                    <div class="flex-grow flex flex-col justify-center items-center">
+                        <div id="game-start-panel" class="text-center">
+                            <button onclick="startGame()" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-game text-4xl px-10 py-4 rounded-2xl border-b-[6px] border-amber-700 btn-kid">MULAI DUEL!</button>
+                        </div>
+
+                        <div id="game-play-panel" class="hidden w-full flex-col items-center">
+                            <div id="game-question" class="font-game text-7xl text-white mb-8 bg-slate-700 px-10 py-6 rounded-3xl border-4 border-slate-600 shadow-xl tracking-wider">
+                                25 x 4
+                            </div>
+                            
+                            <div class="flex w-full justify-between px-10 gap-10">
+                                <!-- P1 Controls -->
+                                <div class="bg-sky-900/50 p-6 rounded-3xl border-4 border-sky-500 w-1/2 flex flex-col items-center">
+                                    <input type="number" id="game-p1-ans" class="w-full bg-slate-800 border-4 border-sky-400 rounded-xl px-4 py-4 text-center font-game text-4xl text-sky-300 outline-none mb-4" placeholder="Jawab P1">
+                                    <button onclick="submitGameAns(1)" class="w-full bg-sky-500 text-white font-game text-3xl py-3 rounded-xl border-b-[6px] border-sky-700 btn-kid">SERANG!</button>
+                                </div>
+                                <!-- P2 Controls -->
+                                <div class="bg-rose-900/50 p-6 rounded-3xl border-4 border-rose-500 w-1/2 flex flex-col items-center">
+                                    <input type="number" id="game-p2-ans" class="w-full bg-slate-800 border-4 border-rose-400 rounded-xl px-4 py-4 text-center font-game text-4xl text-rose-300 outline-none mb-4" placeholder="Jawab P2">
+                                    <button onclick="submitGameAns(2)" class="w-full bg-rose-500 text-white font-game text-3xl py-3 rounded-xl border-b-[6px] border-rose-700 btn-kid">SERANG!</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="game-end-panel" class="hidden text-center">
+                            <h2 id="game-winner-text" class="font-game text-6xl text-amber-400 mb-6 drop-shadow-lg">P1 WINS!</h2>
+                            <button onclick="resetGame()" class="bg-emerald-500 text-white font-bold text-xl px-8 py-3 rounded-xl border-b-4 border-emerald-700 btn-kid">Main Lagi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: SOAL CERITA DETEKTIF -->
+            <div id="slide-6" class="slide flex-col h-full p-6 md:p-8 overflow-y-auto">
+                <h2 class="font-game text-4xl text-indigo-600 mb-6 text-center tracking-widest"><i class="fa-solid fa-scroll"></i> MISI SOAL CERITA</h2>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-[4px] border-slate-200 max-w-4xl mx-auto w-full flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-bold text-slate-500 bg-slate-100 px-4 py-1.5 rounded-lg border border-slate-200">Soal <span id="s6-idx">1</span> / 20</span>
+                        <div class="flex gap-2 text-xl text-amber-400">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+
+                    <p id="s6-text" class="text-xl font-bold text-slate-700 leading-relaxed mb-8 bg-slate-50 p-6 rounded-2xl border-2 border-slate-100 min-h-[100px] flex items-center justify-center text-center">
+                        ...
+                    </p>
+
+                    <!-- Step 1: Pilih Operasi -->
+                    <div id="s6-step1" class="space-y-4">
+                        <p class="font-bold text-slate-500 text-center text-lg">Pilih operasi hitung yang tepat!</p>
+                        <div class="flex justify-center gap-4">
+                            <button onclick="checkS6Op('+')" id="s6-op-plus" class="op-btn w-16 h-16 rounded-2xl border-4 border-slate-200 font-bold text-3xl text-slate-600 bg-slate-50 hover:bg-slate-100 btn-kid">+</button>
+                            <button onclick="checkS6Op('-')" id="s6-op-minus" class="op-btn w-16 h-16 rounded-2xl border-4 border-slate-200 font-bold text-3xl text-slate-600 bg-slate-50 hover:bg-slate-100 btn-kid">-</button>
+                            <button onclick="checkS6Op('x')" id="s6-op-times" class="op-btn w-16 h-16 rounded-2xl border-4 border-slate-200 font-bold text-3xl text-slate-600 bg-slate-50 hover:bg-slate-100 btn-kid">×</button>
+                            <button onclick="checkS6Op('÷')" id="s6-op-div" class="op-btn w-16 h-16 rounded-2xl border-4 border-slate-200 font-bold text-3xl text-slate-600 bg-slate-50 hover:bg-slate-100 btn-kid">÷</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Jawab Soal -->
+                    <div id="s6-step2" class="hidden space-y-6 mt-4">
+                        <div class="flex flex-col items-center">
+                            <p class="font-bold text-emerald-600 mb-3"><i class="fa-solid fa-check-circle"></i> Tepat! Sekarang hitung hasilnya:</p>
+                            <input type="number" id="s6-ans" class="w-64 bg-white border-4 border-slate-200 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none focus:border-indigo-400 shadow-inner">
+                        </div>
+                        <div class="flex justify-center gap-3">
+                            <button onclick="checkS6Ans()" class="bg-indigo-600 text-white font-bold px-8 py-3 rounded-xl border-b-4 border-indigo-800 btn-kid">Cek Jawaban</button>
+                            <button onclick="showS6Disc()" class="bg-amber-400 text-amber-900 font-bold px-6 py-3 rounded-xl border-b-4 border-amber-600 btn-kid"><i class="fa-solid fa-lightbulb"></i> Bahas</button>
+                            <button onclick="nextS6()" class="bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl border-b-4 border-emerald-700 btn-kid">Ganti Soal <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        <div id="s6-fb" class="text-center font-bold text-xl h-6"></div>
+                        <div id="s6-disc" class="hidden bg-amber-50 p-4 rounded-xl border-2 border-amber-200 font-bold text-slate-700 text-sm"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: LATIHAN MANDIRI (DUEL SCREEN) -->
+            <div id="slide-7" class="slide flex-col h-full p-4 md:p-6 overflow-hidden">
+                <h2 class="font-game text-4xl text-emerald-500 mb-4 text-center tracking-widest shrink-0">TRAINING GROUND</h2>
+                
+                <div class="flex-grow grid grid-cols-1 lg:grid-cols-2 gap-6 w-full max-w-6xl mx-auto h-full pb-6">
+                    <!-- S1 Panel (Easier) -->
+                    <div class="bg-sky-50 rounded-3xl p-6 border-[4px] border-sky-200 flex flex-col h-full relative">
+                        <div class="bg-sky-500 text-white text-center py-2 rounded-xl font-bold mb-4 font-game text-2xl tracking-wider" id="s7-p1-name">P1</div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-slate-500 text-sm bg-white px-3 py-1 rounded border border-slate-200">Soal <span id="s7-p1-idx">1</span>/15</span>
+                            <span class="text-sky-600 font-bold text-sm"><i class="fa-solid fa-star"></i> Level Normal</span>
+                        </div>
+                        <div class="flex-grow flex flex-col overflow-y-auto">
+                            <p id="s7-p1-q" class="text-lg font-bold text-slate-700 mb-6 bg-white p-4 rounded-xl border-2 border-sky-100 leading-relaxed"></p>
+                            
+                            <input type="number" id="s7-p1-ans" class="w-full bg-white border-[4px] border-sky-200 rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 focus:border-sky-400">
+                            
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <button onclick="checkS7(1)" class="flex-1 bg-sky-500 text-white font-bold py-3 rounded-xl border-b-4 border-sky-700 btn-kid">Cek</button>
+                                <button onclick="discS7(1)" class="w-14 bg-amber-400 text-amber-900 font-bold rounded-xl border-b-4 border-amber-600 btn-kid"><i class="fa-solid fa-lightbulb"></i></button>
+                                <button onclick="nextS7(1)" class="w-14 bg-slate-800 text-white font-bold rounded-xl border-b-4 border-slate-900 btn-kid"><i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                            <div id="s7-p1-fb" class="font-bold text-lg h-6 mt-3 text-center"></div>
+                            <div id="s7-p1-disc" class="hidden mt-3 bg-amber-50 p-4 rounded-xl border-2 border-amber-200 text-sm font-bold text-slate-600"></div>
+                        </div>
+                    </div>
+
+                    <!-- S2 Panel (Harder) -->
+                    <div class="bg-rose-50 rounded-3xl p-6 border-[4px] border-rose-200 flex flex-col h-full relative">
+                        <div class="bg-rose-500 text-white text-center py-2 rounded-xl font-bold mb-4 font-game text-2xl tracking-wider" id="s7-p2-name">P2</div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-slate-500 text-sm bg-white px-3 py-1 rounded border border-slate-200">Soal <span id="s7-p2-idx">1</span>/15</span>
+                            <span class="text-rose-600 font-bold text-sm"><i class="fa-solid fa-fire"></i> Level Hard</span>
+                        </div>
+                        <div class="flex-grow flex flex-col overflow-y-auto">
+                            <p id="s7-p2-q" class="text-lg font-bold text-slate-700 mb-6 bg-white p-4 rounded-xl border-2 border-rose-100 leading-relaxed"></p>
+                            
+                            <input type="number" id="s7-p2-ans" class="w-full bg-white border-[4px] border-rose-200 rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 focus:border-rose-400">
+                            
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <button onclick="checkS7(2)" class="flex-1 bg-rose-500 text-white font-bold py-3 rounded-xl border-b-4 border-rose-700 btn-kid">Cek</button>
+                                <button onclick="discS7(2)" class="w-14 bg-amber-400 text-amber-900 font-bold rounded-xl border-b-4 border-amber-600 btn-kid"><i class="fa-solid fa-lightbulb"></i></button>
+                                <button onclick="nextS7(2)" class="w-14 bg-slate-800 text-white font-bold rounded-xl border-b-4 border-slate-900 btn-kid"><i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                            <div id="s7-p2-fb" class="font-bold text-lg h-6 mt-3 text-center"></div>
+                            <div id="s7-p2-disc" class="hidden mt-3 bg-amber-50 p-4 rounded-xl border-2 border-amber-200 text-sm font-bold text-slate-600"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: KESIMPULAN -->
+            <div id="slide-8" class="slide flex-col justify-center items-center h-full p-8 text-center bg-slate-800 text-white rounded-[24px]">
+                <div class="text-7xl mb-6 text-amber-400"><i class="fa-solid fa-trophy"></i></div>
+                <h1 class="font-game text-6xl font-extrabold mb-4 tracking-widest drop-shadow-md">MISSION CLEARED!</h1>
+                <p class="text-xl font-medium mb-8 max-w-2xl text-slate-300">Kalian telah membuktikan diri sebagai Ninja Matematika yang hebat. Menguasai angka ribuan butuh ketelitian dan banyak berlatih!</p>
+                
+                <div class="bg-slate-700 p-8 rounded-3xl border-4 border-slate-600 text-left max-w-2xl shadow-xl w-full">
+                    <h3 class="font-kids text-3xl font-bold mb-4 text-sky-400 border-b-2 border-slate-600 pb-2">Refleksi Hari Ini:</h3>
+                    <ul class="space-y-4 font-semibold text-slate-200 text-lg">
+                        <li><i class="fa-solid fa-star text-amber-400 mr-2"></i> Trik rahasia mana yang paling membantumu menghitung cepat?</li>
+                        <li><i class="fa-solid fa-star text-amber-400 mr-2"></i> Operasi hitung apa yang perlu kamu latih lagi di rumah?</li>
+                        <li><i class="fa-solid fa-star text-amber-400 mr-2"></i> Siapa yang memenangkan duel Math Titans tadi? 😎</li>
+                    </ul>
+                </div>
+                
+                <h2 class="font-game text-6xl font-bold mt-10 text-emerald-400 tracking-wider drop-shadow-lg">THANK YOU FOR TODAY!</h2>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modals for Tricks -->
+    <div id="modal-trik-kali-1" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-amber-400 relative">
+            <button onclick="closeModal('trik-kali-1')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-amber-500 mb-4 tracking-widest border-b-4 border-amber-100 pb-2">Trik Kelipatan 10</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Jika mengalikan dengan 10, 100, atau 1000, cukup <b>tambahkan angka nol (0)</b> di akhir bilangan asal!</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-2xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                45 x 100 = 45<span class="text-rose-500">00</span><br><br>
+                123 x 1000 = 123<span class="text-rose-500">000</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-trik-kali-2" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-sky-400 relative">
+            <button onclick="closeModal('trik-kali-2')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-sky-500 mb-4 tracking-widest border-b-4 border-sky-100 pb-2">Trik Kilat x 11</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Pisahkan angka depan dan belakang, lalu <b>jumlahkan keduanya dan taruh hasilnya di tengah</b>.</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-2xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                <span class="text-sky-500">3</span><span class="text-emerald-500">5</span> x 11 = <br><br>
+                <span class="text-sky-500">3</span> <span class="text-rose-500 underline decoration-4">(3+5)</span> <span class="text-emerald-500">5</span> = 385
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-trik-kali-3" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-rose-400 relative">
+            <button onclick="closeModal('trik-kali-3')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-rose-500 mb-4 tracking-widest border-b-4 border-rose-100 pb-2">Jurus x 25</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Tambahkan dua angka nol (x100) lalu <b>dibagi 4</b>.</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-2xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                24 x 25 = 2400 / 4 = 600<br><br>
+                16 x 25 = 1600 / 4 = 400
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-trik-bagi-1" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-amber-400 relative">
+            <button onclick="closeModal('trik-bagi-1')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-amber-500 mb-4 tracking-widest border-b-4 border-amber-100 pb-2">Trik Coret Nol</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Jika angka pembagi dan yang dibagi berakhiran nol, <b>coret jumlah nol yang sama</b> di kedua sisi.</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-2xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                45<s class="text-rose-400 decoration-4">00</s> ÷ 5<s class="text-rose-400 decoration-4">00</s> = 45 ÷ 5 = 9<br><br>
+                120<s class="text-rose-400 decoration-4">0</s> ÷ 4<s class="text-rose-400 decoration-4">0</s> = 120 ÷ 4 = 30
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-trik-bagi-2" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-sky-400 relative">
+            <button onclick="closeModal('trik-bagi-2')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-sky-500 mb-4 tracking-widest border-b-4 border-sky-100 pb-2">Jurus Bagi 5</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Kalikan bilangannya dengan 2, lalu <b>hilangkan satu angka nol</b> (dibagi 10).</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-2xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                120 ÷ 5 = (120 x 2) ÷ 10<br> = 240 ÷ 10 = 24<br><br>
+                400 ÷ 5 = 800 ÷ 10 = 80
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-trik-bagi-3" class="modal">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full border-[6px] border-emerald-400 relative">
+            <button onclick="closeModal('trik-bagi-3')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 text-3xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h3 class="font-game text-4xl text-emerald-500 mb-4 tracking-widest border-b-4 border-emerald-100 pb-2">Cepat Bagi 2 (Setengah)</h3>
+            <p class="font-bold text-slate-600 mb-4 text-lg">Pecah angka besar menjadi ribuan, ratusan, puluhan, lalu <b>bagi 2 satu per satu</b>, kemudian jumlahkan.</p>
+            <div class="bg-slate-100 p-6 rounded-xl font-mono text-xl font-bold text-slate-700 text-center border-2 border-slate-200">
+                368 ÷ 2 = (300/2) + (60/2) + (8/2)<br><br>
+                = 150 + 30 + 4 = 184
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CORE LOGIC & NAVIGATION ---
+        let currentSlide = 1;
+        const totalSlides = 8;
+        let p1Name = "P1";
+        let p2Name = "P2";
+
+        function startApp() {
+            const s1 = document.getElementById('input-s1').value.trim();
+            const s2 = document.getElementById('input-s2').value.trim();
+            if(!s1 || !s2) { alert("Masukkan nama Ninja-mu dulu!"); return; }
+            
+            p1Name = s1; p2Name = s2;
+            document.getElementById('s1-name-display').innerText = p1Name;
+            document.getElementById('s2-name-display').innerText = p2Name;
+            document.getElementById('game-p1-name').innerText = p1Name;
+            document.getElementById('game-p2-name').innerText = p2Name;
+            document.getElementById('s7-p1-name').innerText = p1Name;
+            document.getElementById('s7-p2-name').innerText = p2Name;
+            
+            document.getElementById('student-badge').classList.remove('hidden');
+            document.getElementById('student-badge').classList.add('flex');
+            
+            document.getElementById('btn-prev').disabled = false;
+            document.getElementById('btn-next').disabled = false;
+            
+            loadS6();
+            loadS7(1); loadS7(2);
+            navSlide(1);
+        }
+
+        function navSlide(step) {
+            let next = currentSlide + step;
+            if(next < 1 || next > totalSlides) return;
+            
+            document.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
+            document.getElementById('slide-' + next).classList.add('active');
+            currentSlide = next;
+
+            document.getElementById('slide-indicator').innerText = `${currentSlide}/${totalSlides}`;
+            document.getElementById('btn-prev').disabled = (currentSlide === 1);
+            document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
+            
+            if(currentSlide === 5) resetGame();
+        }
+
+        function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
+        function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
+
+        // --- SLIDE 5: GAME ENGINE ---
+        let hp1 = 100, hp2 = 100;
+        let gameActive = false;
+        let currGameAns = 0;
+        let isGameAnswered = false; // Lockout feature
+
+        function resetGame() {
+            hp1 = 100; hp2 = 100;
+            updateHP();
+            document.getElementById('game-start-panel').classList.remove('hidden');
+            document.getElementById('game-play-panel').classList.add('hidden');
+            document.getElementById('game-play-panel').classList.remove('flex');
+            document.getElementById('game-end-panel').classList.add('hidden');
+            document.getElementById('game-p1-ans').value = '';
+            document.getElementById('game-p2-ans').value = '';
+            gameActive = false;
+            isGameAnswered = false;
+        }
+
+        function startGame() {
+            document.getElementById('game-start-panel').classList.add('hidden');
+            document.getElementById('game-play-panel').classList.remove('hidden');
+            document.getElementById('game-play-panel').classList.add('flex');
+            gameActive = true;
+            nextGameQuestion();
+        }
+
+        function nextGameQuestion() {
+            const isMultiply = Math.random() > 0.5;
+            let q = "";
+            if (isMultiply) {
+                let a = Math.floor(Math.random() * 20) + 10; // 10-30
+                let b = Math.floor(Math.random() * 5) + 2;   // 2-6
+                q = `${a} × ${b}`;
+                currGameAns = a * b;
+            } else {
+                let ans = Math.floor(Math.random() * 20) + 5;
+                let divisor = Math.floor(Math.random() * 5) + 2;
+                let dividend = ans * divisor;
+                q = `${dividend} ÷ ${divisor}`;
+                currGameAns = ans;
+            }
+            document.getElementById('game-question').innerText = q;
+            document.getElementById('game-p1-ans').value = '';
+            document.getElementById('game-p2-ans').value = '';
+            isGameAnswered = false;
+            
+            // Animation
+            const qEl = document.getElementById('game-question');
+            qEl.classList.remove('shake-anim');
+            void qEl.offsetWidth;
+            qEl.classList.add('shake-anim');
+        }
+
+        function submitGameAns(player) {
+            if(!gameActive || isGameAnswered) return;
+            const inp = document.getElementById(`game-p${player}-ans`);
+            const val = parseInt(inp.value);
+            
+            if(val === currGameAns) {
+                isGameAnswered = true; // Lockout opponent
+                // Correct! Damage opponent
+                if(player === 1) { hp2 -= 20; } else { hp1 -= 20; }
+                updateHP();
+                
+                alert(`${player === 1 ? p1Name : p2Name} menjawab Cepat & Tepat! Lawan terkena damage.`);
+                
+                if(hp1 <= 0 || hp2 <= 0) {
+                    endGame(hp1 <= 0 ? p2Name : p1Name);
+                } else {
+                    nextGameQuestion();
+                }
+            } else {
+                // Wrong! Damage self
+                alert(`SALAH! ${player === 1 ? p1Name : p2Name} terkena damage penalti.`);
+                if(player === 1) { hp1 -= 10; } else { hp2 -= 10; }
+                inp.value = '';
+                updateHP();
+                if(hp1 <= 0 || hp2 <= 0) endGame(hp1 <= 0 ? p2Name : p1Name);
+            }
+        }
+
+        function updateHP() {
+            document.getElementById('hp1-text').innerText = Math.max(0, hp1);
+            document.getElementById('hp2-text').innerText = Math.max(0, hp2);
+            document.getElementById('hp1-bar').style.width = `${Math.max(0, hp1)}%`;
+            document.getElementById('hp2-bar').style.width = `${Math.max(0, hp2)}%`;
+        }
+
+        function endGame(winnerName) {
+            gameActive = false;
+            document.getElementById('game-play-panel').classList.add('hidden');
+            document.getElementById('game-play-panel').classList.remove('flex');
+            document.getElementById('game-end-panel').classList.remove('hidden');
+            document.getElementById('game-winner-text').innerText = `${winnerName} WINS!`;
+        }
+
+        // --- SLIDE 6: ANALISIS SOAL CERITA (20 SOAL) ---
+        const dataS6 = [
+            {q: "Pak Budi memanen 2.500 mangga dan 1.450 jeruk. Berapa total buah yang dipanen?", op: "+", a: 3950, d: "Karena menanyakan 'total', kita gunakan Penjumlahan. 2500 + 1450 = 3950."},
+            {q: "Sebuah pabrik memproduksi 4.500 sepatu. Jika 1.200 pasang dikirim ke toko, berapa sisa sepatu di pabrik?", op: "-", a: 3300, d: "Ada kata 'sisa', berarti Pengurangan. 4500 - 1200 = 3300."},
+            {q: "Di sebuah sekolah terdapat 12 kelas. Jika setiap kelas berisi 35 siswa, berapa jumlah total siswa seluruhnya?", op: "x", a: 420, d: "Ada kata 'setiap', berarti Perkalian. 12 x 35 = 420."},
+            {q: "Ibu membeli 1.000 permen untuk dibagikan sama rata kepada 8 panti asuhan. Berapa permen yang diterima tiap panti?", op: "÷", a: 125, d: "Ada kata 'dibagikan sama rata', berarti Pembagian. 1000 ÷ 8 = 125."},
+            {q: "Penduduk desa A berjumlah 3.456 orang, pindah ke kota 230 orang. Penduduk desa A sekarang adalah?", op: "-", a: 3226, d: "Penduduk 'pindah' berarti berkurang (-). 3456 - 230 = 3226."},
+            {q: "Toko elektronik menjual 25 TV dalam sebulan. Jika harga 1 TV adalah Rp 2.000.000, berapa total pendapatan toko?", op: "x", a: 50000000, d: "Harga 1 unit dikali jumlah unit (Perkalian). 25 x 2.000.000 = 50.000.000."},
+            {q: "Paman mendapat bonus Rp 5.000.000 dan dibagikan kepada 5 keponakannya. Masing-masing mendapat?", op: "÷", a: 1000000, d: "Uang dibagi rata (Pembagian). 5000000 ÷ 5 = 1000000."},
+            {q: "Jarak kota A ke B 1.250 km, kota B ke C 850 km. Berapa jarak total dari A ke C lewat B?", op: "+", a: 2100, d: "Menjumlahkan dua jarak bersambung (+). 1250 + 850 = 2100."},
+            {q: "Buku tebal berisi 1.200 halaman. Budi membaca 15 halaman setiap hari. Butuh berapa hari agar selesai dibaca semua?", op: "÷", a: 80, d: "Membagi total halaman dengan porsi harian (÷). 1200 ÷ 15 = 80."},
+            {q: "Harga laptop Rp 4.500.000, pembeli menyerahkan uang Rp 5.000.000. Berapa kembaliannya?", op: "-", a: 500000, d: "Uang bayar dikurangi harga beli (-). 5000000 - 4500000 = 500000."},
+            {q: "Dalam sehari perpustakaan dikunjungi 150 orang. Berapa total pengunjung dalam 30 hari?", op: "x", a: 4500, d: "Jumlah per hari dikali banyak hari (x). 150 x 30 = 4500."},
+            {q: "Tabungan Doni Rp 3.250.000, ditambah uang saku bulan ini Rp 500.000. Tabungannya jadi berapa?", op: "+", a: 3750000, d: "'Ditambah' berarti Penjumlahan (+). 3250000 + 500000 = 3750000."},
+            {q: "Beras 2.500 kg akan dimasukkan ke karung yang masing-masing berisi 50 kg. Butuh berapa karung?", op: "÷", a: 50, d: "Membagi total berat dengan berat isi per karung (÷). 2500 ÷ 50 = 50."},
+            {q: "Sebuah stadion berkapasitas 2.500 orang, sudah terisi 1.800 orang. Berapa kursi yang masih kosong?", op: "-", a: 700, d: "Mencari kursi kosong = Total - Terisi (-). 2500 - 1800 = 700."},
+            {q: "Peternak ayam memiliki 45 kandang. Tiap kandang berisi 100 ekor ayam. Total ayam seluruhnya?", op: "x", a: 4500, d: "Banyak kandang dikali isi tiap kandang (x). 45 x 100 = 4500."},
+            {q: "Biaya sewa bus wisata Rp 7.500.000 ditanggung bersama oleh 50 siswa. Berapa iuran tiap siswa?", op: "÷", a: 150000, d: "Total biaya dibagi jumlah orang (÷). 7500000 ÷ 50 = 150000."},
+            {q: "Toni beli raket Rp 125.000, sepatu Rp 250.000, dan baju Rp 85.000. Total belanjanya?", op: "+", a: 460000, d: "Menjumlahkan harga semua barang (+). 125000 + 250000 + 85000 = 460000."},
+            {q: "Sebuah percetakan mencetak 10.000 brosur, namun yang rusak ada 150 lembar. Brosur yang bagus ada berapa?", op: "-", a: 9850, d: "Total brosur dikurangi yang rusak (-). 10000 - 150 = 9850."},
+            {q: "Dalam 1 jam mobil melaju sejauh 60 km. Jika berkendara 24 jam non-stop, berapakah jarak tempuhnya?", op: "x", a: 1440, d: "Kecepatan dikali waktu tempuh (x). 60 x 24 = 1440."},
+            {q: "Uang sumbangan kelas Rp 12.000.000 dibelikan sembako seharga Rp 10.500.000. Sisa uang sumbangan tersebut?", op: "-", a: 1500000, d: "Uang awal dikurangi harga beli barang (-). 12000000 - 10500000 = 1500000."}
+        ];
+        let s6_idx = 0;
+        let s6_opGuessed = false;
+
+        function loadS6() {
+            const d = dataS6[s6_idx];
+            document.getElementById('s6-idx').innerText = s6_idx + 1;
+            document.getElementById('s6-text').innerText = d.q;
+            s6_opGuessed = false;
+            
+            // Reset Step 1
+            document.getElementById('s6-step1').classList.remove('hidden');
+            ['plus','minus','times','div'].forEach(op => {
+                document.getElementById('s6-op-'+op).className = "op-btn w-16 h-16 rounded-2xl border-4 border-slate-200 font-bold text-3xl text-slate-600 bg-white hover:bg-slate-100 btn-kid cursor-pointer flex items-center justify-center";
+            });
+            
+            // Reset Step 2
+            document.getElementById('s6-step2').classList.add('hidden');
+            document.getElementById('s6-ans').value = '';
+            document.getElementById('s6-ans').className = "w-full sm:w-64 bg-slate-50 border-4 border-slate-200 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none focus:border-indigo-400 text-slate-800";
+            document.getElementById('s6-fb').innerText = '';
+            document.getElementById('s6-disc').classList.add('hidden');
+        }
+
+        function checkS6Op(selectedOp) {
+            if(s6_opGuessed) return;
+            const correctOp = dataS6[s6_idx].op;
+            const btnMap = {'+': 'plus', '-': 'minus', 'x': 'times', '÷': 'div'};
+            const btn = document.getElementById('s6-op-' + btnMap[selectedOp]);
+            
+            if(selectedOp === correctOp) {
+                btn.classList.add('correct');
+                btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
+                s6_opGuessed = true;
+                setTimeout(() => {
+                    document.getElementById('s6-step1').classList.add('hidden');
+                    document.getElementById('s6-step2').classList.remove('hidden');
+                }, 800);
+            } else {
+                btn.classList.add('wrong');
+                setTimeout(() => btn.classList.remove('wrong'), 800);
+            }
+        }
+
+        function checkS6Ans() {
+            const val = parseInt(document.getElementById('s6-ans').value);
+            const correct = dataS6[s6_idx].a;
+            const fb = document.getElementById('s6-fb');
+            const inp = document.getElementById('s6-ans');
+
+            if(val === correct) {
+                inp.className = "w-full sm:w-64 input-correct border-4 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none text-emerald-800";
+                fb.innerHTML = '<span class="text-emerald-500"><i class="fa-solid fa-check"></i> Jawaban Tepat!</span>';
+            } else {
+                inp.className = "w-full sm:w-64 input-wrong border-4 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none text-rose-800";
+                fb.innerHTML = '<span class="text-rose-500"><i class="fa-solid fa-xmark"></i> Coba hitung lagi!</span>';
+                setTimeout(() => {
+                    if(inp.classList.contains('input-wrong')) {
+                        inp.className = "w-full sm:w-64 bg-slate-50 border-4 border-slate-200 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none focus:border-indigo-400 text-slate-800";
+                    }
+                }, 1500);
+            }
+        }
+
+        function showS6Disc() {
+            const disc = document.getElementById('s6-disc');
+            disc.innerText = dataS6[s6_idx].d;
+            disc.classList.remove('hidden');
+        }
+
+        function nextS6() {
+            s6_idx = (s6_idx + 1) % 20;
+            loadS6();
+        }
+
+        // --- SLIDE 7: LATIHAN MANDIRI (15 SOAL S1, 15 SOAL S2) ---
+        const dataS7_1 = [
+            {q: "1.200 + 1.500 =", a: 2700, d: "1200 + 1500 = 2700"},
+            {q: "3.500 - 1.200 =", a: 2300, d: "3500 - 1200 = 2300"},
+            {q: "12 x 15 =", a: 180, d: "Perkalian puluhan: 12 x 15 = 180"},
+            {q: "800 ÷ 4 =", a: 200, d: "Coret nol: 8 ÷ 4 = 2, tambah dua nol = 200"},
+            {q: "2.400 + 3.100 =", a: 5500, d: "2400 + 3100 = 5500"},
+            {q: "5.000 - 2.500 =", a: 2500, d: "5000 - 2500 = 2500"},
+            {q: "25 x 10 =", a: 250, d: "Trik x10: Tambah satu nol -> 250"},
+            {q: "1.000 ÷ 5 =", a: 200, d: "1000 ÷ 5 = 200"},
+            {q: "Ibu beli 2 buku @ Rp 1.500. Total bayar?", a: 3000, d: "2 x 1500 = 3000"},
+            {q: "1.250 + 750 =", a: 2000, d: "1250 + 750 = 2000"},
+            {q: "4.800 - 1.300 =", a: 3500, d: "4800 - 1300 = 3500"},
+            {q: "11 x 23 =", a: 253, d: "Trik x11: 2(2+3)3 = 253"},
+            {q: "1.200 ÷ 3 =", a: 400, d: "12 ÷ 3 = 4, tambah dua nol = 400"},
+            {q: "Andi punya 3.000, dibelikan es 1.500. Sisanya?", a: 1500, d: "3000 - 1500 = 1500"},
+            {q: "3.200 + 1.800 =", a: 5000, d: "3200 + 1800 = 5000"}
+        ];
+
+        const dataS7_2 = [
+            {q: "3.450 + 2.780 =", a: 6230, d: "3450 + 2780 = 6230"},
+            {q: "5.000 - 2.345 =", a: 2655, d: "Pinjam bersusun: 5000 - 2345 = 2655"},
+            {q: "125 x 12 =", a: 1500, d: "Ratusan x Puluhan: 125 x 12 = 1500"},
+            {q: "1.250 ÷ 5 =", a: 250, d: "Trik bagi 5: (1250x2)/10 = 2500/10 = 250"},
+            {q: "6.785 + 2.450 =", a: 9235, d: "6785 + 2450 = 9235"},
+            {q: "8.200 - 3.750 =", a: 4450, d: "8200 - 3750 = 4450"},
+            {q: "45 x 25 =", a: 1125, d: "Trik x25: 4500 / 4 = 1125"},
+            {q: "3.600 ÷ 12 =", a: 300, d: "36 ÷ 12 = 3, tambah dua nol = 300"},
+            {q: "Gaji 4.500.000, dipotong pajak 150.000. Bersih?", a: 4350000, d: "4500000 - 150000 = 4350000"},
+            {q: "2.890 + 4.150 =", a: 7040, d: "2890 + 4150 = 7040"},
+            {q: "10.000 - 6.450 =", a: 3550, d: "10000 - 6450 = 3550"},
+            {q: "34 x 11 =", a: 374, d: "Trik x11: 3(3+4)4 = 374"},
+            {q: "4.500 ÷ 15 =", a: 300, d: "45 ÷ 15 = 3, tambah dua nol = 300"},
+            {q: "Toko untung 2.500/hari. Berapa untung seminggu?", a: 17500, d: "Seminggu 7 hari. 2500 x 7 = 17500"},
+            {q: "5.555 + 4.445 =", a: 10000, d: "5555 + 4445 = 10000"}
+        ];
+
+        let s7_idx1 = 0;
+        let s7_idx2 = 0;
+
+        function loadS7(player) {
+            const idx = player === 1 ? s7_idx1 : s7_idx2;
+            const data = player === 1 ? dataS7_1[idx] : dataS7_2[idx];
+            
+            document.getElementById(`s7-p${player}-idx`).innerText = idx + 1;
+            document.getElementById(`s7-p${player}-q`).innerText = data.q;
+            
+            const inp = document.getElementById(`s7-p${player}-ans`);
+            inp.value = '';
+            inp.className = `w-full bg-white border-[4px] border-${player===1?'sky':'rose'}-200 rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 focus:border-${player===1?'sky':'rose'}-400 text-slate-800`;
+            
+            document.getElementById(`s7-p${player}-fb`).innerText = '';
+            document.getElementById(`s7-p${player}-disc`).classList.add('hidden');
+        }
+
+        function checkS7(player) {
+            const idx = player === 1 ? s7_idx1 : s7_idx2;
+            const correct = player === 1 ? dataS7_1[idx].a : dataS7_2[idx].a;
+            const val = parseInt(document.getElementById(`s7-p${player}-ans`).value);
+            const fb = document.getElementById(`s7-p${player}-fb`);
+            const inp = document.getElementById(`s7-p${player}-ans`);
+
+            if(val === correct) {
+                inp.className = `w-full input-correct border-[4px] rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 text-emerald-800`;
+                fb.innerHTML = '<span class="text-emerald-500"><i class="fa-solid fa-check"></i> Tepat Sekali!</span>';
+            } else {
+                inp.className = `w-full input-wrong border-[4px] rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 text-rose-800`;
+                fb.innerHTML = '<span class="text-rose-500"><i class="fa-solid fa-xmark"></i> Coba hitung lagi!</span>';
+                setTimeout(() => {
+                    if(inp.classList.contains('input-wrong')) {
+                        inp.className = `w-full bg-white border-[4px] border-${player===1?'sky':'rose'}-200 rounded-xl px-4 py-3 text-center text-xl font-bold outline-none mb-4 focus:border-${player===1?'sky':'rose'}-400 text-slate-800`;
+                    }
+                }, 1500);
+            }
+        }
+
+        function discS7(player) {
+            const idx = player === 1 ? s7_idx1 : s7_idx2;
+            const discText = player === 1 ? dataS7_1[idx].d : dataS7_2[idx].d;
+            const discEl = document.getElementById(`s7-p${player}-disc`);
+            discEl.innerText = discText;
+            discEl.classList.toggle('hidden');
+        }
+
+        function nextS7(player) {
+            if(player === 1) {
+                s7_idx1 = (s7_idx1 + 1) % 15;
+            } else {
+                s7_idx2 = (s7_idx2 + 1) % 15;
+            }
+            loadS7(player);
+        }
+
+        // Init App on load to hide modals just in case
+        window.onload = function() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        };
+    </script>
+</body>
+</html>
