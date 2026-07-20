@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petualangan Matematika - Perkalian & Pembagian</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --pink-light: #ffd6e8;
+  --pink: #ff9ec7;
+  --pink-dark: #e64980;
+  --pink-deep: #c2185b;
+  --purple-light: #e0c3fc;
+  --purple: #b388eb;
+  --purple-deep: #7c3aed;
+  --cream: #fff5fb;
+  --white: #ffffff;
+  --text: #4a1942;
+  --text-light: #8b5a83;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --shadow: 0 8px 32px rgba(194, 24, 91, 0.15);
+  --shadow-lg: 0 16px 48px rgba(194, 24, 91, 0.25);
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #ffe0f0 0%, #f3e0ff 50%, #e0f0ff 100%);
+  min-height: 100vh;
+  color: var(--text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Floating hearts background */
+.hearts-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  opacity: 0.5;
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+  10% { opacity: 0.5; transform: translateY(90vh) rotate(20deg) scale(1); }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-20vh) rotate(360deg) scale(0.5); opacity: 0; }
+}
+
+/* App container */
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  max-width: 920px;
+  animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.slide.active { display: block; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Cover card */
+.cover-card, .motivation-card, .results-card, .quiz-container {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  border-radius: 36px;
+  box-shadow: var(--shadow-lg);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-card { padding: 60px 50px; text-align: center; }
+
+.cover-card::before, .motivation-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -30%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255, 158, 199, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cover-card::after, .motivation-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50%; left: -30%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(179, 136, 235, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cover-content, .motivation-content { position: relative; z-index: 1; }
+
+.cover-emoji {
+  font-size: 80px;
+  margin-bottom: 20px;
+  display: inline-block;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.cover-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 3.5rem;
+  background: linear-gradient(135deg, var(--pink-dark), var(--purple-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.cover-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+.input-group { margin: 30px auto; max-width: 400px; }
+
+.input-label {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  color: var(--pink-deep);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.name-input {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  border: 3px solid var(--pink-light);
+  border-radius: 20px;
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.name-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 4px rgba(255, 158, 199, 0.25);
+  transform: translateY(-2px);
+}
+
+.error-msg {
+  color: var(--error);
+  font-size: 0.95rem;
+  margin-top: 10px;
+  font-weight: 600;
+  animation: shake 0.4s;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--pink-dark), var(--purple-deep));
+  color: white;
+  box-shadow: 0 8px 20px rgba(194, 24, 91, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(194, 24, 91, 0.45);
+}
+
+.btn-primary:active { transform: translateY(-1px); }
+
+.btn-secondary {
+  background: white;
+  color: var(--pink-deep);
+  border: 2px solid var(--pink);
+  box-shadow: 0 4px 12px rgba(194, 24, 91, 0.1);
+}
+
+.btn-secondary:hover {
+  background: var(--pink-light);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--pink-deep);
+  border: 2px solid var(--pink);
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  background: var(--pink-light);
+  transform: translateY(-2px);
+}
+
+.back-btn {
+  background: white;
+  border: 2px solid var(--pink-light);
+  color: var(--pink-deep);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.back-btn:hover {
+  background: var(--pink-light);
+  transform: translateY(-2px);
+}
+
+/* Slide header */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.slide-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2rem;
+  color: var(--pink-deep);
+  font-weight: 700;
+}
+
+.student-badge {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  color: var(--pink-deep);
+  box-shadow: var(--shadow);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--pink-light);
+}
+
+/* Quiz container */
+.quiz-container { padding: 36px; }
+
+.section-intro {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.section-intro h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--pink-deep);
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.section-intro p {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Level cards */
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.level-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: var(--shadow);
+  border: 3px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.level-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+}
+
+.level-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--pink);
+}
+
+.level-number {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 6px 16px rgba(194, 24, 91, 0.35);
+}
+
+.level-card h4 {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--pink-deep);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.level-desc {
+  font-size: 0.92rem;
+  color: var(--text);
+  margin-bottom: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.level-time {
+  display: inline-block;
+  background: var(--cream);
+  color: var(--pink-deep);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px dashed var(--pink);
+}
+
+/* Quiz top bar */
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.quiz-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  background: white;
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  box-shadow: 0 4px 12px rgba(194, 24, 91, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid var(--pink-light);
+}
+
+.stat-pill.correct { color: var(--success); border-color: #a7f3d0; }
+.stat-pill.wrong { color: var(--error); border-color: #fecaca; }
+.stat-pill.question { color: var(--pink-deep); }
+
+/* Timer */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 24px;
+}
+
+.timer-circle {
+  width: 130px;
+  height: 130px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.timer-bg {
+  fill: none;
+  stroke: var(--pink-light);
+  stroke-width: 8;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: url(#timerGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+  position: absolute;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--pink-deep);
+}
+
+.timer-text.warning { color: var(--warning); }
+.timer-text.danger {
+  color: var(--error);
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+/* Question display */
+.question-display {
+  text-align: center;
+  margin: 24px 0;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--cream), #f0e0ff);
+  border-radius: 28px;
+  border: 3px dashed var(--pink);
+  position: relative;
+}
+
+.question-display::before {
+  content: '💜';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0 12px;
+  font-size: 1.5rem;
+}
+
+.question-text {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: var(--pink-deep);
+  letter-spacing: 4px;
+}
+
+/* Answer input */
+.answer-input {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  padding: 18px 24px;
+  font-size: 1.8rem;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  text-align: center;
+  border: 4px solid var(--pink-light);
+  border-radius: 20px;
+  background: white;
+  color: var(--text);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.answer-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 4px rgba(255, 158, 199, 0.25);
+  transform: translateY(-2px);
+}
+
+.answer-input.correct {
+  border-color: var(--success);
+  background: #d1fae5;
+  color: var(--success);
+}
+
+.answer-input.wrong {
+  border-color: var(--error);
+  background: #fee2e2;
+  color: var(--error);
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.answer-input:disabled { cursor: not-allowed; }
+
+.quiz-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.feedback {
+  text-align: center;
+  margin: 14px 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-height: 30px;
+}
+
+.feedback.correct { color: var(--success); }
+.feedback.wrong { color: var(--error); }
+.feedback.info { color: var(--pink-deep); }
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  background: var(--pink-light);
+  border-radius: 50px;
+  overflow: hidden;
+  margin-top: 24px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  border-radius: 50px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Results slide */
+.results-card { padding: 50px 40px; text-align: center; }
+
+.results-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2.2rem;
+  color: var(--pink-deep);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.results-subtitle {
+  color: var(--text-light);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.result-stat {
+  background: linear-gradient(135deg, white, var(--cream));
+  padding: 30px 20px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--pink-light);
+  transition: transform 0.3s ease;
+}
+
+.result-stat:hover { transform: translateY(-5px); }
+
+.result-stat-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+.result-stat-value {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--pink-deep);
+}
+
+.result-stat-label {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stars {
+  font-size: 2rem;
+  margin: 20px 0;
+  letter-spacing: 4px;
+}
+
+.results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Motivation slide */
+.motivation-card { padding: 60px 40px; text-align: center; }
+
+.motivation-emoji {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.motivation-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.8rem;
+  background: linear-gradient(135deg, var(--pink-dark), var(--purple-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.motivation-text {
+  font-size: 1.15rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 500;
+}
+
+.summary-box {
+  background: linear-gradient(135deg, var(--cream), #f0e0ff);
+  padding: 28px;
+  border-radius: 24px;
+  margin: 28px auto;
+  border: 2px dashed var(--pink);
+  max-width: 500px;
+  text-align: left;
+}
+
+.summary-box h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--pink-deep);
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--pink-light);
+  font-size: 0.95rem;
+}
+
+.summary-row:last-child { border-bottom: none; }
+.summary-row .label { color: var(--text-light); }
+.summary-row .value { color: var(--pink-deep); font-family: 'Fredoka', sans-serif; }
+
+/* Sparkles */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 24px;
+  z-index: 999;
+  animation: sparkle-fly 1s ease-out forwards;
+}
+
+@keyframes sparkle-fly {
+  0% { transform: translate(0, 0) scale(0); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  top: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  z-index: 1000;
+  pointer-events: none;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* Hidden */
+.hidden { display: none !important; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cover-title { font-size: 2.4rem; }
+  .slide-title { font-size: 1.5rem; }
+  .question-text { font-size: 2.8rem; }
+  .quiz-container, .cover-card, .motivation-card, .results-card { padding: 28px 22px; }
+  .motivation-title { font-size: 2rem; }
+  .timer-circle { width: 110px; height: 110px; }
+  .timer-text { font-size: 1.3rem; }
+  .btn { padding: 14px 28px; font-size: 1rem; }
+  .quiz-stats { width: 100%; justify-content: center; }
+  .quiz-top { flex-direction: column; align-items: stretch; }
+  .back-btn { align-self: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="app">
+  <!-- ===== SLIDE 1: COVER ===== -->
+  <div class="slide active" id="slide1">
+    <div class="cover-card">
+      <div class="cover-content">
+        <div class="cover-emoji">🌸</div>
+        <h1 class="cover-title">Petualangan Matematika</h1>
+        <p class="cover-subtitle">Yuk belajar perkalian & pembagian bareng-bareng! ✨</p>
+        <div class="input-group">
+          <label class="input-label" for="studentName">📝 Siapa nama kamu?</label>
+          <input type="text" id="studentName" class="name-input" placeholder="Tulis nama di sini..." maxlength="30">
+          <div class="error-msg hidden" id="nameError"></div>
+        </div>
+        <button class="btn btn-primary" onclick="startAdventure()">
+          <span>Mulai Petualangan</span>
+          <span>💖</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 2: PERKALIAN ===== -->
+  <div class="slide" id="slide2">
+    <div class="slide-header">
+      <h2 class="slide-title">✨ Latihan Perkalian ✨</h2>
+      <div class="student-badge">👤 <span id="multStudentName">Siswa</span></div>
+    </div>
+    
+    <!-- Level selection -->
+    <div id="multLevelSelect" class="quiz-container">
+      <div class="section-intro">
+        <h3>🎀 Pilih Level Kesukaanmu!</h3>
+        <p>Setiap level punya 20 soal seru loh!</p>
+      </div>
+      <div class="levels-grid" id="multLevels"></div>
+    </div>
+    
+    <!-- Quiz active -->
+    <div id="multQuiz" class="quiz-container hidden">
+      <div class="quiz-top">
+        <button class="back-btn" onclick="exitMultQuiz()">← Ganti Level</button>
+        <div class="quiz-stats">
+          <span class="stat-pill question">📝 Soal <span id="multQuestionNum">1</span>/20</span>
+          <span class="stat-pill correct">✓ Benar: <span id="multCorrect">0</span></span>
+          <span class="stat-pill wrong">✗ Salah: <span id="multWrong">0</span></span>
+        </div>
+      </div>
+      
+      <div class="timer-container">
+        <div class="timer-circle">
+          <svg class="timer-svg" viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff9ec7"/>
+                <stop offset="100%" stop-color="#b388eb"/>
+              </linearGradient>
+            </defs>
+            <circle class="timer-bg" cx="60" cy="60" r="52"/>
+            <circle class="timer-progress" id="multTimerProgress" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-text" id="multTimerText">1:00</div>
+        </div>
+      </div>
+      
+      <div class="question-display">
+        <div class="question-text" id="multQuestion">2 × 3</div>
+      </div>
+      
+      <input type="number" id="multAnswer" class="answer-input" placeholder="?" onkeypress="if(event.key==='Enter') checkMultAnswer()">
+      
+      <div class="feedback" id="multFeedback"></div>
+      
+      <div class="quiz-actions">
+        <button class="btn btn-primary" id="multCheckBtn" onclick="checkMultAnswer()">Cek Jawaban ✓</button>
+        <button class="btn btn-secondary hidden" id="multNextBtn" onclick="nextMultQuestion()">Soal Selanjutnya →</button>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="multProgress" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 3: HASIL PERKALIAN ===== -->
+  <div class="slide" id="slide3">
+    <div class="results-card">
+      <div class="cover-emoji" style="font-size: 70px;">🎀</div>
+      <h2 class="results-title">Hasil Latihan Perkalian</h2>
+      <p class="results-subtitle">Hebat sekali, <span id="multResultsName">Siswa</span>! 🌟</p>
+      
+      <div class="results-grid">
+        <div class="result-stat">
+          <div class="result-stat-icon">⏱️</div>
+          <div class="result-stat-value" id="multAvgTime">0s</div>
+          <div class="result-stat-label">Rata-rata Waktu / Soal</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-icon">✨</div>
+          <div class="result-stat-value" id="multCorrectCount" style="color: var(--success);">0</div>
+          <div class="result-stat-label">Jawaban Benar</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-icon">💫</div>
+          <div class="result-stat-value" id="multWrongCount" style="color: var(--error);">0</div>
+          <div class="result-stat-label">Jawaban Salah</div>
+        </div>
+      </div>
+      
+      <div class="stars" id="multStars"></div>
+      
+      <div class="results-actions">
+        <button class="btn btn-outline" onclick="backToMultLevels()">
+          <span>← Pilih Level Lain</span>
+        </button>
+        <button class="btn btn-primary" onclick="goToSlide(4)">
+          <span>Lanjut ke Pembagian</span>
+          <span>👉</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4: PEMBAGIAN ===== -->
+  <div class="slide" id="slide4">
+    <div class="slide-header">
+      <h2 class="slide-title">🌈 Latihan Pembagian 🌈</h2>
+      <div class="student-badge">👤 <span id="divStudentName">Siswa</span></div>
+    </div>
+    
+    <div id="divLevelSelect" class="quiz-container">
+      <div class="section-intro">
+        <h3>🎀 Pilih Level Kesukaanmu!</h3>
+        <p>Setiap level punya 20 soal seru loh!</p>
+      </div>
+      <div class="levels-grid" id="divLevels"></div>
+    </div>
+    
+    <div id="divQuiz" class="quiz-container hidden">
+      <div class="quiz-top">
+        <button class="back-btn" onclick="exitDivQuiz()">← Ganti Level</button>
+        <div class="quiz-stats">
+          <span class="stat-pill question">📝 Soal <span id="divQuestionNum">1</span>/20</span>
+          <span class="stat-pill correct">✓ Benar: <span id="divCorrect">0</span></span>
+          <span class="stat-pill wrong">✗ Salah: <span id="divWrong">0</span></span>
+        </div>
+      </div>
+      
+      <div class="timer-container">
+        <div class="timer-circle">
+          <svg class="timer-svg" viewBox="0 0 120 120">
+            <circle class="timer-bg" cx="60" cy="60" r="52"/>
+            <circle class="timer-progress" id="divTimerProgress" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-text" id="divTimerText">1:00</div>
+        </div>
+      </div>
+      
+      <div class="question-display">
+        <div class="question-text" id="divQuestion">20 ÷ 4</div>
+      </div>
+      
+      <input type="number" id="divAnswer" class="answer-input" placeholder="?" onkeypress="if(event.key==='Enter') checkDivAnswer()">
+      
+      <div class="feedback" id="divFeedback"></div>
+      
+      <div class="quiz-actions">
+        <button class="btn btn-primary" id="divCheckBtn" onclick="checkDivAnswer()">Cek Jawaban ✓</button>
+        <button class="btn btn-secondary hidden" id="divNextBtn" onclick="nextDivQuestion()">Soal Selanjutnya →</button>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="divProgress" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5: HASIL PEMBAGIAN ===== -->
+  <div class="slide" id="slide5">
+    <div class="results-card">
+      <div class="cover-emoji" style="font-size: 70px;">🌷</div>
+      <h2 class="results-title">Hasil Latihan Pembagian</h2>
+      <p class="results-subtitle">Luar biasa, <span id="divResultsName">Siswa</span>! 🌟</p>
+      
+      <div class="results-grid">
+        <div class="result-stat">
+          <div class="result-stat-icon">⏱️</div>
+          <div class="result-stat-value" id="divAvgTime">0s</div>
+          <div class="result-stat-label">Rata-rata Waktu / Soal</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-icon">✨</div>
+          <div class="result-stat-value" id="divCorrectCount" style="color: var(--success);">0</div>
+          <div class="result-stat-label">Jawaban Benar</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-icon">💫</div>
+          <div class="result-stat-value" id="divWrongCount" style="color: var(--error);">0</div>
+          <div class="result-stat-label">Jawaban Salah</div>
+        </div>
+      </div>
+      
+      <div class="stars" id="divStars"></div>
+      
+      <div class="results-actions">
+        <button class="btn btn-outline" onclick="backToDivLevels()">
+          <span>← Pilih Level Lain</span>
+        </button>
+        <button class="btn btn-primary" onclick="goToSlide(6)">
+          <span>Lihat Hasil Akhir</span>
+          <span>👉</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6: MOTIVASI ===== -->
+  <div class="slide" id="slide6">
+    <div class="motivation-card">
+      <div class="motivation-content">
+        <div class="motivation-emoji">👑</div>
+        <h2 class="motivation-title">Kamu Hebat Banget!</h2>
+        <p class="motivation-text" id="motivationText">
+          Setiap langkah kecilmu hari ini membawa kamu makin pintar loh! Terus berlatih ya, karena kamu bisa jadi apa pun yang kamu mau! 💖
+        </p>
+        
+        <div class="summary-box">
+          <h3>📊 Ringkasan Petualanganmu</h3>
+          <div class="summary-row">
+            <span class="label">🌟 Nama Petualang</span>
+            <span class="value" id="finalName">Siswa</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">✨ Benar Perkalian</span>
+            <span class="value" id="finalMultCorrect">0</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">🌈 Benar Pembagian</span>
+            <span class="value" id="finalDivCorrect">0</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">🏆 Total Jawaban Benar</span>
+            <span class="value" id="finalTotal">0</span>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="restart()">
+          <span>Ulangi Latihan</span>
+          <span>🔄</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE GLOBAL =====
+let studentName = '';
+let currentSlide = 1;
+
+// State Perkalian
+let multCurrentLevel = 0;
+let multQuestions = [];
+let multCurrentQuestion = 0;
+let multCorrect = 0;
+let multWrong = 0;
+let multTimes = [];
+let multTimerInterval = null;
+let multTimeLeft = 0;
+let multTotalTime = 0;
+let multAnswered = false;
+
+// State Pembagian
+let divCurrentLevel = 0;
+let divQuestions = [];
+let divCurrentQuestion = 0;
+let divCorrect = 0;
+let divWrong = 0;
+let divTimes = [];
+let divTimerInterval = null;
+let divTimeLeft = 0;
+let divTotalTime = 0;
+let divAnswered = false;
+
+// ===== KONFIGURASI LEVEL =====
+const multLevels = [
+  { level: 1, name: 'Satuan × Satuan', desc: 'Perkalian angka 1-9', time: 60, icon: '🌱' },
+  { level: 2, name: 'Puluhan (kelipatan 10) × Satuan', desc: 'Contoh: 20 × 5', time: 60, icon: '🌷' },
+  { level: 3, name: 'Puluhan × Satuan', desc: 'Bukan kelipatan 10. Contoh: 25 × 4', time: 90, icon: '🌸' },
+  { level: 4, name: 'Puluhan × Puluhan', desc: 'Contoh: 23 × 15', time: 150, icon: '🌺' },
+  { level: 5, name: 'Ratusan × Satuan', desc: 'Contoh: 125 × 6', time: 165, icon: '🎆' }
+];
+
+const divLevels = [
+  { level: 1, name: 'Puluhan ÷ Satuan', desc: 'Hasil satuan. Contoh: 20 ÷ 4', time: 60, icon: '🌱' },
+  { level: 2, name: 'Kelipatan 10 ÷ Satuan', desc: 'Contoh: 60 ÷ 3', time: 90, icon: '🌷' },
+  { level: 3, name: 'Puluhan/Ratusan ÷ Satuan', desc: 'Bukan kelipatan 10. Contoh: 144 ÷ 6', time: 150, icon: '🌸' },
+  { level: 4, name: 'Ribuan ÷ Satuan', desc: 'Contoh: 1500 ÷ 5', time: 180, icon: '🌺' }
+];
+
+// Pesan motivasi acak
+const correctMessages = [
+  '🎉 Hebat! Jawabanmu benar!',
+  '✨ Mantap! Kamu pintar!',
+  '💖 Pintar sekali!',
+  '🌟 Wow, benar banget!',
+  '👏 Good job, cantik!'
+];
+
+const wrongMessages = [
+  '💝 Belum tepat ya. Jawabannya ',
+  '🌈 Nyaris benar! Jawabannya ',
+  '✨ Tetap semangat ya! Jawabannya ',
+  '💖 Jangan menyerah! Jawabannya '
+];
+
+// ===== INISIALISASI BACKGROUND HATI =====
+function createHearts() {
+  const bg = document.getElementById('heartsBg');
+  const hearts = ['💖', '💕', '🌸', '✨', '🎀', '💜', '🩷', '🌷'];
+  for (let i = 0; i < 22; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (15 + Math.random() * 15) + 's';
+    heart.style.animationDelay = Math.random() * 20 + 's';
+    heart.style.fontSize = (16 + Math.random() * 22) + 'px';
+    bg.appendChild(heart);
+  }
+}
+createHearts();
+
+// ===== NAVIGASI SLIDE =====
+function goToSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('slide' + n).classList.add('active');
+  currentSlide = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  if (n === 6) {
+    setTimeout(showConfetti, 300);
+  }
+}
+
+function startAdventure() {
+  const name = document.getElementById('studentName').value.trim();
+  const errorEl = document.getElementById('nameError');
+  
+  if (!name) {
+    errorEl.textContent = 'Isi nama dulu yuk, cantik! 💕';
+    errorEl.classList.remove('hidden');
+    document.getElementById('studentName').focus();
+    return;
+  }
+  
+  errorEl.classList.add('hidden');
+  studentName = name;
+  document.getElementById('multStudentName').textContent = name;
+  document.getElementById('divStudentName').textContent = name;
+  document.getElementById('multResultsName').textContent = name;
+  document.getElementById('divResultsName').textContent = name;
+  document.getElementById('finalName').textContent = name;
+  
+  renderMultLevels();
+  renderDivLevels();
+  goToSlide(2);
+}
+
+// ===== RENDER LEVEL CARDS =====
+function renderMultLevels() {
+  const container = document.getElementById('multLevels');
+  container.innerHTML = '';
+  multLevels.forEach(lvl => {
+    const card = document.createElement('div');
+    card.className = 'level-card';
+    card.onclick = () => startMultLevel(lvl.level);
+    card.innerHTML = `
+      <div class="level-number">${lvl.icon}</div>
+      <h4>Level ${lvl.level}</h4>
+      <div class="level-desc">${lvl.name}</div>
+      <div class="level-time">⏱️ ${formatTime(lvl.time)} / soal</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderDivLevels() {
+  const container = document.getElementById('divLevels');
+  container.innerHTML = '';
+  divLevels.forEach(lvl => {
+    const card = document.createElement('div');
+    card.className = 'level-card';
+    card.onclick = () => startDivLevel(lvl.level);
+    card.innerHTML = `
+      <div class="level-number">${lvl.icon}</div>
+      <h4>Level ${lvl.level}</h4>
+      <div class="level-desc">${lvl.name}</div>
+      <div class="level-time">⏱️ ${formatTime(lvl.time)} / soal</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (s === 0) return `${m} menit`;
+  if (m === 0) return `${s} detik`;
+  return `${m}m ${s}d`;
+}
+
+function formatTimeShort(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+// ===== GENERATOR SOAL PERKALIAN =====
+function genMultQuestion(level) {
+  let a, b;
+  switch(level) {
+    case 1: // satuan × satuan
+      a = Math.floor(Math.random() * 9) + 1;
+      b = Math.floor(Math.random() * 9) + 1;
+      break;
+    case 2: // puluhan (kelipatan 10) × satuan
+      a = (Math.floor(Math.random() * 9) + 1) * 10;
+      b = Math.floor(Math.random() * 9) + 1;
+      break;
+    case 3: // puluhan (bukan kelipatan 10) × satuan
+      do {
+        a = Math.floor(Math.random() * 89) + 11;
+      } while (a % 10 === 0);
+      b = Math.floor(Math.random() * 9) + 1;
+      break;
+    case 4: // puluhan × puluhan
+      a = Math.floor(Math.random() * 89) + 11;
+      b = Math.floor(Math.random() * 89) + 11;
+      break;
+    case 5: // ratusan × satuan
+      a = Math.floor(Math.random() * 900) + 100;
+      b = Math.floor(Math.random() * 9) + 1;
+      break;
+  }
+  return { a, b, answer: a * b };
+}
+
+// ===== GENERATOR SOAL PEMBAGIAN (HABIS DIBAGI) =====
+function genDivQuestion(level) {
+  let a, b, answer;
+  let attempts = 0;
+  switch(level) {
+    case 1: // puluhan ÷ satuan = satuan
+      do {
+        b = Math.floor(Math.random() * 8) + 2; // 2-9
+        answer = Math.floor(Math.random() * 8) + 2; // 2-9
+        a = b * answer;
+      } while (a < 10 || a > 99);
+      break;
+    case 2: // kelipatan 10 (puluhan-ratusan) ÷ satuan
+      do {
+        a = (Math.floor(Math.random() * 99) + 1) * 10; // 10-990
+        b = Math.floor(Math.random() * 8) + 2; // 2-9
+        attempts++;
+      } while (a % b !== 0 && attempts < 100);
+      answer = a / b;
+      break;
+    case 3: // puluhan (bukan kelipatan 10) - ratusan ÷ satuan
+      do {
+        a = Math.floor(Math.random() * 990) + 11; // 11-1000
+        b = Math.floor(Math.random() * 8) + 2; // 2-9
+        attempts++;
+      } while ((a % b !== 0 || a % 10 === 0) && attempts < 300);
+      answer = a / b;
+      break;
+    case 4: // ribuan ÷ satuan
+      do {
+        a = Math.floor(Math.random() * 9000) + 1000; // 1000-9999
+        b = Math.floor(Math.random() * 8) + 2; // 2-9
+        attempts++;
+      } while (a % b !== 0 && attempts < 300);
+      answer = a / b;
+      break;
+  }
+  return { a, b, answer };
+}
+
+// ===== LOGIKA KUIS PERKALIAN =====
+function startMultLevel(level) {
+  multCurrentLevel = level;
+  multCurrentQuestion = 0;
+  multCorrect = 0;
+  multWrong = 0;
+  multTimes = [];
+  multTotalTime = multLevels[level - 1].time;
+  
+  // Generate 20 soal
+  multQuestions = [];
+  for (let i = 0; i < 20; i++) {
+    multQuestions.push(genMultQuestion(level));
+  }
+  
+  document.getElementById('multLevelSelect').classList.add('hidden');
+  document.getElementById('multQuiz').classList.remove('hidden');
+  
+  showMultQuestion();
+}
+
+function showMultQuestion() {
+  if (multQuestions.length === 0) {
+    document.getElementById('multQuiz').classList.add('hidden');
+    document.getElementById('multLevelSelect').classList.remove('hidden');
+    return;
+  }
+  
+  if (multCurrentQuestion >= 20) {
+    finishMultQuiz();
+    return;
+  }
+  
+  const q = multQuestions[multCurrentQuestion];
+  document.getElementById('multQuestion').textContent = `${q.a} × ${q.b}`;
+  document.getElementById('multQuestionNum').textContent = multCurrentQuestion + 1;
+  document.getElementById('multCorrect').textContent = multCorrect;
+  document.getElementById('multWrong').textContent = multWrong;
+  document.getElementById('multProgress').style.width = (multCurrentQuestion / 20 * 100) + '%';
+  
+  const answerInput = document.getElementById('multAnswer');
+  answerInput.value = '';
+  answerInput.classList.remove('correct', 'wrong');
+  answerInput.disabled = false;
+  setTimeout(() => answerInput.focus(), 100);
+  
+  document.getElementById('multFeedback').textContent = '';
+  document.getElementById('multFeedback').className = 'feedback';
+  document.getElementById('multCheckBtn').classList.remove('hidden');
+  document.getElementById('multNextBtn').classList.add('hidden');
+  
+  multAnswered = false;
+  startMultTimer();
+}
+
+function startMultTimer() {
+  if (multTimerInterval) clearInterval(multTimerInterval);
+  multTimeLeft = multTotalTime;
+  updateMultTimer();
+  
+  multTimerInterval = setInterval(() => {
+    multTimeLeft--;
+    updateMultTimer();
+    if (multTimeLeft <= 0) {
+      clearInterval(multTimerInterval);
+      if (!multAnswered) timeUpMult();
+    }
+  }, 1000);
+}
+
+function updateMultTimer() {
+  const text = document.getElementById('multTimerText');
+  const progress = document.getElementById('multTimerProgress');
+  text.textContent = formatTimeShort(Math.max(0, multTimeLeft));
+  
+  const circumference = 2 * Math.PI * 52;
+  const ratio = Math.max(0, multTimeLeft / multTotalTime);
+  const offset = circumference - ratio * circumference;
+  progress.style.strokeDashoffset = offset;
+  
+  text.classList.remove('warning', 'danger');
+  if (multTimeLeft <= 10) {
+    text.classList.add('danger');
+  } else if (multTimeLeft <= 30) {
+    text.classList.add('warning');
+  }
+}
+
+function timeUpMult() {
+  if (multAnswered) return;
+  multAnswered = true;
+  
+  multTimes.push(multTotalTime);
+  multWrong++;
+  
+  const q = multQuestions[multCurrentQuestion];
+  const input = document.getElementById('multAnswer');
+  input.value = q.answer;
+  input.classList.add('wrong');
+  input.disabled = true;
+  
+  const feedback = document.getElementById('multFeedback');
+  feedback.textContent = `⏰ Waktu habis! Jawabannya ${q.answer}`;
+  feedback.className = 'feedback wrong';
+  
+  document.getElementById('multCheckBtn').classList.add('hidden');
+  document.getElementById('multNextBtn').classList.remove('hidden');
+  document.getElementById('multWrong').textContent = multWrong;
+}
+
+function checkMultAnswer() {
+  if (multAnswered) return;
+  const input = document.getElementById('multAnswer');
+  const userAnswer = input.value.trim();
+  
+  if (userAnswer === '') {
+    const feedback = document.getElementById('multFeedback');
+    feedback.textContent = 'Tulis jawabanmu dulu yuk! 💕';
+    feedback.className = 'feedback info';
+    input.focus();
+    return;
+  }
+  
+  multAnswered = true;
+  clearInterval(multTimerInterval);
+  
+  const q = multQuestions[multCurrentQuestion];
+  const timeTaken = multTotalTime - multTimeLeft;
+  multTimes.push(timeTaken);
+  
+  const feedback = document.getElementById('multFeedback');
+  
+  if (parseInt(userAnswer) === q.answer) {
+    multCorrect++;
+    input.classList.add('correct');
+    feedback.textContent = correctMessages[Math.floor(Math.random() * correctMessages.length)];
+    feedback.className = 'feedback correct';
+    createSparkles(input);
+  } else {
+    multWrong++;
+    input.classList.add('wrong');
+    const msg = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+    feedback.textContent = msg + q.answer;
+    feedback.className = 'feedback wrong';
+  }
+  
+  input.disabled = true;
+  document.getElementById('multCorrect').textContent = multCorrect;
+  document.getElementById('multWrong').textContent = multWrong;
+  document.getElementById('multCheckBtn').classList.add('hidden');
+  document.getElementById('multNextBtn').classList.remove('hidden');
+}
+
+function nextMultQuestion() {
+  multCurrentQuestion++;
+  showMultQuestion();
+}
+
+function finishMultQuiz() {
+  clearInterval(multTimerInterval);
+  document.getElementById('multProgress').style.width = '100%';
+  
+  const avgTime = multTimes.length > 0 
+    ? multTimes.reduce((a, b) => a + b, 0) / multTimes.length 
+    : 0;
+  
+  document.getElementById('multAvgTime').textContent = avgTime.toFixed(1) + 's';
+  document.getElementById('multCorrectCount').textContent = multCorrect;
+  document.getElementById('multWrongCount').textContent = multWrong;
+  
+  // Bintang berdasarkan performa
+  const stars = multCorrect >= 18 ? '⭐⭐⭐⭐⭐' :
+                multCorrect >= 15 ? '⭐⭐⭐⭐' :
+                multCorrect >= 10 ? '⭐⭐⭐' :
+                multCorrect >= 5 ? '⭐⭐' : '⭐';
+  document.getElementById('multStars').textContent = stars;
+  
+  document.getElementById('finalMultCorrect').textContent = multCorrect;
+  updateFinalTotal();
+  
+  setTimeout(() => goToSlide(3), 500);
+}
+
+function exitMultQuiz() {
+  clearInterval(multTimerInterval);
+  document.getElementById('multQuiz').classList.add('hidden');
+  document.getElementById('multLevelSelect').classList.remove('hidden');
+}
+
+// ===== FUNGSI KEMBALI KE LEVEL PERKALIAN =====
+function backToMultLevels() {
+  // Reset state perkalian
+  multCurrentLevel = 0;
+  multQuestions = [];
+  multCurrentQuestion = 0;
+  multCorrect = 0;
+  multWrong = 0;
+  multTimes = [];
+  if (multTimerInterval) clearInterval(multTimerInterval);
+  
+  // Pastikan tampilan level select aktif
+  document.getElementById('multQuiz').classList.add('hidden');
+  document.getElementById('multLevelSelect').classList.remove('hidden');
+  
+  goToSlide(2);
+}
+
+// ===== LOGIKA KUIS PEMBAGIAN =====
+function startDivLevel(level) {
+  divCurrentLevel = level;
+  divCurrentQuestion = 0;
+  divCorrect = 0;
+  divWrong = 0;
+  divTimes = [];
+  divTotalTime = divLevels[level - 1].time;
+  
+  divQuestions = [];
+  for (let i = 0; i < 20; i++) {
+    divQuestions.push(genDivQuestion(level));
+  }
+  
+  document.getElementById('divLevelSelect').classList.add('hidden');
+  document.getElementById('divQuiz').classList.remove('hidden');
+  
+  showDivQuestion();
+}
+
+function showDivQuestion() {
+  if (divQuestions.length === 0) {
+    document.getElementById('divQuiz').classList.add('hidden');
+    document.getElementById('divLevelSelect').classList.remove('hidden');
+    return;
+  }
+  
+  if (divCurrentQuestion >= 20) {
+    finishDivQuiz();
+    return;
+  }
+  
+  const q = divQuestions[divCurrentQuestion];
+  document.getElementById('divQuestion').textContent = `${q.a} ÷ ${q.b}`;
+  document.getElementById('divQuestionNum').textContent = divCurrentQuestion + 1;
+  document.getElementById('divCorrect').textContent = divCorrect;
+  document.getElementById('divWrong').textContent = divWrong;
+  document.getElementById('divProgress').style.width = (divCurrentQuestion / 20 * 100) + '%';
+  
+  const answerInput = document.getElementById('divAnswer');
+  answerInput.value = '';
+  answerInput.classList.remove('correct', 'wrong');
+  answerInput.disabled = false;
+  setTimeout(() => answerInput.focus(), 100);
+  
+  document.getElementById('divFeedback').textContent = '';
+  document.getElementById('divFeedback').className = 'feedback';
+  document.getElementById('divCheckBtn').classList.remove('hidden');
+  document.getElementById('divNextBtn').classList.add('hidden');
+  
+  divAnswered = false;
+  startDivTimer();
+}
+
+function startDivTimer() {
+  if (divTimerInterval) clearInterval(divTimerInterval);
+  divTimeLeft = divTotalTime;
+  updateDivTimer();
+  
+  divTimerInterval = setInterval(() => {
+    divTimeLeft--;
+    updateDivTimer();
+    if (divTimeLeft <= 0) {
+      clearInterval(divTimerInterval);
+      if (!divAnswered) timeUpDiv();
+    }
+  }, 1000);
+}
+
+function updateDivTimer() {
+  const text = document.getElementById('divTimerText');
+  const progress = document.getElementById('divTimerProgress');
+  text.textContent = formatTimeShort(Math.max(0, divTimeLeft));
+  
+  const circumference = 2 * Math.PI * 52;
+  const ratio = Math.max(0, divTimeLeft / divTotalTime);
+  const offset = circumference - ratio * circumference;
+  progress.style.strokeDashoffset = offset;
+  
+  text.classList.remove('warning', 'danger');
+  if (divTimeLeft <= 10) {
+    text.classList.add('danger');
+  } else if (divTimeLeft <= 30) {
+    text.classList.add('warning');
+  }
+}
+
+function timeUpDiv() {
+  if (divAnswered) return;
+  divAnswered = true;
+  
+  divTimes.push(divTotalTime);
+  divWrong++;
+  
+  const q = divQuestions[divCurrentQuestion];
+  const input = document.getElementById('divAnswer');
+  input.value = q.answer;
+  input.classList.add('wrong');
+  input.disabled = true;
+  
+  const feedback = document.getElementById('divFeedback');
+  feedback.textContent = `⏰ Waktu habis! Jawabannya ${q.answer}`;
+  feedback.className = 'feedback wrong';
+  
+  document.getElementById('divCheckBtn').classList.add('hidden');
+  document.getElementById('divNextBtn').classList.remove('hidden');
+  document.getElementById('divWrong').textContent = divWrong;
+}
+
+function checkDivAnswer() {
+  if (divAnswered) return;
+  const input = document.getElementById('divAnswer');
+  const userAnswer = input.value.trim();
+  
+  if (userAnswer === '') {
+    const feedback = document.getElementById('divFeedback');
+    feedback.textContent = 'Tulis jawabanmu dulu yuk! 💕';
+    feedback.className = 'feedback info';
+    input.focus();
+    return;
+  }
+  
+  divAnswered = true;
+  clearInterval(divTimerInterval);
+  
+  const q = divQuestions[divCurrentQuestion];
+  const timeTaken = divTotalTime - divTimeLeft;
+  divTimes.push(timeTaken);
+  
+  const feedback = document.getElementById('divFeedback');
+  
+  if (parseInt(userAnswer) === q.answer) {
+    divCorrect++;
+    input.classList.add('correct');
+    feedback.textContent = correctMessages[Math.floor(Math.random() * correctMessages.length)];
+    feedback.className = 'feedback correct';
+    createSparkles(input);
+  } else {
+    divWrong++;
+    input.classList.add('wrong');
+    const msg = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+    feedback.textContent = msg + q.answer;
+    feedback.className = 'feedback wrong';
+  }
+  
+  input.disabled = true;
+  document.getElementById('divCorrect').textContent = divCorrect;
+  document.getElementById('divWrong').textContent = divWrong;
+  document.getElementById('divCheckBtn').classList.add('hidden');
+  document.getElementById('divNextBtn').classList.remove('hidden');
+}
+
+function nextDivQuestion() {
+  divCurrentQuestion++;
+  showDivQuestion();
+}
+
+function finishDivQuiz() {
+  clearInterval(divTimerInterval);
+  document.getElementById('divProgress').style.width = '100%';
+  
+  const avgTime = divTimes.length > 0 
+    ? divTimes.reduce((a, b) => a + b, 0) / divTimes.length 
+    : 0;
+  
+  document.getElementById('divAvgTime').textContent = avgTime.toFixed(1) + 's';
+  document.getElementById('divCorrectCount').textContent = divCorrect;
+  document.getElementById('divWrongCount').textContent = divWrong;
+  
+  const stars = divCorrect >= 18 ? '⭐⭐⭐⭐⭐' :
+                divCorrect >= 15 ? '⭐⭐⭐⭐' :
+                divCorrect >= 10 ? '⭐⭐⭐' :
+                divCorrect >= 5 ? '⭐⭐' : '⭐';
+  document.getElementById('divStars').textContent = stars;
+  
+  document.getElementById('finalDivCorrect').textContent = divCorrect;
+  updateFinalTotal();
+  
+  setTimeout(() => goToSlide(5), 500);
+}
+
+function exitDivQuiz() {
+  clearInterval(divTimerInterval);
+  document.getElementById('divQuiz').classList.add('hidden');
+  document.getElementById('divLevelSelect').classList.remove('hidden');
+}
+
+// ===== FUNGSI KEMBALI KE LEVEL PEMBAGIAN =====
+function backToDivLevels() {
+  // Reset state pembagian
+  divCurrentLevel = 0;
+  divQuestions = [];
+  divCurrentQuestion = 0;
+  divCorrect = 0;
+  divWrong = 0;
+  divTimes = [];
+  if (divTimerInterval) clearInterval(divTimerInterval);
+  
+  // Pastikan tampilan level select aktif
+  document.getElementById('divQuiz').classList.add('hidden');
+  document.getElementById('divLevelSelect').classList.remove('hidden');
+  
+  goToSlide(4);
+}
+
+// ===== RINGKASAN AKHIR =====
+function updateFinalTotal() {
+  const total = multCorrect + divCorrect;
+  document.getElementById('finalTotal').textContent = total;
+  
+  const motivation = document.getElementById('motivationText');
+  if (total >= 35) {
+    motivation.textContent = 'Wah, kamu juara matematika! 🏆 Setiap soal kamu kerjakan dengan tepat. Pertahankan terus semangat belajarmu ya, kamu memang luar biasa! 💖';
+  } else if (total >= 25) {
+    motivation.textContent = 'Hebat sekali! 🌟 Kamu sudah menunjukkan kemampuan yang sangat baik. Sedikit lagi kamu akan jadi ahli matematika! Terus berlatih ya! 💕';
+  } else if (total >= 15) {
+    motivation.textContent = 'Bagus banget! 🌸 Kamu sudah berusaha dengan sungguh-sungguh. Ingat, setiap latihan membuat kamu makin pintar. Jangan menyerah ya! 💪';
+  } else {
+    motivation.textContent = 'Kamu sudah hebat karena berani mencoba! 💖 Belajar matematika butuh waktu dan latihan. Tetap semangat, kamu pasti bisa lebih baik lagi! 🌈';
+  }
+}
+
+function restart() {
+  // Reset state perkalian
+  multCurrentLevel = 0;
+  multQuestions = [];
+  multCurrentQuestion = 0;
+  multCorrect = 0;
+  multWrong = 0;
+  multTimes = [];
+  if (multTimerInterval) clearInterval(multTimerInterval);
+  
+  // Reset state pembagian
+  divCurrentLevel = 0;
+  divQuestions = [];
+  divCurrentQuestion = 0;
+  divCorrect = 0;
+  divWrong = 0;
+  divTimes = [];
+  if (divTimerInterval) clearInterval(divTimerInterval);
+  
+  document.getElementById('multQuiz').classList.add('hidden');
+  document.getElementById('multLevelSelect').classList.remove('hidden');
+  document.getElementById('divQuiz').classList.add('hidden');
+  document.getElementById('divLevelSelect').classList.remove('hidden');
+  
+  goToSlide(2);
+}
+
+// ===== EFEK SPARKLES =====
+function createSparkles(element) {
+  const rect = element.getBoundingClientRect();
+  const sparkles = ['✨', '⭐', '💫', '🌟', '💖'];
+  for (let i = 0; i < 10; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+    sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+    sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+    sparkle.style.setProperty('--tx', (Math.random() * 240 - 120) + 'px');
+    sparkle.style.setProperty('--ty', (Math.random() * -240 - 50) + 'px');
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1000);
+  }
+}
+
+// ===== EFEK CONFETTI =====
+function showConfetti() {
+  const colors = ['#ff9ec7', '#b388eb', '#ffd6e8', '#e0c3fc', '#ffe066', '#ff80c0', '#c2185b'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+      confetti.style.width = (8 + Math.random() * 10) + 'px';
+      confetti.style.height = confetti.style.width;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 5000);
+    }, i * 30);
+  }
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (currentSlide === 1 && document.activeElement.id === 'studentName') {
+      startAdventure();
+    }
+  }
+});
+
+// Focus ke input nama saat halaman dimuat
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('studentName').focus(), 500);
+});
+</script>
+</body>
+</html>
