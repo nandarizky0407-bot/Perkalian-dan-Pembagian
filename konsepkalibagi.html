@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petualangan Matematika: Perkalian & Pembagian</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFF8E7;
+    --bg-2: #FFE4B5;
+    --primary: #FF5E3A;
+    --primary-dark: #E64A2E;
+    --secondary: #1E3A8A;
+    --secondary-light: #3B82F6;
+    --accent: #FFC93C;
+    --success: #10B981;
+    --danger: #DC2626;
+    --dark: #1A1A2E;
+    --light: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Fredoka', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  .display-font { font-family: 'Bangers', cursive; letter-spacing: 2px; }
+  #app { position: relative; min-height: 100vh; width: 100%; }
+  .slide {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 6rem;
+    animation: slideIn 0.5s ease-out;
+  }
+  .slide.active { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .bg-pattern {
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(255, 94, 58, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(30, 58, 138, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(255, 201, 60, 0.1) 0%, transparent 60%);
+  }
+  .btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    border: 3px solid var(--dark);
+    box-shadow: 4px 4px 0 var(--dark);
+    transition: all 0.15s ease;
+    cursor: pointer;
+    background: var(--light);
+    color: var(--dark);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--dark); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--dark); }
+  .btn-primary { background: var(--primary); color: var(--light); }
+  .btn-secondary { background: var(--secondary); color: var(--light); }
+  .btn-accent { background: var(--accent); color: var(--dark); }
+  .btn-success { background: var(--success); color: var(--light); }
+  .btn-danger { background: var(--danger); color: var(--light); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .card {
+    background: var(--light);
+    border: 3px solid var(--dark);
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 var(--dark);
+    padding: 1.5rem;
+  }
+  .input-field {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    padding: 0.65rem 1rem;
+    border: 3px solid var(--dark);
+    border-radius: 12px;
+    background: var(--light);
+    width: 100%;
+  }
+  .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.3); }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+  @keyframes wiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+  @keyframes pop { 0% { transform: scale(0); } 80% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+  .float { animation: float 3s ease-in-out infinite; }
+  .wiggle { animation: wiggle 2.5s ease-in-out infinite; }
+  .pop { animation: pop 0.5s ease-out; }
+  .shake { animation: shake 0.4s ease-in-out; }
+  .spin-slow { animation: spin 20s linear infinite; }
+  .pulse-anim { animation: pulse 1.5s ease-in-out infinite; }
+  .nav-bar {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .nav-btn {
+    background: var(--light);
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.2rem;
+    transition: all 0.2s;
+    color: var(--dark);
+  }
+  .nav-btn:hover { background: var(--accent); transform: scale(1.1); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-indicator { color: var(--light); font-weight: 700; padding: 0 1rem; font-size: 1.1rem; }
+  
+  /* CSS TABEL PERKALIAN YANG SUDAH DIPERBAIKI */
+  .mult-table { border-collapse: collapse; font-family: 'Fredoka', sans-serif; margin: 0 auto; }
+  .mult-table th, .mult-table td {
+    border: 2px solid var(--dark);
+    padding: 0;
+    text-align: center;
+    width: 62px; 
+    height: 50px;
+    font-size: 1.05rem; 
+    font-weight: 600;
+    transition: all 0.3s;
+    line-height: 50px;
+    vertical-align: middle;
+  }
+  .mult-table th { background: var(--secondary); color: var(--light); }
+  .mult-table .row-highlight { background: rgba(255, 94, 58, 0.35); }
+  .mult-table .col-highlight { background: rgba(255, 201, 60, 0.6); }
+  .mult-table .cell-highlight {
+    background: var(--success) !important;
+    color: var(--light) !important;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px var(--dark);
+    z-index: 5;
+    position: relative;
+  }
+  .mult-table input {
+    width: 100%; height: 100%;
+    border: none; text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600; font-size: 1.05rem;
+    background: transparent;
+    padding: 0; margin: 0;
+    box-sizing: border-box;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  .mult-table input::-webkit-outer-spin-button,
+  .mult-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .mult-table input::placeholder {
+    color: #999;
+    font-weight: 500;
+    opacity: 1;
+  }
+  .mult-table input:focus { outline: 2px solid var(--primary); background: rgba(255, 201, 60, 0.3); }
+  .mult-table input.correct { background: var(--success) !important; color: var(--light); }
+  .mult-table input.wrong { background: var(--danger) !important; color: var(--light); animation: shake 0.4s; }
+
+  #gameCanvas {
+    background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 70%, #90EE90 70%, #7CFC00 100%);
+    border: 4px solid var(--dark);
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 6px 6px 0 var(--dark);
+  }
+  .sub-slide { display: none; }
+  .sub-slide.active { display: block; animation: slideIn 0.4s ease-out; }
+  .sub-nav {
+    display: flex; gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .sub-nav-btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 50px;
+    background: var(--light);
+    border: 3px solid var(--dark);
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+  .sub-nav-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--dark); }
+  .sub-nav-btn.active { background: var(--primary); color: var(--light); }
+  .donut {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: 
+      radial-gradient(circle, var(--bg) 22%, transparent 22%),
+      radial-gradient(circle, #8B4513 28%, #D2691E 28% 55%, #F4A460 55% 75%, #FFD700 75% 90%, #FF8C00 90%);
+    border: 2px solid var(--dark);
+    display: inline-block;
+    margin: 3px;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+  .plate {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 50%, #eee 50% 75%, #ddd 75%);
+    border: 3px solid var(--dark);
+    display: flex; flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    padding: 8px 5px;
+    box-shadow: 4px 4px 0 var(--dark);
+  }
+  .big-plate {
+    width: 280px; min-height: 110px;
+    border-radius: 60px;
+    background: radial-gradient(ellipse, #fff 60%, #eee 60% 85%, #ddd 85%);
+    border: 3px solid var(--dark);
+    display: flex; flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    padding: 12px;
+    box-shadow: 6px 6px 0 var(--dark);
+    margin: 0 auto;
+  }
+  .progress-bar {
+    height: 22px;
+    background: var(--light);
+    border: 3px solid var(--dark);
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), var(--accent));
+    transition: width 0.4s ease;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--dark); font-weight: 700; font-size: 0.85rem;
+  }
+  .feedback-correct { background: var(--success) !important; color: var(--light) !important; animation: pop 0.5s; }
+  .feedback-wrong { background: var(--danger) !important; color: var(--light) !important; animation: shake 0.5s; }
+  .floating-symbol {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.25;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+  }
+  .car-svg { width: 80px; height: 60px; }
+  .apple-emoji { font-size: 2rem; }
+  .virus-icon {
+    width: 60px; height: 60px;
+    background: radial-gradient(circle, #6BFF3D 30%, #2E8B00 70%);
+    border-radius: 50%;
+    border: 3px solid var(--dark);
+    position: relative;
+    box-shadow: 4px 4px 0 var(--dark);
+  }
+  .virus-icon::before, .virus-icon::after {
+    content: ''; position: absolute;
+    width: 14px; height: 14px;
+    background: #6BFF3D;
+    border: 2px solid var(--dark);
+    border-radius: 50%;
+  }
+  .virus-icon::before { top: -10px; left: 8px; }
+  .virus-icon::after { top: -10px; right: 8px; }
+  .virus-face {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; gap: 8px;
+  }
+  .virus-eye {
+    width: 12px; height: 12px;
+    background: white;
+    border: 2px solid var(--dark);
+    border-radius: 50%;
+    position: relative;
+  }
+  .virus-eye::after {
+    content: ''; position: absolute;
+    width: 5px; height: 5px;
+    background: var(--dark);
+    border-radius: 50%;
+    top: 2px; left: 2px;
+  }
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--light);
+    border: 4px solid var(--dark);
+    border-radius: 20px;
+    box-shadow: 8px 8px 0 var(--dark);
+    padding: 2rem;
+    max-width: 600px; width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: pop 0.4s ease-out;
+  }
+  .toast {
+    position: fixed;
+    top: 1.5rem; left: 50%;
+    transform: translateX(-50%) translateY(-200%);
+    background: var(--dark);
+    color: var(--light);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    box-shadow: 4px 4px 0 var(--primary);
+    z-index: 2000;
+    transition: transform 0.4s ease;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .ribbon {
+    background: var(--accent);
+    border: 3px solid var(--dark);
+    padding: 0.5rem 1.5rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+    box-shadow: 4px 4px 0 var(--dark);
+    font-weight: 700;
+  }
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(26,26,46,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,26,46,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .badge {
+    background: var(--accent);
+    color: var(--dark);
+    border: 2px solid var(--dark);
+    border-radius: 50px;
+    padding: 0.25rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: inline-block;
+  }
+  .number-circle {
+    width: 36px; height: 36px;
+    background: var(--primary);
+    color: var(--light);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-weight: 700;
+    border: 3px solid var(--dark);
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+  .explosion {
+    position: absolute;
+    pointer-events: none;
+    animation: explode 0.6s ease-out forwards;
+  }
+  @keyframes explode {
+    0% { transform: scale(0.3); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+  
+  /* MEDIA QUERY MOBILE */
+  @media (max-width: 768px) {
+    .slide { padding: 1rem 0.75rem 6rem; }
+    .mult-table th, .mult-table td { 
+      width: 44px; 
+      height: 40px; 
+      font-size: 0.9rem; 
+      line-height: 40px;
+    }
+    .mult-table input { 
+      font-size: 0.9rem; 
+    }
+    .big-plate { width: 220px; }
+    .plate { width: 80px; height: 80px; }
+    .donut { width: 32px; height: 32px; }
+  }
+</style>
+</head>
+<body class="bg-pattern">
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Background decorations -->
+<div style="position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;">
+  <div class="floating-symbol" style="top:10%; left:5%; animation-delay:0s;">✕</div>
+  <div class="floating-symbol" style="top:20%; right:8%; animation-delay:1s;">÷</div>
+  <div class="floating-symbol" style="top:60%; left:7%; animation-delay:2s;">+</div>
+  <div class="floating-symbol" style="top:75%; right:5%; animation-delay:3s;">−</div>
+  <div class="floating-symbol" style="top:40%; left:50%; animation-delay:1.5s;">×</div>
+  <div class="floating-symbol" style="top:85%; left:30%; animation-delay:2.5s;">=</div>
+</div>
+
+<div id="app" style="position:relative; z-index:1;">
+
+<!-- ============ SLIDE 1: COVER ============ -->
+<section class="slide active" data-slide="1">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-6">
+      <div class="ribbon display-font text-2xl">LEVEL 3 - PETUALANGAN MATEMATIKA</div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="display-font text-6xl md:text-7xl mb-4" style="color:var(--primary); text-shadow: 4px 4px 0 var(--dark), 8px 8px 0 var(--accent);">
+          PERKALIAN &<br>PEMBAGIAN
+        </h1>
+        <p class="text-xl mb-6 font-medium">Siap menjadi Jagoan Matematika? Yuk, mulai petualangan seru ini!</p>
+        <div class="card" style="background: linear-gradient(135deg, #FFF, #FFF8E7);">
+          <label class="block mb-2 font-bold text-lg">Masukkan Namamu, Pahlawan!</label>
+          <input type="text" id="studentName" class="input-field text-lg" placeholder="Contoh: Bima Saputra" maxlength="30">
+          <button class="btn btn-primary mt-4 w-full text-lg justify-center" onclick="startAdventure()">
+            🚀 MULAI PETUALANGAN!
+          </button>
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="float inline-block">
+          <svg viewBox="0 0 200 200" class="w-64 md:w-80 mx-auto">
+            <!-- Astronaut hero -->
+            <circle cx="100" cy="100" r="90" fill="#FFC93C" stroke="#1A1A2E" stroke-width="4"/>
+            <circle cx="100" cy="85" r="45" fill="#FFF" stroke="#1A1A2E" stroke-width="4"/>
+            <rect x="65" y="80" width="70" height="35" rx="15" fill="#1E3A8A" stroke="#1A1A2E" stroke-width="3"/>
+            <circle cx="85" cy="95" r="6" fill="#FFF"/>
+            <circle cx="115" cy="95" r="6" fill="#FFF"/>
+            <rect x="80" y="130" width="40" height="50" rx="8" fill="#FF5E3A" stroke="#1A1A2E" stroke-width="3"/>
+            <text x="100" y="160" text-anchor="middle" font-size="20" font-weight="bold" fill="#FFF" font-family="Bangers">×</text>
+            <rect x="50" y="140" width="20" height="40" rx="8" fill="#FFF" stroke="#1A1A2E" stroke-width="3"/>
+            <rect x="130" y="140" width="20" height="40" rx="8" fill="#FFF" stroke="#1A1A2E" stroke-width="3"/>
+          </svg>
+        </div>
+        <div class="mt-6 flex justify-center gap-4 flex-wrap">
+          <div class="badge">🎯 9 Misi</div>
+          <div class="badge">🎮 1 Game</div>
+          <div class="badge">⭐ 100 Skor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: REVIEW ============ -->
+<section class="slide" data-slide="2">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-8">
+      <span class="badge">SLIDE 2</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--secondary);">INGAT KEMBALI! 🔍</h2>
+      <p class="text-xl mt-2">Operasi Hitung Penjumlahan & Pengurangan</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card" style="background: linear-gradient(135deg, #FFE4B5, #FFF);">
+        <div class="text-center">
+          <div class="display-font text-4xl mb-2" style="color:var(--primary);">PENJUMLAHAN (+)</div>
+          <div class="text-5xl my-4">🍎🍎🍎 <span style="color:var(--success);">+</span> 🍎🍎 <span style="color:var(--success);">=</span> 🍎🍎🍎🍎🍎</div>
+          <div class="text-3xl font-bold my-3">3 + 2 = 5</div>
+          <p class="text-gray-700">Menggabungkan dua kelompok menjadi satu kelompok yang lebih besar.</p>
+        </div>
+      </div>
+      <div class="card" style="background: linear-gradient(135deg, #E0F2FE, #FFF);">
+        <div class="text-center">
+          <div class="display-font text-4xl mb-2" style="color:var(--secondary);">PENGURANGAN (−)</div>
+          <div class="text-5xl my-4">🍪🍪🍪🍪 <span style="color:var(--danger);">−</span> 🍪 <span style="color:var(--danger);">=</span> 🍪🍪🍪</div>
+          <div class="text-3xl font-bold my-3">4 − 1 = 3</div>
+          <p class="text-gray-700">Mengambil sebagian dari kelompok sehingga jumlahnya berkurang.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-6" style="background: var(--accent);">
+      <h3 class="display-font text-3xl mb-3 text-center">✨ Coba Sendiri! ✨</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="text-center">
+          <p class="text-lg font-medium mb-2">7 + 5 = ?</p>
+          <div class="flex gap-2 justify-center">
+            <input type="number" id="reviewAdd" class="input-field w-24 text-center" style="font-size:1.5rem;">
+            <button class="btn btn-primary" onclick="checkReview('reviewAdd', 12)">CEK</button>
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="text-lg font-medium mb-2">15 − 8 = ?</p>
+          <div class="flex gap-2 justify-center">
+            <input type="number" id="reviewSub" class="input-field w-24 text-center" style="font-size:1.5rem;">
+            <button class="btn btn-secondary" onclick="checkReview('reviewSub', 7)">CEK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: TUJUAN ============ -->
+<section class="slide" data-slide="3">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-8">
+      <span class="badge">SLIDE 3</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--primary);">MISI KITA HARI INI! 🎯</h2>
+      <p class="text-xl mt-2">Tujuan Pembelajaran</p>
+    </div>
+    <div class="space-y-4">
+      <div class="card flex items-center gap-4" style="background: linear-gradient(90deg, #FFF8E7, #FFF);">
+        <div class="number-circle" style="background:var(--primary);">1</div>
+        <div><strong class="text-lg">Memahami konsep perkalian</strong> sebagai penjumlahan berulang.</div>
+      </div>
+      <div class="card flex items-center gap-4" style="background: linear-gradient(90deg, #E0F2FE, #FFF);">
+        <div class="number-circle" style="background:var(--secondary);">2</div>
+        <div><strong class="text-lg">Memahami konsep pembagian</strong> sebagai pengurangan berulang.</div>
+      </div>
+      <div class="card flex items-center gap-4" style="background: linear-gradient(90deg, #FFF8E7, #FFF);">
+        <div class="number-circle" style="background:var(--accent); color:var(--dark);">3</div>
+        <div><strong class="text-lg">Menyelesaikan soal cerita</strong> perkalian dan pembagian.</div>
+      </div>
+      <div class="card flex items-center gap-4" style="background: linear-gradient(90deg, #E0F2FE, #FFF);">
+        <div class="number-circle" style="background:var(--success);">4</div>
+        <div><strong class="text-lg">Menggunakan tabel perkalian</strong> untuk menyelesaikan operasi hitung.</div>
+      </div>
+      <div class="card flex items-center gap-4" style="background: linear-gradient(90deg, #FFF8E7, #FFF);">
+        <div class="number-circle" style="background:var(--danger);">5</div>
+        <div><strong class="text-lg">Berlatih lewat permainan</strong> "Tembak Virus" yang seru!</div>
+      </div>
+    </div>
+    <div class="mt-8 text-center">
+      <div class="card inline-block" style="background: var(--accent); transform: rotate(-1deg);">
+        <p class="text-xl font-bold">⚔️ Siap menaklukkan misi, <span id="nameDisplay3" style="color:var(--primary);">Pahlawan</span>?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4: PERKALIAN ============ -->
+<section class="slide" data-slide="4">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="badge">SLIDE 4</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--primary);">PERKALIAN ⚡</h2>
+    </div>
+    <div class="sub-nav">
+      <button class="sub-nav-btn active" data-sub="4-1">1. Pemantik</button>
+      <button class="sub-nav-btn" data-sub="4-2">2. Konsep</button>
+      <button class="sub-nav-btn" data-sub="4-3">3. Soal Cerita</button>
+    </div>
+
+    <!-- Sub 4-1: Pemantik -->
+    <div class="sub-slide active" id="sub-4-1">
+      <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFE4B5);">
+        <div class="text-center mb-4">
+          <h3 class="display-font text-3xl mb-2" style="color:var(--secondary);">🤔 PERTANYAAN PEMANTIK</h3>
+          <p class="text-xl font-medium">"1 mobil memiliki 4 roda. Jika ada 10 mobil, berapa banyak roda semuanya?"</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border-4" style="border-color:var(--dark); box-shadow:6px 6px 0 var(--dark);">
+          <div class="grid grid-cols-5 gap-2 mb-3" id="carGrid"></div>
+          <p class="text-center text-lg font-medium mt-3">Coba hitung sendiri ada berapa roda dari 10 mobil di atas!</p>
+          <div class="text-center mt-4">
+            <button class="btn btn-accent" onclick="toggleCarAnswer()">Lihat Jawaban</button>
+            <div id="carAnswer" class="mt-4 text-2xl font-bold hidden" style="color:var(--success);">
+              4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 = 40 roda! 🎉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub 4-2: Konsep -->
+    <div class="sub-slide" id="sub-4-2">
+      <div class="card" style="background: linear-gradient(135deg, #E0F2FE, #FFF);">
+        <h3 class="display-font text-3xl mb-3 text-center" style="color:var(--secondary);">KONSEP PERKALIAN</h3>
+        <p class="text-center text-lg mb-4">Perkalian adalah <strong>penjumlahan berulang</strong> dari bilangan yang sama.</p>
+        <div class="text-center mb-4">
+          <button class="btn btn-primary" onclick="addMultGroup()">➕ Tambah Kelompok Apel</button>
+          <button class="btn btn-secondary" onclick="resetMultGroup()">🔄 Ulang</button>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border-4 text-center" style="border-color:var(--dark);">
+          <div id="multVisual" class="text-3xl mb-3 min-h-[60px]"></div>
+          <div id="multEquation" class="text-2xl font-bold" style="color:var(--primary);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub 4-3: Soal Cerita -->
+    <div class="sub-slide" id="sub-4-3">
+      <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+          <h3 class="display-font text-3xl" style="color:var(--primary);">📝 SOAL CERITA PERKALIAN</h3>
+          <div class="badge">Soal <span id="multStoryNum">1</span> / 20</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border-4 mb-4" style="border-color:var(--dark);">
+          <p id="multStoryText" class="text-lg font-medium mb-3"></p>
+          <div id="multStoryImage" class="text-center text-5xl mb-3"></div>
+          <div class="flex gap-2 items-center justify-center flex-wrap">
+            <input type="number" id="multStoryAnswer" class="input-field w-32 text-center" style="font-size:1.3rem;" placeholder="Jawaban">
+            <button class="btn btn-success" onclick="checkMultStory()">✓ CEK</button>
+            <button class="btn btn-secondary" onclick="showMultDiscussion()">📖 Pembahasan</button>
+            <button class="btn btn-primary" onclick="nextMultStory()">➡️ Ganti Soal</button>
+          </div>
+          <div id="multStoryFeedback" class="mt-3 text-center text-xl font-bold min-h-[32px]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5: PEMBAGIAN ============ -->
+<section class="slide" data-slide="5">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="badge">SLIDE 5</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--secondary);">PEMBAGIAN 🍩</h2>
+    </div>
+    <div class="sub-nav">
+      <button class="sub-nav-btn active" data-sub="5-1">1. Konsep</button>
+      <button class="sub-nav-btn" data-sub="5-2">2. Donat Interaktif</button>
+      <button class="sub-nav-btn" data-sub="5-3">3. Hubungan & Latihan</button>
+      <button class="sub-nav-btn" data-sub="5-4">4. Soal Cerita</button>
+    </div>
+
+    <!-- Sub 5-1: Konsep -->
+    <div class="sub-slide active" id="sub-5-1">
+      <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+        <h3 class="display-font text-3xl mb-3 text-center" style="color:var(--secondary);">KONSEP PEMBAGIAN</h3>
+        <p class="text-center text-lg mb-4">Pembagian adalah <strong>pengurangan berulang</strong> dari bilangan yang sama.</p>
+        <div class="text-center mb-4">
+          <button class="btn btn-secondary" onclick="subtractCandy()">➖ Kurangi 4 Permen</button>
+          <button class="btn btn-primary" onclick="resetDivision()">🔄 Ulang</button>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border-4 text-center" style="border-color:var(--dark);">
+          <div id="divVisual" class="text-4xl mb-3 min-h-[60px]"></div>
+          <div id="divEquation" class="text-xl font-bold" style="color:var(--secondary);"></div>
+          <div id="divResult" class="text-2xl font-bold mt-3" style="color:var(--success);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub 5-2: Donat Interaktif -->
+    <div class="sub-slide" id="sub-5-2">
+      <div class="card" style="background: linear-gradient(135deg, #FFE4B5, #FFF);">
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h3 class="display-font text-3xl" style="color:var(--primary);">🍩 BAGI DONAT!</h3>
+          <button class="btn btn-accent" onclick="nextNarrative()">🔄 Ganti Narasi</button>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border-4 mb-4 text-center" style="border-color:var(--dark);">
+          <p id="narrativeText" class="text-lg font-medium mb-3"></p>
+          <p class="text-sm">Tekan tombol untuk membagikan 1 donat ke setiap piring kecil.</p>
+          <div class="my-4">
+            <p class="font-bold mb-2">Piring Besar:</p>
+            <div class="big-plate" id="bigPlate"></div>
+          </div>
+          <div class="my-4">
+            <button class="btn btn-primary text-lg" onclick="distributeDonut()">🍩 Bagikan Donat</button>
+            <button class="btn btn-secondary" onclick="resetNarrative()">🔄 Ulang</button>
+          </div>
+          <div class="my-4">
+            <p class="font-bold mb-2">Piring Kecil:</p>
+            <div id="smallPlates" class="flex flex-wrap justify-center gap-3"></div>
+          </div>
+          <div id="narrativeStatus" class="text-xl font-bold mt-3" style="color:var(--success);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub 5-3: Hubungan & Latihan -->
+    <div class="sub-slide" id="sub-5-3">
+      <div class="space-y-4">
+        <div class="card" style="background: linear-gradient(135deg, #E0F2FE, #FFF);">
+          <h3 class="display-font text-3xl mb-3 text-center" style="color:var(--secondary);">🔗 HUBUNGAN PERKALIAN & PEMBAGIAN</h3>
+          <div class="text-center text-2xl font-bold my-4 p-4 bg-white rounded-2xl border-4" style="border-color:var(--dark);">
+            20 ÷ 5 = ? artinya 5 × <span style="color:var(--primary);">?</span> = 20<br>
+            <span style="color:var(--success);">Jadi 20 ÷ 5 = 4</span> karena 5 × 4 = 20
+          </div>
+        </div>
+        <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+            <h3 class="display-font text-2xl" style="color:var(--primary);">🎯 LATIHAN PEMBAGIAN</h3>
+            <div class="badge">Soal <span id="divPracticeNum">1</span> / 20</div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border-4" style="border-color:var(--dark);">
+            <div class="text-center mb-3">
+              <span id="divPracticeText" class="text-3xl font-bold"></span>
+            </div>
+            <div class="flex gap-2 justify-center items-center flex-wrap">
+              <input type="number" id="divPracticeAnswer" class="input-field w-32 text-center" style="font-size:1.3rem;" placeholder="Jawaban">
+              <button class="btn btn-success" onclick="checkDivPractice()">✓ CEK</button>
+              <button class="btn btn-primary" onclick="nextDivPractice()">➡️ Ganti Soal</button>
+            </div>
+            <div id="divPracticeFeedback" class="mt-3 text-center text-xl font-bold min-h-[32px]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub 5-4: Soal Cerita Pembagian -->
+    <div class="sub-slide" id="sub-5-4">
+      <div class="card" style="background: linear-gradient(135deg, #FFE4B5, #FFF);">
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+          <h3 class="display-font text-3xl" style="color:var(--secondary);">📝 SOAL CERITA PEMBAGIAN</h3>
+          <div class="badge">Soal <span id="divStoryNum">1</span> / 20</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border-4 mb-4" style="border-color:var(--dark);">
+          <p id="divStoryText" class="text-lg font-medium mb-3"></p>
+          <div id="divStoryImage" class="text-center text-5xl mb-3"></div>
+          <div class="flex gap-2 items-center justify-center flex-wrap">
+            <input type="number" id="divStoryAnswer" class="input-field w-32 text-center" style="font-size:1.3rem;" placeholder="Jawaban">
+            <button class="btn btn-success" onclick="checkDivStory()">✓ CEK</button>
+            <button class="btn btn-secondary" onclick="showDivDiscussion()">📖 Pembahasan</button>
+            <button class="btn btn-primary" onclick="nextDivStory()">➡️ Ganti Soal</button>
+          </div>
+          <div id="divStoryFeedback" class="mt-3 text-center text-xl font-bold min-h-[32px]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: TABEL PERKALIAN DEMO ============ -->
+<section class="slide" data-slide="6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="badge">SLIDE 6</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--primary);">TABEL PERKALIAN 📊</h2>
+      <p class="text-lg mt-2">Cara menggunakan tabel perkalian untuk perkalian & pembagian</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-4 mb-4">
+      <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+        <h3 class="display-font text-2xl mb-3" style="color:var(--primary);">Demo Perkalian</h3>
+        <div class="flex gap-2 items-center flex-wrap">
+          <input type="number" id="multA" class="input-field w-20 text-center" style="font-size:1.2rem;" min="1" max="10" value="3">
+          <span class="text-2xl font-bold">×</span>
+          <input type="number" id="multB" class="input-field w-20 text-center" style="font-size:1.2rem;" min="1" max="10" value="4">
+          <span class="text-2xl font-bold">=</span>
+          <button class="btn btn-primary" onclick="demoMultiplication()">TUNJUKKAN</button>
+        </div>
+        <p class="mt-2 text-sm">Baris <span style="color:var(--primary);">oranye</span>, kolom <span style="color:var(--accent);">kuning</span>, hasil di <span style="color:var(--success);">hijau</span>.</p>
+      </div>
+      <div class="card" style="background: linear-gradient(135deg, #E0F2FE, #FFF);">
+        <h3 class="display-font text-2xl mb-3" style="color:var(--secondary);">Demo Pembagian</h3>
+        <div class="flex gap-2 items-center flex-wrap">
+          <input type="number" id="divA" class="input-field w-20 text-center" style="font-size:1.2rem;" min="1" max="100" value="20">
+          <span class="text-2xl font-bold">÷</span>
+          <input type="number" id="divB" class="input-field w-20 text-center" style="font-size:1.2rem;" min="1" max="10" value="5">
+          <span class="text-2xl font-bold">=</span>
+          <button class="btn btn-secondary" onclick="demoDivision()">TUNJUKKAN</button>
+        </div>
+        <p class="mt-2 text-sm">Cari baris pembagi, lalu cari angka hasil bagi di baris itu. Kolomnya adalah jawaban!</p>
+      </div>
+    </div>
+    <div class="card overflow-x-auto" style="background: #FFF;">
+      <table class="mult-table" id="demoTable"></table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7: TABEL RUMPANG ============ -->
+<section class="slide" data-slide="7">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="badge">SLIDE 7</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--secondary);">LENGKAPI TABEL! ✏️</h2>
+      <p class="text-lg mt-2">Isi kolom yang kosong dengan jawaban yang benar</p>
+    </div>
+    <div class="flex gap-3 justify-center mb-4 flex-wrap">
+      <button class="btn btn-success" onclick="checkFillTable()">✓ CEK SEMUA JAWABAN</button>
+      <button class="btn btn-secondary" onclick="resetFillTable()">🔄 ULANG</button>
+    </div>
+    <div class="card overflow-x-auto" style="background: #FFF;">
+      <table class="mult-table" id="fillTable"></table>
+    </div>
+    <div id="fillFeedback" class="mt-4 text-center text-2xl font-bold min-h-[40px]"></div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8: GAME TEMBAK VIRUS ============ -->
+<section class="slide" data-slide="8">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-4">
+      <span class="badge">SLIDE 8</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--primary);">👾 TEMBAK VIRUS!</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-3 mb-4">
+      <div class="card text-center" style="background: var(--accent); padding:1rem;">
+        <div class="text-sm font-bold">SKOR</div>
+        <div class="display-font text-3xl" id="gameScore">0</div>
+      </div>
+      <div class="card text-center" style="background: var(--secondary); color:white; padding:1rem;">
+        <div class="text-sm font-bold">MISI</div>
+        <div class="display-font text-3xl">100</div>
+      </div>
+      <div class="card text-center" style="background: var(--primary); color:white; padding:1rem;">
+        <div class="text-sm font-bold">LEVEL</div>
+        <div class="display-font text-3xl" id="gameLevel">1</div>
+      </div>
+    </div>
+    <div class="progress-bar mb-4">
+      <div class="progress-fill" id="gameProgress" style="width:0%;">0%</div>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+      <div class="text-center mb-3">
+        <div class="text-lg font-bold mb-2">Selesaikan soal untuk menembak virus!</div>
+        <div id="gameQuestion" class="display-font text-4xl" style="color:var(--primary);">Klik MULAI</div>
+        <div class="flex gap-2 justify-center items-center mt-3 flex-wrap">
+          <input type="number" id="gameAnswer" class="input-field w-32 text-center" style="font-size:1.5rem;" placeholder="Jawaban" disabled>
+          <button class="btn btn-success" id="gameSubmit" onclick="submitGameAnswer()" disabled>🔫 TEMBAK!</button>
+          <button class="btn btn-primary" id="gameStart" onclick="startGame()">▶️ MULAI</button>
+        </div>
+      </div>
+      <div class="relative" style="display:flex; justify-content:center;">
+        <canvas id="gameCanvas" width="700" height="450"></canvas>
+      </div>
+      <div id="gameStatus" class="text-center text-2xl font-bold mt-3 min-h-[36px]"></div>
+      <div class="flex gap-2 justify-center mt-3 flex-wrap">
+        <button class="btn btn-accent" id="gameRestart" onclick="restartGame()" style="display:none;">🔁 MAIN LAGI</button>
+        <button class="btn btn-secondary" id="gameFinish" onclick="finishGame()" style="display:none;">🏁 SELESAI</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9: KESIMPULAN ============ -->
+<section class="slide" data-slide="9">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="badge">SLIDE 9</span>
+      <h2 class="display-font text-5xl mt-3" style="color:var(--secondary);">KESIMPULAN & REFLEKSI 🌟</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 mb-6">
+      <div class="card" style="background: linear-gradient(135deg, #FFF8E7, #FFF);">
+        <h3 class="display-font text-2xl mb-3" style="color:var(--primary);">💡 YANG SUDAH KITA PELAJARI</h3>
+        <ul class="space-y-2 text-lg">
+          <li>✅ Perkalian = penjumlahan berulang</li>
+          <li>✅ Pembagian = pengurangan berulang</li>
+          <li>✅ Pembagian adalah kebalikan perkalian</li>
+          <li>✅ Tabel perkalian membantu menghitung cepat</li>
+          <li>✅ Soal cerita bisa diselesaikan dengan operasi hitung</li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(135deg, #E0F2FE, #FFF);">
+        <h3 class="display-font text-2xl mb-3" style="color:var(--secondary);">🤔 REFLEKSI DIRI</h3>
+        <div class="space-y-3">
+          <div>
+            <p class="font-medium mb-1">Apa yang paling kamu suka hari ini?</p>
+            <input type="text" class="input-field" placeholder="Tulis jawabanmu...">
+          </div>
+          <div>
+            <p class="font-medium mb-1">Bagian mana yang masih sulit?</p>
+            <input type="text" class="input-field" placeholder="Tulis jawabanmu...">
+          </div>
+          <div>
+            <p class="font-medium mb-1">Beri nilai petualanganmu (1-10):</p>
+            <input type="number" min="1" max="10" class="input-field w-24" placeholder="10">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card text-center" style="background: var(--accent); transform: rotate(-1deg);">
+      <div class="display-font text-4xl mb-2">THANK YOU FOR TODAY!</div>
+      <p class="text-xl font-medium">Kamu hebat, <span id="finalName" style="color:var(--primary);">Pahlawan</span>! 🎉🏆</p>
+      <p class="text-lg mt-2">Terus berlatih, jadi Jagoan Matematika sejati! ⚔️✨</p>
+      <div class="mt-4 text-5xl wiggle inline-block">🦸‍♂️</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">‹</button>
+  <span class="nav-indicator"><span id="currentSlide">1</span> / <span id="totalSlides">9</span></span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">›</button>
+</div>
+
+<!-- Modal Pembahasan -->
+<div class="modal-overlay" id="discussionModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="display-font text-3xl" style="color:var(--primary);" id="modalTitle">📖 PEMBAHASAN</h3>
+      <button class="btn btn-danger" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ============== STATE ==============
+let studentName = "Pahlawan";
+let currentSlide = 1;
+const totalSlides = 9;
+
+// ============== SPEECH SYNTHESIS ==============
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'id-ID';
+    utter.rate = 1;
+    utter.pitch = 1.1;
+    speechSynthesis.speak(utter);
+  }
+}
+
+function goodJob() {
+  speak(`Good job ${studentName}!`);
+}
+function tryAgain() {
+  speak(`Coba lagi ${studentName}!`);
+}
+
+function showToast(message, duration = 2500) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+// ============== NAVIGATION ==============
+function navigate(direction) {
+  const slides = document.querySelectorAll('.slide');
+  let newSlide = currentSlide + direction;
+  if (newSlide < 1) newSlide = 1;
+  if (newSlide > totalSlides) newSlide = totalSlides;
+  
+  slides.forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`[data-slide="${newSlide}"]`);
+  if (target) target.classList.add('active');
+  
+  currentSlide = newSlide;
+  document.getElementById('currentSlide').textContent = newSlide;
+  document.getElementById('prevBtn').disabled = newSlide === 1;
+  document.getElementById('nextBtn').disabled = newSlide === totalSlides;
+  
+  // Update name displays
+  document.getElementById('nameDisplay3').textContent = studentName;
+  document.getElementById('finalName').textContent = studentName;
+  
+  // Init slide-specific content
+  if (newSlide === 1) document.getElementById('studentName').focus();
+  if (newSlide === 4) initSlide4();
+  if (newSlide === 5) initSlide5();
+  if (newSlide === 6) initDemoTable();
+  if (newSlide === 7) initFillTable();
+  if (newSlide === 8 && !gameRunning) drawIdleGame();
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startAdventure() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) {
+    showToast("Masukkan namamu dulu, ya! 😊");
+    document.getElementById('studentName').focus();
+    return;
+  }
+  studentName = name;
+  showToast(`Selamat datang, ${studentName}! 🎉`);
+  speak(`Halo ${studentName}! Selamat datang di petualangan matematika!`);
+  setTimeout(() => navigate(1), 1000);
+}
+
+// ============== SLIDE 2: REVIEW ==============
+function checkReview(id, answer) {
+  const input = document.getElementById(id);
+  const userAns = parseInt(input.value);
+  if (isNaN(userAns)) { showToast("Isi jawaban dulu!"); return; }
+  if (userAns === answer) {
+    input.classList.remove('feedback-wrong');
+    input.classList.add('feedback-correct');
+    goodJob();
+    showToast("Benar! Good job! 🎉");
+  } else {
+    input.classList.remove('feedback-correct');
+    input.classList.add('feedback-wrong');
+    tryAgain();
+    showToast("Coba lagi ya!");
+  }
+}
+
+// ============== SLIDE 4: PERKALIAN ==============
+let currentSub4 = '4-1';
+document.querySelectorAll('[data-sub]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const subId = btn.dataset.sub;
+    const parent = btn.closest('.slide');
+    parent.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.sub-slide').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`sub-${subId}`).classList.add('active');
+    
+    if (subId === '4-1') initCars();
+    if (subId === '4-2') resetMultGroup();
+    if (subId === '4-3') showMultStory();
+    if (subId === '5-1') resetDivision();
+    if (subId === '5-2') resetNarrative();
+    if (subId === '5-3') showDivPractice();
+    if (subId === '5-4') showDivStory();
+  });
+});
+
+function initSlide4() {
+  initCars();
+  resetMultGroup();
+  showMultStory();
+}
+
+// Sub 4-1: Cars
+function initCars() {
+  const grid = document.getElementById('carGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    grid.innerHTML += `
+      <div class="text-center">
+        <svg viewBox="0 0 80 60" class="w-full">
+          <rect x="10" y="25" width="60" height="20" rx="5" fill="#FF5E3A" stroke="#1A1A2E" stroke-width="2"/>
+          <path d="M20 25 L30 12 L50 12 L60 25 Z" fill="#FFC93C" stroke="#1A1A2E" stroke-width="2"/>
+          <circle cx="22" cy="48" r="7" fill="#1A1A2E"/>
+          <circle cx="22" cy="48" r="3" fill="#999"/>
+          <circle cx="58" cy="48" r="7" fill="#1A1A2E"/>
+          <circle cx="58" cy="48" r="3" fill="#999"/>
+          <rect x="55" y="30" width="5" height="5" fill="#FFC93C"/>
+        </svg>
+      </div>`;
+  }
+  const ans = document.getElementById('carAnswer');
+  if (ans) ans.classList.add('hidden');
+}
+
+function toggleCarAnswer() {
+  document.getElementById('carAnswer').classList.toggle('hidden');
+}
+
+// Sub 4-2: Repeated addition visual
+let multGroupCount = 0;
+const multGroupSize = 4;
+function addMultGroup() {
+  if (multGroupCount >= 6) {
+    showToast("Maksimal 6 kelompok ya!");
+    return;
+  }
+  multGroupCount++;
+  updateMultVisual();
+}
+function resetMultGroup() {
+  multGroupCount = 0;
+  updateMultVisual();
+}
+function updateMultVisual() {
+  const visual = document.getElementById('multVisual');
+  const equation = document.getElementById('multEquation');
+  if (!visual || !equation) return;
+  let groups = '';
+  for (let i = 0; i < multGroupCount; i++) {
+    groups += '🍎🍎🍎🍎 ';
+  }
+  if (multGroupCount === 0) {
+    visual.innerHTML = '<span class="text-gray-400 text-xl">Klik "Tambah Kelompok Apel" untuk mulai</span>';
+    equation.innerHTML = '';
+    return;
+  }
+  visual.innerHTML = groups;
+  const addEq = Array(multGroupCount).fill('4').join(' + ');
+  const total = multGroupCount * multGroupSize;
+  equation.innerHTML = `${addEq} = ${multGroupCount} × ${multGroupSize} = <span style="color:var(--success);">${total}</span>`;
+}
+
+// Sub 4-3: Multiplication story problems
+const multStoryProblems = [
+  {q: "1 mobil memiliki 4 roda. Ada 3 mobil. Berapa total rodanya?", img: "🚗🚗🚗", a: 12, explain: "4 + 4 + 4 = 12, atau 4 × 3 = 12"},
+  {q: "1 kotak berisi 5 apel. Ada 4 kotak. Berapa total apel?", img: "📦📦📦📦", a: 20, explain: "5 + 5 + 5 + 5 = 20, atau 5 × 4 = 20"},
+  {q: "1 lengan baju punya 2 kancing. Ada 5 lengan. Berapa total kancing?", img: "👕👕👕👕👕", a: 10, explain: "2 + 2 + 2 + 2 + 2 = 10, atau 2 × 5 = 10"},
+  {q: "1 stoples berisi 6 permen. Ada 3 stoples. Berapa total permen?", img: "🍬🍬🍬", a: 18, explain: "6 + 6 + 6 = 18, atau 6 × 3 = 18"},
+  {q: "1 rak berisi 7 buku. Ada 2 rak. Berapa total buku?", img: "📚📚", a: 14, explain: "7 + 7 = 14, atau 7 × 2 = 14"},
+  {q: "1 burung memiliki 2 sayap. Ada 6 burung. Berapa total sayap?", img: "🐦🐦🐦🐦🐦🐦", a: 12, explain: "2 + 2 + 2 + 2 + 2 + 2 = 12, atau 2 × 6 = 12"},
+  {q: "1 siswa memiliki 5 jari di tangan kanan. Ada 4 siswa. Berapa total jari tangan kanan?", img: "✋✋✋✋", a: 20, explain: "5 + 5 + 5 + 5 = 20, atau 5 × 4 = 20"},
+  {q: "1 sarung berisi 3 pulpen. Ada 7 sarung. Berapa total pulpen?", img: "🖊️🖊️🖊️🖊️🖊️🖊️🖊️", a: 21, explain: "3 + 3 + 3 + 3 + 3 + 3 + 3 = 21, atau 3 × 7 = 21"},
+  {q: "1 kursi memiliki 4 kaki. Ada 5 kursi. Berapa total kaki kursi?", img: "🪑🪑🪑🪑🪑", a: 20, explain: "4 + 4 + 4 + 4 + 4 = 20, atau 4 × 5 = 20"},
+  {q: "1 pohon memiliki 8 buah mangga. Ada 3 pohon. Berapa total mangga?", img: "🌳🌳🌳", a: 24, explain: "8 + 8 + 8 = 24, atau 8 × 3 = 24"},
+  {q: "1 kantong berisi 9 kelereng. Ada 2 kantong. Berapa total kelereng?", img: "⚪⚪", a: 18, explain: "9 + 9 = 18, atau 9 × 2 = 18"},
+  {q: "1 motor memiliki 2 roda. Ada 8 motor. Berapa total roda?", img: "🏍️🏍️🏍️🏍️🏍️🏍️🏍️🏍️", a: 16, explain: "2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 = 16, atau 2 × 8 = 16"},
+  {q: "1 kotak krayon berisi 8 warna. Ada 3 kotak. Berapa total krayon?", img: "🖍️🖍️🖍️", a: 24, explain: "8 + 8 + 8 = 24, atau 8 × 3 = 24"},
+  {q: "1 sarang berisi 5 telur. Ada 4 sarang. Berapa total telur?", img: "🥚🥚🥚🥚", a: 20, explain: "5 + 5 + 5 + 5 = 20, atau 5 × 4 = 20"},
+  {q: "1 meja berisi 6 kursi. Ada 3 meja. Berapa total kursi?", img: "🍽️🍽️🍽️", a: 18, explain: "6 + 6 + 6 = 18, atau 6 × 3 = 18"},
+  {q: "1 siswa punya 4 buku tulis. Ada 5 siswa. Berapa total buku?", img: "📓📓📓📓📓", a: 20, explain: "4 + 4 + 4 + 4 + 4 = 20, atau 4 × 5 = 20"},
+  {q: "1 gunting berharga Rp 7. Ada 3 gunting. Berapa total harganya?", img: "✂️✂️✂️", a: 21, explain: "7 + 7 + 7 = 21, atau 7 × 3 = 21"},
+  {q: "1 hari sekolah 6 jam. Ada 5 hari sekolah. Berapa total jam?", img: "⏰⏰⏰⏰⏰", a: 30, explain: "6 + 6 + 6 + 6 + 6 = 30, atau 6 × 5 = 30"},
+  {q: "1 tim sepak bola memiliki 9 pemain. Ada 2 tim. Berapa total pemain?", img: "⚽⚽", a: 18, explain: "9 + 9 = 18, atau 9 × 2 = 18"},
+  {q: "1 truk membawa 10 karung. Ada 4 truk. Berapa total karung?", img: "🚛🚛🚛🚛", a: 40, explain: "10 + 10 + 10 + 10 = 40, atau 10 × 4 = 40"},
+];
+
+let multStoryIdx = 0;
+function showMultStory() {
+  const p = multStoryProblems[multStoryIdx];
+  document.getElementById('multStoryText').textContent = p.q;
+  document.getElementById('multStoryImage').textContent = p.img;
+  document.getElementById('multStoryNum').textContent = multStoryIdx + 1;
+  document.getElementById('multStoryAnswer').value = '';
+  document.getElementById('multStoryAnswer').classList.remove('feedback-correct', 'feedback-wrong');
+  document.getElementById('multStoryFeedback').textContent = '';
+  document.getElementById('multStoryFeedback').style.color = '';
+}
+function checkMultStory() {
+  const ans = parseInt(document.getElementById('multStoryAnswer').value);
+  if (isNaN(ans)) { showToast("Isi jawaban dulu!"); return; }
+  const fb = document.getElementById('multStoryFeedback');
+  const input = document.getElementById('multStoryAnswer');
+  if (ans === multStoryProblems[multStoryIdx].a) {
+    input.classList.remove('feedback-wrong');
+    input.classList.add('feedback-correct');
+    fb.textContent = "🎉 BENAR! Good job " + studentName + "!";
+    fb.style.color = 'var(--success)';
+    goodJob();
+  } else {
+    input.classList.remove('feedback-correct');
+    input.classList.add('feedback-wrong');
+    fb.textContent = "❌ Belum tepat. Coba lagi!";
+    fb.style.color = 'var(--danger)';
+    tryAgain();
+  }
+}
+function nextMultStory() {
+  multStoryIdx = (multStoryIdx + 1) % multStoryProblems.length;
+  showMultStory();
+}
+function showMultDiscussion() {
+  const p = multStoryProblems[multStoryIdx];
+  document.getElementById('modalTitle').textContent = '📖 PEMBAHASAN';
+  document.getElementById('modalContent').innerHTML = `
+    <div class="text-center text-5xl mb-3">${p.img}</div>
+    <p class="text-lg mb-3">${p.q}</p>
+    <div class="bg-yellow-100 p-4 rounded-xl border-2" style="border-color:var(--dark);">
+      <p class="text-lg font-bold">💡 Cara menyelesaikan:</p>
+      <p class="text-xl mt-2">${p.explain}</p>
+    </div>
+    <p class="mt-3 text-center text-2xl font-bold" style="color:var(--success);">Jawaban: ${p.a}</p>
+  `;
+  document.getElementById('discussionModal').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('discussionModal').classList.remove('active');
+}
+
+// ============== SLIDE 5: PEMBAGIAN ==============
+function initSlide5() {
+  resetDivision();
+  resetNarrative();
+  showDivPractice();
+  showDivStory();
+}
+
+// Sub 5-1: Repeated subtraction
+let candyCount = 0;
+const candyStart = 12;
+const candySubtract = 4;
+function resetDivision() {
+  candyCount = candyStart;
+  updateDivisionVisual();
+}
+function subtractCandy() {
+  if (candyCount < candySubtract) {
+    showToast("Permen sudah habis!");
+    return;
+  }
+  candyCount -= candySubtract;
+  updateDivisionVisual();
+}
+function updateDivisionVisual() {
+  const visual = document.getElementById('divVisual');
+  const eq = document.getElementById('divEquation');
+  const res = document.getElementById('divResult');
+  if (!visual) return;
+  let candies = '';
+  for (let i = 0; i < candyCount; i++) candies += '🍬';
+  if (candyCount === 0) candies = '<span class="text-gray-400 text-xl">Permen sudah habis!</span>';
+  visual.innerHTML = candies;
+  
+  const times = (candyStart - candyCount) / candySubtract;
+  if (candyCount === candyStart) {
+    eq.innerHTML = `Ada ${candyStart} permen`;
+    res.innerHTML = '';
+  } else if (candyCount === 0) {
+    eq.innerHTML = `${candyStart} − ${candySubtract} − ${candySubtract} − ${candySubtract} = 0`;
+    res.innerHTML = `${candyStart} ÷ ${candySubtract} = ${times} kali pengurangan`;
+  } else {
+    let eqStr = `${candyStart}`;
+    for (let i = 0; i < times; i++) eqStr += ` − ${candySubtract}`;
+    eq.innerHTML = eqStr + ` = ${candyCount}`;
+    res.innerHTML = `Sudah dikurangi ${times} kali, sisa ${candyCount}`;
+  }
+}
+
+// Sub 5-2: Donut distribution with multiple narratives
+const narratives = [
+  {total: 10, plates: 5, text: "Ada 10 donat di piring besar. Bagikan ke 5 piring kecil secara merata."},
+  {total: 12, plates: 4, text: "Ada 12 donat di piring besar. Bagikan ke 4 piring kecil secara merata."},
+  {total: 15, plates: 3, text: "Ada 15 donat di piring besar. Bagikan ke 3 piring kecil secara merata."},
+  {total: 20, plates: 4, text: "Ada 20 donat di piring besar. Bagikan ke 4 piring kecil secara merata."},
+  {total: 18, plates: 6, text: "Ada 18 donat di piring besar. Bagikan ke 6 piring kecil secara merata."},
+];
+let narrativeIdx = 0;
+let donutsInBig = 0;
+let donutsInSmall = [];
+
+function resetNarrative() {
+  const n = narratives[narrativeIdx];
+  donutsInBig = n.total;
+  donutsInSmall = Array(n.plates).fill(0);
+  renderNarrative();
+  document.getElementById('narrativeStatus').textContent = '';
+}
+
+function nextNarrative() {
+  narrativeIdx = (narrativeIdx + 1) % narratives.length;
+  resetNarrative();
+}
+
+function distributeDonut() {
+  const n = narratives[narrativeIdx];
+  if (donutsInBig < n.plates) {
+    showToast("Donat sudah habis dibagikan!");
+    return;
+  }
+  donutsInBig -= n.plates;
+  for (let i = 0; i < n.plates; i++) {
+    donutsInSmall[i]++;
+  }
+  renderNarrative();
+  
+  if (donutsInBig === 0) {
+    const each = n.total / n.plates;
+    document.getElementById('narrativeStatus').textContent = 
+      `Selesai! ${n.total} ÷ ${n.plates} = ${each} donat per piring 🎉`;
+  }
+}
+
+function renderNarrative() {
+  const n = narratives[narrativeIdx];
+  document.getElementById('narrativeText').textContent = n.text;
+  
+  const big = document.getElementById('bigPlate');
+  big.innerHTML = '';
+  for (let i = 0; i < donutsInBig; i++) {
+    big.innerHTML += '<div class="donut"></div>';
+  }
+  if (donutsInBig === 0) big.innerHTML = '<p class="text-gray-400 self-center">Kosong</p>';
+  
+  const small = document.getElementById('smallPlates');
+  small.innerHTML = '';
+  for (let i = 0; i < n.plates; i++) {
+    let donuts = '';
+    for (let j = 0; j < donutsInSmall[i]; j++) donuts += '<div class="donut" style="width:30px;height:30px;"></div>';
+    small.innerHTML += `<div class="text-center"><div class="plate">${donuts}</div><p class="text-sm mt-1 font-bold">Piring ${i+1}</p></div>`;
+  }
+}
+
+// Sub 5-3: Division practice
+const divPracticeProblems = [
+  {a: 10, b: 2}, {a: 12, b: 3}, {a: 15, b: 5}, {a: 20, b: 4}, {a: 18, b: 6},
+  {a: 24, b: 8}, {a: 30, b: 5}, {a: 40, b: 8}, {a: 27, b: 9}, {a: 32, b: 4},
+  {a: 45, b: 9}, {a: 36, b: 6}, {a: 28, b: 7}, {a: 48, b: 8}, {a: 25, b: 5},
+  {a: 42, b: 7}, {a: 16, b: 4}, {a: 21, b: 3}, {a: 35, b: 5}, {a: 54, b: 9},
+];
+let divPracticeIdx = 0;
+
+function showDivPractice() {
+  const p = divPracticeProblems[divPracticeIdx];
+  document.getElementById('divPracticeText').textContent = `${p.a} ÷ ${p.b} = ?`;
+  document.getElementById('divPracticeNum').textContent = divPracticeIdx + 1;
+  document.getElementById('divPracticeAnswer').value = '';
+  document.getElementById('divPracticeAnswer').classList.remove('feedback-correct', 'feedback-wrong');
+  document.getElementById('divPracticeFeedback').textContent = '';
+  document.getElementById('divPracticeFeedback').style.color = '';
+}
+
+function checkDivPractice() {
+  const ans = parseInt(document.getElementById('divPracticeAnswer').value);
+  if (isNaN(ans)) { showToast("Isi jawaban dulu!"); return; }
+  const p = divPracticeProblems[divPracticeIdx];
+  const correct = p.a / p.b;
+  const fb = document.getElementById('divPracticeFeedback');
+  const input = document.getElementById('divPracticeAnswer');
+  if (ans === correct) {
+    input.classList.remove('feedback-wrong');
+    input.classList.add('feedback-correct');
+    fb.textContent = "🎉 BENAR!";
+    fb.style.color = 'var(--success)';
+    goodJob();
+  } else {
+    input.classList.remove('feedback-correct');
+    input.classList.add('feedback-wrong');
+    fb.textContent = "❌ Coba lagi!";
+    fb.style.color = 'var(--danger)';
+    tryAgain();
+  }
+}
+
+function nextDivPractice() {
+  divPracticeIdx = (divPracticeIdx + 1) % divPracticeProblems.length;
+  showDivPractice();
+}
+
+// Sub 5-4: Division story problems
+const divStoryProblems = [
+  {q: "12 permen dibagi rata ke 3 anak. Berapa permen yang diterima setiap anak?", img: "👧👦👧", a: 4, explain: "12 ÷ 3 = 4. Setiap anak mendapat 4 permen."},
+  {q: "20 kue dibagi ke 4 piring. Berapa kue di setiap piring?", img: "🍪🍪🍪🍪", a: 5, explain: "20 ÷ 4 = 5. Setiap piring berisi 5 kue."},
+  {q: "15 buah apel dibagi ke 5 keranjang. Berapa apel per keranjang?", img: "🍎🍎🍎🍎🍎", a: 3, explain: "15 ÷ 5 = 3. Setiap keranjang berisi 3 apel."},
+  {q: "18 bola dibagi rata ke 6 tim. Berapa bola per tim?", img: "⚽⚽⚽⚽⚽⚽", a: 3, explain: "18 ÷ 6 = 3. Setiap tim mendapat 3 bola."},
+  {q: "24 pensil dibagi ke 4 kotak. Berapa pensil per kotak?", img: "✏️✏️✏️✏️", a: 6, explain: "24 ÷ 4 = 6. Setiap kotak berisi 6 pensil."},
+  {q: "30 buah mangga dibagi ke 5 keranjang. Berapa mangga per keranjang?", img: "🥭🥭🥭🥭🥭", a: 6, explain: "30 ÷ 5 = 6. Setiap keranjang berisi 6 mangga."},
+  {q: "16 buku dibagi rata ke 8 siswa. Berapa buku per siswa?", img: "👨‍🎓👩‍🎓👨‍🎓👩‍🎓👨‍🎓👩‍🎓👨‍🎓👩‍🎓", a: 2, explain: "16 ÷ 8 = 2. Setiap siswa mendapat 2 buku."},
+  {q: "27 sticker dibagi ke 9 anak. Berapa sticker per anak?", img: "⭐⭐⭐⭐⭐⭐⭐⭐⭐", a: 3, explain: "27 ÷ 9 = 3. Setiap anak mendapat 3 sticker."},
+  {q: "32 permen dibagi ke 4 kantong. Berapa permen per kantong?", img: "🍬🍬🍬🍬", a: 8, explain: "32 ÷ 4 = 8. Setiap kantong berisi 8 permen."},
+  {q: "40 marmer dibagi rata ke 8 toples. Berapa marmer per toples?", img: "🫙🫙🫙🫙🫙🫙🫙🫙", a: 5, explain: "40 ÷ 8 = 5. Setiap toples berisi 5 marmer."},
+  {q: "14 biskuit dibagi ke 7 anak. Berapa biskuit per anak?", img: "🍪🍪🍪🍪🍪🍪🍪", a: 2, explain: "14 ÷ 7 = 2. Setiap anak mendapat 2 biskuit."},
+  {q: "21 kelereng dibagi rata ke 3 pemain. Berapa kelereng per pemain?", img: "⚪⚪⚪", a: 7, explain: "21 ÷ 3 = 7. Setiap pemain mendapat 7 kelereng."},
+  {q: "35 permen dibagi ke 5 kantong. Berapa permen per kantong?", img: "🛍️🛍️🛍️🛍️🛍️", a: 7, explain: "35 ÷ 5 = 7. Setiap kantong berisi 7 permen."},
+  {q: "42 sticker dibagi rata ke 6 lembar. Berapa sticker per lembar?", img: "📄📄📄📄📄📄", a: 7, explain: "42 ÷ 6 = 7. Setiap lembar berisi 7 sticker."},
+  {q: "45 permen dibagi ke 9 siswa. Berapa permen per siswa?", img: "👨‍🎓👨‍🎓👨‍🎓👨‍🎓👨‍🎓👨‍🎓👨‍🎓👨‍🎓👨‍🎓", a: 5, explain: "45 ÷ 9 = 5. Setiap siswa mendapat 5 permen."},
+  {q: "36 krayon dibagi rata ke 6 kotak. Berapa krayon per kotak?", img: "🖍️🖍️🖍️🖍️🖍️🖍️", a: 6, explain: "36 ÷ 6 = 6. Setiap kotak berisi 6 krayon."},
+  {q: "28 buah jeruk dibagi ke 4 keranjang. Berapa jeruk per keranjang?", img: "🍊🍊🍊🍊", a: 7, explain: "28 ÷ 4 = 7. Setiap keranjang berisi 7 jeruk."},
+  {q: "18 roti dibagi rata ke 6 piring. Berapa roti per piring?", img: "🍞🍞🍞🍞🍞🍞", a: 3, explain: "18 ÷ 6 = 3. Setiap piring berisi 3 roti."},
+  {q: "54 kartu dibagi ke 9 pemain. Berapa kartu per pemain?", img: "🃏🃏🃏🃏🃏🃏🃏🃏🃏", a: 6, explain: "54 ÷ 9 = 6. Setiap pemain mendapat 6 kartu."},
+  {q: "20 permen dibagi rata ke 4 anak. Berapa permen per anak?", img: "👧👧👦👦", a: 5, explain: "20 ÷ 4 = 5. Setiap anak mendapat 5 permen."},
+];
+
+let divStoryIdx = 0;
+function showDivStory() {
+  const p = divStoryProblems[divStoryIdx];
+  document.getElementById('divStoryText').textContent = p.q;
+  document.getElementById('divStoryImage').textContent = p.img;
+  document.getElementById('divStoryNum').textContent = divStoryIdx + 1;
+  document.getElementById('divStoryAnswer').value = '';
+  document.getElementById('divStoryAnswer').classList.remove('feedback-correct', 'feedback-wrong');
+  document.getElementById('divStoryFeedback').textContent = '';
+  document.getElementById('divStoryFeedback').style.color = '';
+}
+function checkDivStory() {
+  const ans = parseInt(document.getElementById('divStoryAnswer').value);
+  if (isNaN(ans)) { showToast("Isi jawaban dulu!"); return; }
+  const fb = document.getElementById('divStoryFeedback');
+  const input = document.getElementById('divStoryAnswer');
+  if (ans === divStoryProblems[divStoryIdx].a) {
+    input.classList.remove('feedback-wrong');
+    input.classList.add('feedback-correct');
+    fb.textContent = "🎉 BENAR! Good job " + studentName + "!";
+    fb.style.color = 'var(--success)';
+    goodJob();
+  } else {
+    input.classList.remove('feedback-correct');
+    input.classList.add('feedback-wrong');
+    fb.textContent = "❌ Belum tepat. Coba lagi!";
+    fb.style.color = 'var(--danger)';
+    tryAgain();
+  }
+}
+function nextDivStory() {
+  divStoryIdx = (divStoryIdx + 1) % divStoryProblems.length;
+  showDivStory();
+}
+function showDivDiscussion() {
+  const p = divStoryProblems[divStoryIdx];
+  document.getElementById('modalTitle').textContent = '📖 PEMBAHASAN';
+  document.getElementById('modalContent').innerHTML = `
+    <div class="text-center text-5xl mb-3">${p.img}</div>
+    <p class="text-lg mb-3">${p.q}</p>
+    <div class="bg-yellow-100 p-4 rounded-xl border-2" style="border-color:var(--dark);">
+      <p class="text-lg font-bold">💡 Cara menyelesaikan:</p>
+      <p class="text-xl mt-2">${p.explain}</p>
+    </div>
+    <p class="mt-3 text-center text-2xl font-bold" style="color:var(--success);">Jawaban: ${p.a}</p>
+  `;
+  document.getElementById('discussionModal').classList.add('active');
+}
+
+// ============== SLIDE 6: DEMO TABLE ==============
+function initDemoTable() {
+  const table = document.getElementById('demoTable');
+  if (!table) return;
+  let html = '<tr><th>×</th>';
+  for (let i = 1; i <= 10; i++) html += `<th>${i}</th>`;
+  html += '</tr>';
+  for (let r = 1; r <= 10; r++) {
+    html += `<tr><th>${r}</th>`;
+    for (let c = 1; c <= 10; c++) {
+      html += `<td data-row="${r}" data-col="${c}">${r * c}</td>`;
+    }
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+}
+
+function clearDemoHighlights() {
+  document.querySelectorAll('#demoTable td').forEach(td => {
+    td.classList.remove('row-highlight', 'col-highlight', 'cell-highlight');
+  });
+}
+
+function demoMultiplication() {
+  const a = parseInt(document.getElementById('multA').value);
+  const b = parseInt(document.getElementById('multB').value);
+  if (a < 1 || a > 10 || b < 1 || b > 10) {
+    showToast("Masukkan angka 1-10 saja!");
+    return;
+  }
+  clearDemoHighlights();
+  document.querySelectorAll('#demoTable td').forEach(td => {
+    const r = parseInt(td.dataset.row);
+    const c = parseInt(td.dataset.col);
+    if (r === a) td.classList.add('row-highlight');
+    if (c === b) td.classList.add('col-highlight');
+  });
+  const cell = document.querySelector(`#demoTable td[data-row="${a}"][data-col="${b}"]`);
+  if (cell) {
+    cell.classList.remove('row-highlight', 'col-highlight');
+    cell.classList.add('cell-highlight');
+  }
+  showToast(`${a} × ${b} = ${a*b}!`);
+}
+
+function demoDivision() {
+  const dividend = parseInt(document.getElementById('divA').value);
+  const divisor = parseInt(document.getElementById('divB').value);
+  if (divisor < 1 || divisor > 10) {
+    showToast("Pembagi harus 1-10!");
+    return;
+  }
+  const quotient = dividend / divisor;
+  if (!Number.isInteger(quotient) || quotient < 1 || quotient > 10) {
+    showToast("Tidak bisa dibagi rata. Coba angka lain!");
+    return;
+  }
+  clearDemoHighlights();
+  document.querySelectorAll('#demoTable td').forEach(td => {
+    const r = parseInt(td.dataset.row);
+    if (r === divisor) td.classList.add('row-highlight');
+  });
+  const targetCell = document.querySelector(`#demoTable td[data-row="${divisor}"][data-col="${quotient}"]`);
+  if (targetCell) {
+    const col = targetCell.dataset.col;
+    document.querySelectorAll('#demoTable td').forEach(td => {
+      if (parseInt(td.dataset.col) === parseInt(col) && parseInt(td.dataset.row) !== divisor) {
+        td.classList.add('col-highlight');
+      }
+    });
+    targetCell.classList.remove('row-highlight', 'col-highlight');
+    targetCell.classList.add('cell-highlight');
+  }
+  showToast(`${dividend} ÷ ${divisor} = ${quotient}!`);
+}
+
+// ============== SLIDE 7: FILL TABLE ==============
+function initFillTable() {
+  const table = document.getElementById('fillTable');
+  if (!table) return;
+  let html = '<tr><th>×</th>';
+  for (let i = 1; i <= 10; i++) html += `<th>${i}</th>`;
+  html += '</tr>';
+  for (let r = 1; r <= 10; r++) {
+    html += `<tr><th>${r}</th>`;
+    for (let c = 1; c <= 10; c++) {
+      const isDiagonal = r === c;
+      const value = r * c;
+      if (isDiagonal) {
+        html += `<td><input type="number" data-answer="${value}" value="${value}" disabled style="background:var(--accent);"></td>`;
+      } else if (Math.random() < 0.5) {
+        html += `<td><input type="number" data-answer="${value}" value="${value}" disabled></td>`;
+      } else {
+        html += `<td><input type="number" data-answer="${value}" placeholder="?" style="background:#FFF8E7;"></td>`;
+      }
+    }
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+  document.getElementById('fillFeedback').textContent = '';
+}
+
+function checkFillTable() {
+  const inputs = document.querySelectorAll('#fillTable input:not(:disabled)');
+  let allCorrect = true;
+  let correctCount = 0;
+  let totalCount = 0;
+  inputs.forEach(input => {
+    input.classList.remove('correct', 'wrong');
+    const expected = parseInt(input.dataset.answer);
+    const actual = parseInt(input.value);
+    totalCount++;
+    if (actual === expected) {
+      input.classList.add('correct');
+      correctCount++;
+    } else {
+      input.classList.add('wrong');
+      allCorrect = false;
+    }
+  });
+  const fb = document.getElementById('fillFeedback');
+  if (allCorrect && totalCount > 0) {
+    fb.textContent = `🎉 SEMUA BENAR! Good job ${studentName}! (${correctCount}/${totalCount})`;
+    fb.style.color = 'var(--success)';
+    goodJob();
+  } else {
+    fb.textContent = `❌ Ada yang salah. Benar ${correctCount}/${totalCount}. Coba lagi!`;
+    fb.style.color = 'var(--danger)';
+    tryAgain();
+  }
+}
+
+function resetFillTable() {
+  initFillTable();
+}
+
+// ============== SLIDE 8: GAME TEMBAK VIRUS ==============
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+let gameRunning = false;
+let gameWon = false;
+let gameOver = false;
+let gameScore = 0;
+let viruses = [];
+let bullets = [];
+let particles = [];
+let gameSpeed = 1;
+let gameLevel = 1;
+let currentGameQuestion = null;
+let spawnTimer = 0;
+let spawnInterval = 180; // frames
+let animationId = null;
+const shooter = { x: 350, y: 410, w: 60, h: 40 };
+
+const gameQuestions = [
+  {q: "3 × 4", a: 12}, {q: "5 × 6", a: 30}, {q: "7 × 2", a: 14}, {q: "4 × 5", a: 20},
+  {q: "6 × 3", a: 18}, {q: "8 × 2", a: 16}, {q: "9 × 3", a: 27}, {q: "5 × 5", a: 25},
+  {q: "20 ÷ 4", a: 5}, {q: "18 ÷ 3", a: 6}, {q: "24 ÷ 6", a: 4}, {q: "30 ÷ 5", a: 6},
+  {q: "12 ÷ 4", a: 3}, {q: "16 ÷ 8", a: 2}, {q: "27 ÷ 9", a: 3}, {q: "36 ÷ 6", a: 6},
+  {q: "7 × 4", a: 28}, {q: "8 × 4", a: 32}, {q: "6 × 6", a: 36}, {q: "9 × 4", a: 36},
+  {q: "10 × 3", a: 30}, {q: "40 ÷ 8", a: 5}, {q: "45 ÷ 9", a: 5}, {q: "32 ÷ 4", a: 8},
+];
+
+function newGameQuestion() {
+  currentGameQuestion = gameQuestions[Math.floor(Math.random() * gameQuestions.length)];
+  document.getElementById('gameQuestion').textContent = currentGameQuestion.q + ' = ?';
+}
+
+function startGame() {
+  gameRunning = true;
+  gameWon = false;
+  gameOver = false;
+  gameScore = 0;
+  gameLevel = 1;
+  gameSpeed = 1;
+  viruses = [];
+  bullets = [];
+  particles = [];
+  spawnTimer = 0;
+  spawnInterval = 180;
+  document.getElementById('gameStart').style.display = 'none';
+  document.getElementById('gameRestart').style.display = 'none';
+  document.getElementById('gameFinish').style.display = 'none';
+  document.getElementById('gameAnswer').disabled = false;
+  document.getElementById('gameSubmit').disabled = false;
+  document.getElementById('gameAnswer').value = '';
+  document.getElementById('gameAnswer').focus();
+  document.getElementById('gameStatus').textContent = '';
+  updateGameUI();
+  newGameQuestion();
+  spawnVirus();
+  if (animationId) cancelAnimationFrame(animationId);
+  gameLoop();
+}
+
+function spawnVirus() {
+  const x = 50 + Math.random() * (canvas.width - 100);
+  viruses.push({
+    x: x, y: -50,
+    size: 35,
+    speed: 0.5 + gameSpeed * 0.3,
+    wobble: Math.random() * Math.PI * 2,
+    wobbleSpeed: 0.05 + Math.random() * 0.03
+  });
+}
+
+function submitGameAnswer() {
+  if (!gameRunning) return;
+  const ans = parseInt(document.getElementById('gameAnswer').value);
+  if (isNaN(ans)) { showToast("Isi jawaban dulu!"); return; }
+  if (ans === currentGameQuestion.a) {
+    gameScore += 5;
+    let target = null;
+    let maxY = -Infinity;
+    viruses.forEach(v => {
+      if (v.y > maxY && v.y < canvas.height - 100) {
+        maxY = v.y;
+        target = v;
+      }
+    });
+    if (target) {
+      bullets.push({
+        x: shooter.x + shooter.w / 2,
+        y: shooter.y,
+        targetX: target.x,
+        targetY: target.y,
+        target: target,
+        speed: 12,
+        progress: 0
+      });
+    } else {
+      createParticles(shooter.x + shooter.w/2, shooter.y - 20, '#FFC93C');
+    }
+    document.getElementById('gameAnswer').value = '';
+    newGameQuestion();
+    updateGameUI();
+    
+    if (gameScore >= 100) {
+      gameWon = true;
+      gameRunning = false;
+      document.getElementById('gameStatus').textContent = '🏆 MISI SELESAI! SKOR 100!';
+      document.getElementById('gameStatus').style.color = 'var(--success)';
+      document.getElementById('gameRestart').style.display = 'inline-flex';
+      document.getElementById('gameFinish').style.display = 'inline-flex';
+      speak(`Misi selesai! Good job ${studentName}!`);
+    }
+  } else {
+    document.getElementById('gameAnswer').value = '';
+    document.getElementById('gameAnswer').classList.add('feedback-wrong');
+    setTimeout(() => document.getElementById('gameAnswer').classList.remove('feedback-wrong'), 500);
+    tryAgain();
+  }
+}
+
+function createParticles(x, y, color) {
+  for (let i = 0; i < 12; i++) {
+    const angle = (Math.PI * 2 * i) / 12;
+    particles.push({
+      x: x, y: y,
+      vx: Math.cos(angle) * (2 + Math.random() * 3),
+      vy: Math.sin(angle) * (2 + Math.random() * 3),
+      size: 4 + Math.random() * 4,
+      life: 30,
+      color: color
+    });
+  }
+}
+
+function updateGameUI() {
+  document.getElementById('gameScore').textContent = gameScore;
+  document.getElementById('gameLevel').textContent = gameLevel;
+  document.getElementById('gameProgress').style.width = gameScore + '%';
+  document.getElementById('gameProgress').textContent = gameScore + '%';
+}
+
+function gameLoop() {
+  if (!gameRunning) {
+    drawGame();
+    return;
+  }
+  
+  if (gameScore > 0 && gameScore % 20 === 0 && gameScore / 20 > gameLevel - 1) {
+    gameLevel = Math.floor(gameScore / 20) + 1;
+    gameSpeed = 1 + (gameLevel - 1) * 0.4;
+    spawnInterval = Math.max(60, 180 - (gameLevel - 1) * 25);
+  }
+  
+  spawnTimer++;
+  if (spawnTimer >= spawnInterval) {
+    spawnVirus();
+    spawnTimer = 0;
+  }
+  
+  viruses.forEach(v => {
+    v.y += v.speed;
+    v.wobble += v.wobbleSpeed;
+    v.x += Math.sin(v.wobble) * 0.5;
+  });
+  
+  viruses.forEach(v => {
+    if (v.y + v.size > shooter.y) {
+      gameOver = true;
+      gameRunning = false;
+      document.getElementById('gameStatus').textContent = '💀 GAME OVER! Virus mengenai kamu!';
+      document.getElementById('gameStatus').style.color = 'var(--danger)';
+      document.getElementById('gameRestart').style.display = 'inline-flex';
+      document.getElementById('gameFinish').style.display = 'inline-flex';
+      document.getElementById('gameAnswer').disabled = true;
+      document.getElementById('gameSubmit').disabled = true;
+      speak(`Game over! Coba lagi ${studentName}!`);
+      createParticles(shooter.x + shooter.w/2, shooter.y, '#DC2626');
+    }
+  });
+  
+  bullets = bullets.filter(b => {
+    b.progress += b.speed / 50;
+    if (b.target && viruses.includes(b.target)) {
+      const dx = b.target.x - b.x;
+      const dy = b.target.y - b.y;
+      b.x += dx * (b.speed / 30);
+      b.y += dy * (b.speed / 30);
+      const dist = Math.sqrt((b.x - b.target.x)**2 + (b.y - b.target.y)**2);
+      if (dist < 25) {
+        createParticles(b.target.x, b.target.y, '#6BFF3D');
+        viruses = viruses.filter(v => v !== b.target);
+        return false;
+      }
+    } else {
+      b.y -= b.speed;
+      if (b.y < 0) return false;
+    }
+    return true;
+  });
+  
+  particles = particles.filter(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.2;
+    p.life--;
+    return p.life > 0;
+  });
+  
+  drawGame();
+  
+  if (gameRunning) {
+    animationId = requestAnimationFrame(gameLoop);
+  } else {
+    if (particles.length > 0) {
+      animationId = requestAnimationFrame(gameLoop);
+    }
+  }
+}
+
+function drawGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, '#87CEEB');
+  grad.addColorStop(0.7, '#B0E0E6');
+  grad.addColorStop(0.7, '#90EE90');
+  grad.addColorStop(1, '#7CFC00');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  drawCloud(80, 60);
+  drawCloud(550, 80);
+  drawCloud(300, 40);
+  
+  ctx.fillStyle = '#FF5E3A';
+  ctx.strokeStyle = '#1A1A2E';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(shooter.x, shooter.y + 10, shooter.w, shooter.h - 10, 8);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#1E3A8A';
+  ctx.fillRect(shooter.x + shooter.w/2 - 8, shooter.y - 15, 16, 25);
+  ctx.strokeRect(shooter.x + shooter.w/2 - 8, shooter.y - 15, 16, 25);
+  ctx.fillStyle = '#1A1A2E';
+  ctx.beginPath();
+  ctx.arc(shooter.x + 12, shooter.y + 40, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(shooter.x + shooter.w - 12, shooter.y + 40, 8, 0, Math.PI * 2);
+  ctx.fill();
+  
+  viruses.forEach(v => {
+    drawVirus(v.x, v.y, v.size);
+  });
+  
+  bullets.forEach(b => {
+    ctx.fillStyle = '#FFC93C';
+    ctx.strokeStyle = '#1A1A2E';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255, 201, 60, 0.3)';
+    ctx.beginPath();
+    ctx.arc(b.x, b.y + 8, 4, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  particles.forEach(p => {
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.life / 30;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+}
+
+function drawCloud(x, y) {
+  ctx.beginPath();
+  ctx.arc(x, y, 20, 0, Math.PI * 2);
+  ctx.arc(x + 25, y - 5, 25, 0, Math.PI * 2);
+  ctx.arc(x + 50, y, 20, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawVirus(x, y, size) {
+  ctx.fillStyle = '#6BFF3D';
+  ctx.strokeStyle = '#1A1A2E';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  for (let i = 0; i < 8; i++) {
+    const angle = (Math.PI * 2 * i) / 8;
+    const sx = x + Math.cos(angle) * size;
+    const sy = y + Math.sin(angle) * size;
+    const ex = x + Math.cos(angle) * (size + 8);
+    const ey = y + Math.sin(angle) * (size + 8);
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(ex, ey, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#6BFF3D';
+    ctx.fill();
+    ctx.stroke();
+  }
+  
+  ctx.fillStyle = '#FFF';
+  ctx.beginPath();
+  ctx.arc(x - 10, y - 3, 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(x + 10, y - 3, 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  ctx.fillStyle = '#1A1A2E';
+  ctx.beginPath();
+  ctx.arc(x - 10, y - 1, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(x + 10, y - 1, 3, 0, Math.PI * 2);
+  ctx.fill();
+  
+  ctx.beginPath();
+  ctx.moveTo(x - 8, y + 10);
+  ctx.lineTo(x, y + 6);
+  ctx.lineTo(x + 8, y + 10);
+  ctx.stroke();
+}
+
+function drawIdleGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, '#87CEEB');
+  grad.addColorStop(0.7, '#B0E0E6');
+  grad.addColorStop(0.7, '#90EE90');
+  grad.addColorStop(1, '#7CFC00');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  drawCloud(80, 60);
+  drawCloud(550, 80);
+  drawCloud(300, 40);
+  
+  ctx.fillStyle = '#FF5E3A';
+  ctx.strokeStyle = '#1A1A2E';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(shooter.x, shooter.y + 10, shooter.w, shooter.h - 10, 8);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#1E3A8A';
+  ctx.fillRect(shooter.x + shooter.w/2 - 8, shooter.y - 15, 16, 25);
+  ctx.strokeRect(shooter.x + shooter.w/2 - 8, shooter.y - 15, 16, 25);
+  ctx.fillStyle = '#1A1A2E';
+  ctx.beginPath();
+  ctx.arc(shooter.x + 12, shooter.y + 40, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(shooter.x + shooter.w - 12, shooter.y + 40, 8, 0, Math.PI * 2);
+  ctx.fill();
+  
+  ctx.fillStyle = '#1A1A2E';
+  ctx.font = 'bold 28px Bangers, cursive';
+  ctx.textAlign = 'center';
+  ctx.fillText('Klik MULAI untuk bermain!', canvas.width/2, 200);
+}
+
+function restartGame() {
+  startGame();
+}
+
+function finishGame() {
+  navigate(1);
+}
+
+document.getElementById('gameAnswer').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') submitGameAnswer();
+});
+
+document.getElementById('studentName').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startAdventure();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+
+document.getElementById('totalSlides').textContent = totalSlides;
+initDemoTable();
+initFillTable();
+drawIdleGame();
+
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.lineTo(x + w - r, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r);
+    this.lineTo(x + w, y + h - r);
+    this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    this.lineTo(x + r, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r);
+    this.lineTo(x, y + r);
+    this.quadraticCurveTo(x, y, x + r, y);
+    this.closePath();
+  };
+}
+</script>
+
+</body>
+</html>
