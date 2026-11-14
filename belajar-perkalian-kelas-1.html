@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayo Belajar Perkalian! ✖️ | Kelas 1 SD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+html,body{height:100%}
+body{font-family:'Baloo 2','Comic Sans MS','Chalkboard SE','Segoe UI',sans-serif;background:linear-gradient(165deg,#84fab0 0%,#8fd3f4 45%,#fbc2eb 100%);overflow:hidden;color:#2d3436}
+button{font-family:inherit}
+button:focus-visible{outline:3px solid #6c5ce7;outline-offset:2px}
+
+/* ====== deko latar ====== */
+#bgdeco{position:fixed;inset:0;z-index:0;pointer-events:none}
+#bgdeco span{position:absolute;opacity:.3;animation:floaty 8s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-16px) rotate(4deg)}}
+
+/* ====== kerangka aplikasi ====== */
+#app{position:relative;z-index:1;height:100vh;height:100dvh;display:flex;flex-direction:column}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:rgba(255,255,255,.55);backdrop-filter:blur(6px)}
+.brand{font-weight:800;font-size:1.15rem;color:#6c5ce7}
+.topright{display:flex;align-items:center;gap:12px}
+.counter{font-weight:700;color:#555;font-size:.95rem}
+.iconbtn{border:none;background:#fff;border-radius:12px;width:40px;height:40px;font-size:1.2rem;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.12);transition:.2s}
+.iconbtn:hover{transform:scale(1.08)}
+#progress{height:7px;background:rgba(255,255,255,.45)}
+#progressFill{height:100%;width:0;background:linear-gradient(90deg,#ff6b81,#ffa502,#2ecc71);border-radius:0 99px 99px 0;transition:width .35s ease}
+#deck{flex:1;min-height:0;position:relative}
+.slide{display:none;height:100%;align-items:center;justify-content:center;padding:16px;user-select:none}
+.slide.active{display:flex;animation:slideIn .45s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(46px) scale(.97)}to{opacity:1;transform:none}}
+.card{background:#fff;border-radius:28px;box-shadow:0 14px 40px rgba(0,0,0,.16);padding:clamp(16px,3vw,34px);max-width:1000px;width:100%;max-height:100%;overflow-y:auto;text-align:center}
+.card::-webkit-scrollbar{width:10px}
+.card::-webkit-scrollbar-thumb{background:#dfe6e9;border-radius:99px}
+.slide-title{font-size:clamp(1.5rem,4vw,2.3rem);font-weight:800;color:#6c5ce7;margin-bottom:12px}
+.lead{font-size:clamp(1.02rem,2.4vw,1.3rem);line-height:1.55;margin:8px auto 14px;max-width:780px}
+
+/* ====== tombol ====== */
+.btn{display:inline-block;border:none;cursor:pointer;font-weight:800;font-size:clamp(1rem,2.2vw,1.2rem);color:#fff;background:linear-gradient(140deg,#ff6b81,#f4436c);padding:14px 30px;border-radius:99px;box-shadow:0 6px 0 #c0392b,0 10px 18px rgba(0,0,0,.18);transition:.15s;margin:6px}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #c0392b}
+.btn.alt{background:linear-gradient(140deg,#54a0ff,#2e86de);box-shadow:0 6px 0 #1b4f9c,0 10px 18px rgba(0,0,0,.18)}
+.btn.alt:active{box-shadow:0 2px 0 #1b4f9c}
+.btn.mini{font-size:.95rem;padding:9px 20px;box-shadow:0 4px 0 #c0392b}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+
+/* ====== sampul ====== */
+.cover{text-align:center;padding:10px}
+.title-big{font-size:clamp(2.1rem,7vw,3.8rem);font-weight:800;line-height:1.12;color:#2d3436;margin:10px 0}
+.grad{background:linear-gradient(90deg,#ff6b81,#f065ff,#54a0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{font-size:clamp(1.05rem,2.6vw,1.4rem);color:#555;font-weight:600;margin-bottom:6px}
+.flyrow{font-size:clamp(2rem,5vw,3rem);letter-spacing:10px;margin:8px 0}
+.flyrow span{display:inline-block;animation:floaty 3.6s ease-in-out infinite}
+.flyrow span:nth-child(2n){animation-delay:.4s}
+.flyrow span:nth-child(3n){animation-delay:.8s}
+.hint{margin-top:14px;color:#777;font-size:.92rem}
+
+/* ====== kelompok gambar ====== */
+.baskets{display:flex;gap:clamp(8px,2vw,18px);justify-content:center;flex-wrap:wrap;margin:14px 0}
+.ggroup{background:#fffdf3;border:3px dashed #ffb84d;border-radius:20px;padding:10px 16px;min-width:110px;transition:all .35s}
+.glabel{display:inline-block;font-size:.82rem;font-weight:800;color:#e67e22;background:#fff1dc;border-radius:99px;padding:2px 12px;margin-bottom:6px}
+.gitems{font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.25;letter-spacing:3px}
+.basketic{font-size:clamp(1.4rem,3vw,2rem);margin-top:4px}
+.baskets.anim .ggroup{opacity:.22;transform:scale(.94);filter:grayscale(.6)}
+.baskets.anim .ggroup.show{opacity:1;transform:none;filter:none}
+.apple{display:inline-block;cursor:pointer;filter:grayscale(.75);opacity:.45;transition:filter .2s,opacity .2s,transform .2s}
+.apple:hover{transform:scale(1.15)}
+.apple.done{filter:none;opacity:1;animation:popItem .35s}
+@keyframes popItem{0%{transform:scale(.5)}55%{transform:scale(1.45)}100%{transform:scale(1)}}
+
+/* ====== persamaan & catatan ====== */
+.equation{display:inline-block;background:#fff;border:3px solid #54a0ff;color:#2e86de;font-weight:800;font-size:clamp(1.4rem,4vw,2.2rem);border-radius:99px;padding:10px 30px;margin:8px 0;box-shadow:0 6px 14px rgba(46,134,222,.15)}
+.big-eq{display:inline-block;font-weight:800;font-size:clamp(1.9rem,5.5vw,3rem);background:linear-gradient(90deg,#ff6b6b,#f065ff);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
+.mini-group{display:inline-flex;background:#fff3e0;border:3px solid #ffb84d;border-radius:16px;padding:6px 10px;font-size:clamp(1.4rem,3.4vw,2.1rem);letter-spacing:2px}
+.plus{font-size:clamp(1.3rem,3vw,2rem);align-self:center;margin:0 4px}
+.row-groups{display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
+.note{border-radius:18px;padding:12px 18px;margin:10px auto;max-width:740px;font-size:clamp(1rem,2.3vw,1.18rem);line-height:1.5}
+.note.fun{background:#f3e9ff;border:3px dashed #a29bfe}
+.note.done{background:#eafaf1;border:3px solid #2ecc71;font-weight:700}
+.read{color:#636e72;font-weight:600;margin:6px 0;font-size:clamp(.95rem,2.2vw,1.1rem)}
+.chip{display:inline-block;background:#fff;border:2px solid #dfe6e9;border-radius:99px;padding:9px 20px;font-weight:700;font-size:clamp(.95rem,2.2vw,1.1rem);margin:6px 4px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+.chip.c-blue{background:#e7f6ff;border-color:#74b9ff;color:#0984e3}
+.chip.c-pink{background:#ffeef7;border-color:#ff9ff3;color:#e84393}
+.chip.c-green{background:#eafaf1;border-color:#2ecc71;color:#27ae60}
+.chip.qchip{font-size:clamp(1.3rem,3.4vw,1.8rem);border-color:#ff6b81;color:#d63031;background:#fff5f6;padding:10px 28px}
+.chip.scorechip{background:#fffbe6;border-color:#f6b93b;color:#d35400}
+.chip.bounce{animation:bounceIn .45s}
+@keyframes bounceIn{0%{transform:scale(.6);opacity:.2}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.hidden{display:none!important}
+
+/* ====== tab & tampilan ====== */
+.tabbtns{display:flex;gap:10px;justify-content:center;margin:8px 0}
+.tabbtn{border:none;background:#dfe6e9;color:#555;font-weight:800;font-size:1.05rem;padding:10px 24px;border-radius:99px;cursor:pointer;transition:.2s}
+.tabbtn.active{background:linear-gradient(140deg,#ff9f43,#ee5253);color:#fff;box-shadow:0 5px 0 #c0392b}
+.tabpanel{animation:popIn .35s}
+.viewbox{margin:6px 0;animation:popIn .35s}
+.addrow{font-size:clamp(1.3rem,3.4vw,2rem);letter-spacing:2px;margin:10px 0;line-height:1.5}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+
+/* ====== soal cerita ====== */
+.story{background:#fff9e6;border:3px solid #f6b93b;border-radius:18px;padding:14px 20px;font-size:clamp(1.05rem,2.5vw,1.3rem);line-height:1.6;margin:8px auto 12px;max-width:780px;text-align:left}
+.ask{font-weight:800;color:#e17055;margin:6px 0;font-size:clamp(1.05rem,2.4vw,1.25rem)}
+.choices{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.choice{min-width:110px;padding:14px 26px;font-size:clamp(1.3rem,3.4vw,1.8rem);font-weight:800;color:#2d3436;background:#fff;border:4px solid #dfe6e9;border-radius:20px;cursor:pointer;transition:.18s;box-shadow:0 6px 0 #dfe6e9}
+.choice:hover{transform:translateY(-3px);border-color:#74b9ff}
+.choice:active{transform:translateY(2px);box-shadow:0 2px 0 #dfe6e9}
+.choice.correct{background:#2ecc71;border-color:#27ae60;color:#fff;box-shadow:0 6px 0 #27ae60;animation:popItem .45s}
+.choice.dim{opacity:.4}
+.choice.shake{animation:wiggle .5s}
+@keyframes wiggle{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(-9px) rotate(-6deg)}40%{transform:translateX(9px) rotate(6deg)}60%{transform:translateX(-7px) rotate(-4deg)}80%{transform:translateX(7px) rotate(4deg)}}
+.feedback{min-height:1.7em;font-weight:800;color:#e17055;font-size:clamp(1rem,2.4vw,1.2rem);margin-top:4px}
+.explain{background:#eafaf1;border:3px solid #2ecc71;border-radius:18px;padding:12px 18px;margin:10px auto;max-width:740px;font-size:clamp(1rem,2.4vw,1.2rem);line-height:1.55;animation:popIn .4s}
+
+/* ====== game ====== */
+.modecards{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.modecard{width:min(320px,88vw);background:#fff;border:4px solid #ffe0e6;border-radius:24px;padding:22px 16px;cursor:pointer;transition:.2s;box-shadow:0 8px 20px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:8px;align-items:center;color:#2d3436}
+.modecard:hover{transform:translateY(-5px);border-color:#ff6b81}
+.mc-emoji{font-size:3rem}
+.modecard b{font-size:1.2rem}
+.modecard small{color:#777;font-size:.92rem;line-height:1.4}
+.gametop{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;margin:8px 0 4px}
+#balloonArea{display:flex;gap:clamp(14px,4vw,34px);justify-content:center;flex-wrap:wrap;padding:34px 8px 44px;min-height:200px;align-items:flex-start}
+.balloon{width:clamp(74px,14vw,96px);height:clamp(92px,17vw,118px);border:none;border-radius:50% 50% 52% 52%/58% 58% 42% 42%;color:#fff;font-weight:800;font-size:clamp(1.7rem,4.5vw,2.4rem);cursor:pointer;position:relative;animation:floaty 3.5s ease-in-out infinite;transition:transform .22s,opacity .22s;text-shadow:0 2px 3px rgba(0,0,0,.25);box-shadow:inset -8px -10px 0 rgba(0,0,0,.08),0 10px 18px rgba(0,0,0,.18)}
+.balloon::after{content:'';position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);width:3px;height:18px;background:#8d8d8d;border-radius:2px}
+.balloon:hover{filter:brightness(1.06)}
+.b-red{background:linear-gradient(165deg,#ff9aa2,#e53e5b)}
+.b-blue{background:linear-gradient(165deg,#8fd3ff,#2e86de)}
+.b-green{background:linear-gradient(165deg,#7befb2,#00b894)}
+.b-purple{background:linear-gradient(165deg,#c8a7ff,#6c5ce7)}
+.b-orange{background:linear-gradient(165deg,#ffc46b,#ee5a24)}
+.balloon.pop{transform:scale(1.55);opacity:0;pointer-events:none}
+.balloon.nope{animation:wiggle .5s}
+#countArea .baskets{margin:10px 0 4px}
+.stars{font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:6px;margin:8px 0}
+.endemoji{font-size:clamp(3rem,9vw,4.5rem);animation:floaty 3s ease-in-out infinite}
+#endTitle{font-size:clamp(1.5rem,4vw,2.1rem);color:#6c5ce7;font-weight:800}
+#endMsg{color:#555;font-weight:600;margin-bottom:8px}
+
+/* ====== penutup ====== */
+.recaps{display:flex;flex-direction:column;gap:10px;max-width:640px;margin:12px auto}
+.recap{background:#f8f9fa;border:3px solid #dfe6e9;border-radius:16px;padding:12px 18px;font-size:clamp(1rem,2.4vw,1.15rem);font-weight:600;text-align:left}
+
+/* ====== navigasi ====== */
+#nav{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:rgba(255,255,255,.55);backdrop-filter:blur(6px)}
+.navbtn{width:54px;height:54px;border:none;border-radius:50%;font-size:1.5rem;cursor:pointer;background:linear-gradient(140deg,#ff6b81,#f4436c);color:#fff;box-shadow:0 5px 0 #c0392b;transition:.15s}
+.navbtn:hover{transform:scale(1.07)}
+.navbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+#dots{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:60vw}
+.dot{width:13px;height:13px;border-radius:99px;border:none;background:rgba(255,255,255,.85);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:pointer;transition:.2s;padding:0}
+.dot.on{width:30px;background:linear-gradient(90deg,#ff6b81,#f065ff)}
+
+/* ====== konfeti ====== */
+#confetti{position:fixed;inset:0;z-index:80;pointer-events:none;overflow:hidden}
+.cf{position:absolute;top:-1.8em;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(118vh) rotate(560deg)}}
+
+@media (max-width:640px){
+.brand{display:none}
+.counter{font-size:.85rem}
+.dot{width:10px;height:10px}
+.dot.on{width:22px}
+.ggroup{min-width:92px;padding:8px 10px}
+}
+</style>
+</head>
+<body>
+<div id="bgdeco" aria-hidden="true">
+  <span style="left:4%;top:12%;font-size:5rem;animation-duration:7s">✖️</span>
+  <span style="left:88%;top:16%;font-size:4.5rem;animation-duration:9s">🍎</span>
+  <span style="left:12%;top:72%;font-size:5rem;animation-duration:8s">🎈</span>
+  <span style="left:82%;top:70%;font-size:5.5rem;animation-duration:10s">⭐</span>
+  <span style="left:50%;top:6%;font-size:3.5rem;animation-duration:6.5s">🐟</span>
+  <span style="left:65%;top:86%;font-size:4rem;animation-duration:9.5s">🎁</span>
+  <span style="left:28%;top:88%;font-size:4.5rem;animation-duration:8.5s">🌟</span>
+</div>
+
+<div id="app">
+  <header id="topbar">
+    <div class="brand">✖️ Perkalian Seru — Kelas 1 SD</div>
+    <div class="topright">
+      <span class="counter" id="counter">1 / 12</span>
+      <button class="iconbtn" id="muteBtn" title="Suara nyala/mati">🔊</button>
+    </div>
+  </header>
+  <div id="progress"><div id="progressFill"></div></div>
+
+  <main id="deck">
+<!-- ============ SLIDE 1: SAMPUL ============ -->
+<section class="slide active" data-title="Mulai Belajar">
+  <div class="cover">
+    <div class="flyrow" aria-hidden="true"><span>🎈</span><span>✖️</span><span>🍎</span><span>⭐</span><span>🐟</span><span>🎁</span></div>
+    <h1 class="title-big">Ayo Belajar<br><span class="grad">PERKALIAN</span>! ✖️</h1>
+    <p class="subtitle">Matematika seru untuk siswa Kelas 1 SD 🎒✨</p>
+    <div class="flyrow" aria-hidden="true"><span>👦</span><span>👧</span><span>🧸</span></div>
+    <button class="btn" onclick="next()">Mulai Belajar 🚀</button>
+    <p class="hint">Gunakan tombol ⬅️ ➡️ di bawah, panah keyboard, atau geser layar</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: APA ITU PERKALIAN ============ -->
+<section class="slide" data-title="Apa itu Perkalian?">
+  <div class="card">
+    <h2 class="slide-title">Apa Itu Perkalian? 🤔</h2>
+    <p class="lead">Perkalian itu <b>penjumlahan yang berulang</b>.<br>Artinya: kita menjumlahkan bilangan yang sama, berkali-kali!</p>
+    <div class="row-groups">
+      <div class="mini-group">🍎🍎</div><span class="plus">➕</span>
+      <div class="mini-group">🍎🍎</div><span class="plus">➕</span>
+      <div class="mini-group">🍎🍎</div>
+    </div>
+    <div class="equation">2 + 2 + 2 = <b>6</b> 🍎</div>
+    <div class="note fun">Karena angkanya sama semua (2), kita bisa menulisnya lebih singkat:<br>
+      <span class="big-eq">2 × 3 = 6</span><br>
+      Dibaca: <b>«dua kali tiga sama dengan enam»</b> 🔊
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: AYO MENGHITUNG APEL (interaktif) ============ -->
+<section class="slide" data-title="Ayo Hitung Apel">
+  <div class="card">
+    <h2 class="slide-title">Ayo Hitung Apel! 🍎</h2>
+    <p class="lead">Ada <b>3 keranjang</b>, setiap keranjang berisi <b>4 apel</b>.<br><b>Klik setiap apel</b> untuk menghitungnya! 👆</p>
+    <div class="baskets" id="baskets3">
+      <div class="ggroup">
+        <div class="glabel">Keranjang 1</div>
+        <div class="gitems"><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span></div>
+        <div class="basketic">🧺</div>
+      </div>
+      <div class="ggroup">
+        <div class="glabel">Keranjang 2</div>
+        <div class="gitems"><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span></div>
+        <div class="basketic">🧺</div>
+      </div>
+      <div class="ggroup">
+        <div class="glabel">Keranjang 3</div>
+        <div class="gitems"><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span><span class="apple">🍎</span></div>
+        <div class="basketic">🧺</div>
+      </div>
+    </div>
+    <div class="chip c-blue" id="appleCounter">Apel terhitung: 0 dari 12</div>
+    <div class="note done hidden" id="appleDone">🎉 HEBAT! Semuanya ada <b>12 apel</b>!</div>
+    <button class="btn mini" id="resetApples">🔄 Ulangi Menghitung</button>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4: MENULIS PERKALIAN (animasi) ============ -->
+<section class="slide" data-title="Menulis Perkalian">
+  <div class="card">
+    <h2 class="slide-title">Menulis Perkalian ✖️</h2>
+    <p class="lead">Tadi ada <b>3 kelompok</b> apel, isi <b>4 apel</b> tiap kelompok.<br>Kita tulis dengan perkalian: <b>3 × 4</b></p>
+    <div class="baskets anim" id="baskets4">
+      <div class="ggroup"><div class="glabel">Kelompok 1</div><div class="gitems">🍎🍎🍎🍎</div><div class="basketic">🧺</div></div>
+      <div class="ggroup"><div class="glabel">Kelompok 2</div><div class="gitems">🍎🍎🍎🍎</div><div class="basketic">🧺</div></div>
+      <div class="ggroup"><div class="glabel">Kelompok 3</div><div class="gitems">🍎🍎🍎🍎</div><div class="basketic">🧺</div></div>
+    </div>
+    <div class="chip c-pink" id="count4">Klik tombol untuk menghitung kelompoknya! 👇</div>
+    <div><span class="big-eq hidden" id="eq4">3 × 4 = 12 ✅</span></div>
+    <div class="chips">
+      <span class="chip c-blue">3 = banyak kelompok</span>
+      <span class="chip c-pink">4 = isi satu kelompok</span>
+      <span class="chip c-green">12 = jumlah semuanya</span>
+    </div>
+    <p class="read">Dibaca: <b>«tiga kali empat sama dengan dua belas»</b> 🔊</p>
+    <div class="btnrow">
+      <button class="btn" id="play4">▶️ Hitung Kelompoknya</button>
+      <button class="btn alt" id="reset4">🔄 Ulangi</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5: DUA CARA MELIHAT (toggle) ============ -->
+<section class="slide" data-title="Dua Cara Melihat">
+  <div class="card">
+    <h2 class="slide-title">Dua Cara Melihat 👀</h2>
+    <div id="viewK" class="viewbox">
+      <p class="lead"><b>Cara 1: Kelompok</b> — ada 3 kelompok, isi 4 apel.</p>
+      <div class="baskets">
+        <div class="ggroup"><div class="glabel">Kelompok 1</div><div class="gitems">🍎🍎🍎🍎</div></div>
+        <div class="ggroup"><div class="glabel">Kelompok 2</div><div class="gitems">🍎🍎🍎🍎</div></div>
+        <div class="ggroup"><div class="glabel">Kelompok 3</div><div class="gitems">🍎🍎🍎🍎</div></div>
+      </div>
+      <span class="big-eq">3 × 4 = 12</span>
+    </div>
+    <div id="viewT" class="viewbox hidden">
+      <p class="lead"><b>Cara 2: Penjumlahan berulang</b> — apelnya dijumlah berkali-kali.</p>
+      <div class="addrow">🍎🍎🍎🍎 ➕ 🍎🍎🍎🍎 ➕ 🍎🍎🍎🍎</div>
+      <span class="big-eq">4 + 4 + 4 = 12</span>
+    </div>
+    <button class="btn" id="toggle5">🔄 Ubah Cara Melihat</button>
+    <div class="note fun">Dua-duanya hasilnya sama, kok! 😉<br><b>Perkalian = penjumlahan berulang.</b></div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: CONTOH LAIN (tab) ============ -->
+<section class="slide" data-title="Contoh Lain">
+  <div class="card">
+    <h2 class="slide-title">Contoh Lain, Yuk! 🐟🎈</h2>
+    <div class="tabbtns">
+      <button class="tabbtn active" data-tab="ikan">🐟 Ikan</button>
+      <button class="tabbtn" data-tab="balon">🎈 Balon</button>
+    </div>
+    <div class="tabpanel" id="tab-ikan">
+      <p class="lead">Ada <b>2 aquarium</b>, setiap aquarium berisi <b>3 ikan</b>.</p>
+      <div class="baskets">
+        <div class="ggroup"><div class="glabel">Aquarium 1</div><div class="gitems">🐠🐠🐠</div></div>
+        <div class="ggroup"><div class="glabel">Aquarium 2</div><div class="gitems">🐠🐠🐠</div></div>
+      </div>
+      <span class="big-eq">2 × 3 = 6</span>
+      <p class="read">Dibaca: <b>«dua kali tiga sama dengan enam»</b></p>
+    </div>
+    <div class="tabpanel hidden" id="tab-balon">
+      <p class="lead">Ada <b>4 anak</b>, setiap anak membawa <b>2 balon</b>.</p>
+      <div class="baskets">
+        <div class="ggroup"><div class="glabel">Anak 1</div><div class="gitems">🎈🎈</div></div>
+        <div class="ggroup"><div class="glabel">Anak 2</div><div class="gitems">🎈🎈</div></div>
+        <div class="ggroup"><div class="glabel">Anak 3</div><div class="gitems">🎈🎈</div></div>
+        <div class="ggroup"><div class="glabel">Anak 4</div><div class="gitems">🎈🎈</div></div>
+      </div>
+      <span class="big-eq">4 × 2 = 8</span>
+      <p class="read">Dibaca: <b>«empat kali dua sama dengan delapan»</b></p>
+    </div>
+  </div>
+</section>
+<!-- ============ SLIDE 7: LATIHAN BERSAMA (hitung bertahap) ============ -->
+<section class="slide" data-title="Latihan Bersama">
+  <div class="card">
+    <h2 class="slide-title">Latihan Bersama ⭐</h2>
+    <p class="lead">Ada <b>4 kelompok</b> bintang, isi <b>3 bintang</b> tiap kelompok.<br>Tekan tombol untuk menghitung satu per satu!</p>
+    <div class="baskets anim" id="starGroups">
+      <div class="ggroup"><div class="glabel">Kelompok 1</div><div class="gitems">⭐⭐⭐</div></div>
+      <div class="ggroup"><div class="glabel">Kelompok 2</div><div class="gitems">⭐⭐⭐</div></div>
+      <div class="ggroup"><div class="glabel">Kelompok 3</div><div class="gitems">⭐⭐⭐</div></div>
+      <div class="ggroup"><div class="glabel">Kelompok 4</div><div class="gitems">⭐⭐⭐</div></div>
+    </div>
+    <div class="chip c-green" id="starTotal">Jumlah bintang: 0</div>
+    <div><span class="big-eq hidden" id="eq7">4 × 3 = 12 🎉</span></div>
+    <div class="btnrow">
+      <button class="btn" id="btn7">👆 Hitung 1 Kelompok</button>
+      <button class="btn alt" id="reset7">🔄 Ulangi</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8: SOAL CERITA 1 ============ -->
+<section class="slide quiz" data-title="Soal Cerita 1">
+  <div class="card">
+    <h2 class="slide-title">Soal Cerita 1 🍊</h2>
+    <div class="story">📖 <b>Ibu membeli 2 keranjang jeruk</b> di pasar. Setiap keranjang berisi <b>5 jeruk</b>. Berapa <b>jumlah jeruk</b> Ibu sekarang?</div>
+    <div class="baskets">
+      <div class="ggroup"><div class="glabel">Keranjang 1</div><div class="gitems">🍊🍊🍊🍊🍊</div><div class="basketic">🧺</div></div>
+      <div class="ggroup"><div class="glabel">Keranjang 2</div><div class="gitems">🍊🍊🍊🍊🍊</div><div class="basketic">🧺</div></div>
+    </div>
+    <p class="ask">Pilih jawaban yang benar! 👇</p>
+    <div class="choices">
+      <button class="choice">7</button>
+      <button class="choice" data-correct="1">10</button>
+      <button class="choice">12</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="explain hidden">✅ Karena ada <b>2 keranjang isi 5</b>, maka: <b>2 × 5 = 10</b> (5 + 5 = 10).<br>Jeruk Ibu ada <b>10</b>! 🍊</div>
+    <div class="chip c-blue">💡 Ingat: banyak kelompok × isi kelompok</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9: SOAL CERITA 2 ============ -->
+<section class="slide quiz" data-title="Soal Cerita 2">
+  <div class="card">
+    <h2 class="slide-title">Soal Cerita 2 🐔</h2>
+    <div class="story">📖 <b>Pak Tani punya 3 kandang ayam</b>. Setiap kandang berisi <b>4 ayam</b>. Berapa <b>jumlah ayam</b> Pak Tani?</div>
+    <div class="baskets">
+      <div class="ggroup"><div class="glabel">Kandang 1</div><div class="gitems">🐔🐔🐔🐔</div></div>
+      <div class="ggroup"><div class="glabel">Kandang 2</div><div class="gitems">🐔🐔🐔🐔</div></div>
+      <div class="ggroup"><div class="glabel">Kandang 3</div><div class="gitems">🐔🐔🐔🐔</div></div>
+    </div>
+    <p class="ask">Pilih jawaban yang benar! 👇</p>
+    <div class="choices">
+      <button class="choice">8</button>
+      <button class="choice">11</button>
+      <button class="choice" data-correct="1">12</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="explain hidden">✅ Karena ada <b>3 kandang isi 4</b>, maka: <b>3 × 4 = 12</b> (4 + 4 + 4 = 12).<br>Ayam Pak Tani ada <b>12</b>! 🐔</div>
+    <div class="chip c-blue">💡 Ingat: banyak kelompok × isi kelompok</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10: SOAL CERITA 3 ============ -->
+<section class="slide quiz" data-title="Soal Cerita 3">
+  <div class="card">
+    <h2 class="slide-title">Soal Cerita 3 🌸</h2>
+    <div class="story">📖 <b>Dewi menanam bunga di 4 pot</b>. Setiap pot berisi <b>2 bunga</b>. Berapa <b>jumlah bunga</b> Dewi?</div>
+    <div class="baskets">
+      <div class="ggroup"><div class="glabel">Pot 1</div><div class="gitems">🌸🌸</div></div>
+      <div class="ggroup"><div class="glabel">Pot 2</div><div class="gitems">🌸🌸</div></div>
+      <div class="ggroup"><div class="glabel">Pot 3</div><div class="gitems">🌸🌸</div></div>
+      <div class="ggroup"><div class="glabel">Pot 4</div><div class="gitems">🌸🌸</div></div>
+    </div>
+    <p class="ask">Pilih jawaban yang benar! 👇</p>
+    <div class="choices">
+      <button class="choice">6</button>
+      <button class="choice" data-correct="1">8</button>
+      <button class="choice">10</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="explain hidden">✅ Karena ada <b>4 pot isi 2</b>, maka: <b>4 × 2 = 8</b> (2 + 2 + 2 + 2 = 8).<br>Bunga Dewi ada <b>8</b>! 🌸</div>
+    <div class="chip c-blue">💡 Ingat: banyak kelompok × isi kelompok</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11: GAME ============ -->
+<section class="slide" id="slide-game" data-title="Game">
+  <div class="card">
+    <h2 class="slide-title">Waktunya Bermain! 🎮</h2>
+    <div id="modeSelect">
+      <p class="lead">Jawab <b>5 soal</b>, kumpulkan bintang sebanyak mungkin! ⭐<br>Pilih permainan yang kamu suka:</p>
+      <div class="modecards">
+        <button class="modecard" data-mode="balon">
+          <span class="mc-emoji">🎈</span>
+          <b>Pop Balon Jawaban</b>
+          <small>Pecahkan balon yang berisi jawaban benar!</small>
+        </button>
+        <button class="modecard" data-mode="hitung">
+          <span class="mc-emoji">🐢</span>
+          <b>Hitung Cepat</b>
+          <small>Hitung gambarnya, lalu pilih jumlah yang benar!</small>
+        </button>
+      </div>
+    </div>
+
+    <div id="gameArena" class="hidden">
+      <div class="gametop">
+        <span class="chip qchip" id="gameQ">2 × 2 = ?</span>
+        <span class="chip scorechip" id="gameScore">⭐ 0 / 5</span>
+      </div>
+      <div id="balloonArea" class="hidden"></div>
+      <div id="countArea" class="hidden"></div>
+      <div class="btnrow"><button class="btn alt" id="quitGame">🏠 Pilih Game Lain</button></div>
+    </div>
+
+    <div id="gameEnd" class="hidden">
+      <div class="endemoji" id="endEmoji">🏆</div>
+      <h3 id="endTitle">KAMU HEBAT!</h3>
+      <div class="stars" id="endStars">⭐⭐⭐⭐⭐</div>
+      <p id="endMsg">...</p>
+      <div class="btnrow">
+        <button class="btn" id="againGame">🔁 Main Lagi</button>
+        <button class="btn alt" id="otherMode">🎮 Game Lain</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12: PENUTUP ============ -->
+<section class="slide" data-title="Kamu Luar Biasa">
+  <div class="card">
+    <h2 class="slide-title">Kamu Luar Biasa! 🏆</h2>
+    <div class="recaps">
+      <div class="recap">✖️ <b>Perkalian</b> itu penjumlahan yang berulang.</div>
+      <div class="recap">🧺 <b>3 × 4</b> artinya <b>3 kelompok isi 4</b>, hasilnya <b>12</b>.</div>
+      <div class="recap">🔊 Dibaca: <b>«tiga kali empat sama dengan dua belas»</b>.</div>
+    </div>
+    <p class="lead">Terus berlatih ya, calon juara matematika! 💪🌟</p>
+    <div class="flyrow" aria-hidden="true"><span>🎉</span><span>🏆</span><span>🌟</span></div>
+    <div class="btnrow">
+      <button class="btn" onclick="go(0)">🔁 Mulai Lagi</button>
+      <button class="btn alt" onclick="goGame()">🎮 Main Lagi</button>
+    </div>
+  </div>
+</section>
+  </main>
+
+  <footer id="nav">
+    <button class="navbtn" id="prevBtn" title="Slide sebelumnya">⬅️</button>
+    <div id="dots"></div>
+    <button class="navbtn" id="nextBtn" title="Slide berikutnya">➡️</button>
+  </footer>
+</div>
+
+<div id="confetti" aria-hidden="true"></div>
+
+<script>
+'use strict';
+// ===== helper =====
+function $(s, el){ return (el || document).querySelector(s); }
+function $$(s, el){ return Array.prototype.slice.call((el || document).querySelectorAll(s)); }
+function shuffle(arr){ for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+
+// ===== suara (Web Audio, tanpa file) =====
+var actx = null, muted = false;
+function ac(){
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; } }
+  return actx;
+}
+function tone(f, dur, type, vol, delay){
+  var c = ac(); if (!c || muted) return;
+  try {
+    var t = c.currentTime + (delay || 0);
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(vol || 0.18, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  } catch (e) {}
+}
+function sClick(){ tone(760, 0.06, 'triangle', 0.12, 0); }
+function sCorrect(){ tone(523, 0.12, 'sine', 0.2, 0); tone(659, 0.12, 'sine', 0.2, 0.1); tone(784, 0.2, 'sine', 0.22, 0.2); }
+function sWrong(){ tone(196, 0.18, 'square', 0.12, 0); tone(147, 0.25, 'square', 0.1, 0.14); }
+function sPop(){ tone(620, 0.1, 'square', 0.2, 0); tone(320, 0.08, 'sine', 0.15, 0.04); }
+function sWin(){ [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.16, 'sine', 0.2, i * 0.12); }); }
+window.addEventListener('pointerdown', function () { var c = ac(); if (c && c.state === 'suspended') c.resume(); }, { once: true });
+$('#muteBtn').addEventListener('click', function () {
+  muted = !muted;
+  this.textContent = muted ? '🔇' : '🔊';
+  if (!muted) sClick();
+});
+
+// ===== konfeti =====
+var confettiLayer = $('#confetti');
+var CF_EMO = ['🎉', '🎊', '⭐', '✨', '🎈', '🌟', '💛', '💙'];
+function confetti(n){
+  n = n || 40;
+  for (var k = 0; k < n; k++) {
+    var s = document.createElement('span');
+    s.className = 'cf';
+    s.textContent = CF_EMO[Math.floor(Math.random() * CF_EMO.length)];
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.fontSize = (16 + Math.random() * 22) + 'px';
+    s.style.animationDuration = (1.8 + Math.random() * 1.8) + 's';
+    s.style.animationDelay = (Math.random() * 0.4) + 's';
+    confettiLayer.appendChild(s);
+    s.addEventListener('animationend', function () { this.remove(); });
+  }
+}
+
+// ===== navigasi slide =====
+var slides = $$('.slide'), N = slides.length, cur = 0;
+var dotsWrap = $('#dots'), progressFill = $('#progressFill'), counterEl = $('#counter');
+var prevBtn = $('#prevBtn'), nextBtn = $('#nextBtn');
+slides.forEach(function (s, i) {
+  var d = document.createElement('button');
+  d.className = 'dot';
+  d.title = s.getAttribute('data-title') || ('Slide ' + (i + 1));
+  d.addEventListener('click', function () { sClick(); go(i); });
+  dotsWrap.appendChild(d);
+});
+var dots = $$('.dot', dotsWrap);
+function go(i){
+  cur = Math.max(0, Math.min(N - 1, i));
+  slides.forEach(function (s, j) { s.classList.toggle('active', j === cur); });
+  dots.forEach(function (d, j) { d.classList.toggle('on', j === cur); });
+  progressFill.style.width = (((cur + 1) / N) * 100) + '%';
+  counterEl.textContent = (cur + 1) + ' / ' + N;
+  prevBtn.disabled = (cur === 0);
+  nextBtn.disabled = (cur === N - 1);
+  var card = $('.card', slides[cur]); if (card) card.scrollTop = 0;
+  if (cur === N - 1) confetti(70);
+}
+window.go = go;
+window.next = function () { go(cur + 1); };
+window.prev = function () { go(cur - 1); };
+window.goGame = function () { var i = slides.indexOf(document.getElementById('slide-game')); if (i >= 0) go(i); };
+prevBtn.addEventListener('click', function () { sClick(); window.prev(); });
+nextBtn.addEventListener('click', function () { sClick(); window.next(); });
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); window.next(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); window.prev(); }
+  else if (e.key === 'Home') { go(0); }
+  else if (e.key === 'End') { go(N - 1); }
+});
+var tx = 0, ty = 0;
+$('#deck').addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+$('#deck').addEventListener('touchend', function (e) {
+  var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > 60 && Math.abs(dy) < 60) { if (dx < 0) window.next(); else window.prev(); }
+}, { passive: true });
+
+// ===== slide 3: hitung apel (klik) =====
+var appleCount = 0;
+var appleCounter = $('#appleCounter'), appleDone = $('#appleDone');
+$$('#baskets3 .apple').forEach(function (a) {
+  a.addEventListener('click', function () {
+    if (a.classList.contains('done')) return;
+    a.classList.add('done');
+    appleCount++;
+    tone(600 + appleCount * 40, 0.09, 'triangle', 0.14, 0);
+    appleCounter.textContent = 'Apel terhitung: ' + appleCount + ' dari 12';
+    if (appleCount === 12) { appleDone.classList.remove('hidden'); confetti(40); sWin(); }
+  });
+});
+function resetApples(){
+  appleCount = 0;
+  $$('#baskets3 .apple').forEach(function (a) { a.classList.remove('done'); });
+  appleCounter.textContent = 'Apel terhitung: 0 dari 12';
+  appleDone.classList.add('hidden');
+}
+$('#resetApples').addEventListener('click', function () { sClick(); resetApples(); });
+
+// ===== slide 4: animasi kelompok =====
+var t4 = [];
+var count4 = $('#count4'), eq4 = $('#eq4');
+function reset4(){
+  t4.forEach(clearTimeout); t4 = [];
+  $$('#baskets4 .ggroup').forEach(function (g) { g.classList.remove('show'); });
+  count4.textContent = 'Klik tombol untuk menghitung kelompoknya! 👇';
+  eq4.classList.add('hidden');
+}
+function play4(){
+  reset4();
+  $$('#baskets4 .ggroup').forEach(function (g, i) {
+    t4.push(setTimeout(function () {
+      g.classList.add('show');
+      count4.textContent = 'Kelompok ' + (i + 1) + ' → jumlah sekarang: ' + (4 * (i + 1)) + ' apel';
+      sClick();
+    }, 700 * i));
+  });
+  t4.push(setTimeout(function () {
+    eq4.classList.remove('hidden');
+    count4.textContent = 'Semua kelompok sudah dihitung! 🎉';
+    sWin(); confetti(28);
+  }, 700 * 3 + 400));
+}
+$('#play4').addEventListener('click', function () { play4(); });
+$('#reset4').addEventListener('click', function () { sClick(); reset4(); });
+
+// ===== slide 5: toggle dua cara =====
+var v5 = 'kel';
+var viewK = $('#viewK'), viewT = $('#viewT'), btn5 = $('#toggle5');
+btn5.addEventListener('click', function () {
+  sClick();
+  if (v5 === 'kel') {
+    v5 = 'tam';
+    viewK.classList.add('hidden'); viewT.classList.remove('hidden');
+    btn5.textContent = '👀 Lihat sebagai Kelompok';
+  } else {
+    v5 = 'kel';
+    viewT.classList.add('hidden'); viewK.classList.remove('hidden');
+    btn5.textContent = '🔄 Ubah Cara Melihat';
+  }
+});
+
+// ===== slide 6: tab contoh =====
+$$('.tabbtn').forEach(function (b) {
+  b.addEventListener('click', function () {
+    sClick();
+    $$('.tabbtn').forEach(function (x) { x.classList.toggle('active', x === b); });
+    $$('.tabpanel').forEach(function (p) { p.classList.toggle('hidden', p.id !== 'tab-' + b.getAttribute('data-tab')); });
+  });
+});
+
+// ===== slide 7: hitung kelompok bintang bertahap =====
+var step7 = 0;
+var groups7 = $$('#starGroups .ggroup'), starTotal = $('#starTotal'), eq7 = $('#eq7'), btn7 = $('#btn7');
+btn7.addEventListener('click', function () {
+  if (step7 >= 4) return;
+  groups7[step7].classList.add('show');
+  step7++;
+  starTotal.textContent = 'Jumlah bintang: ' + (3 * step7);
+  sClick();
+  if (step7 === 4) {
+    eq7.classList.remove('hidden');
+    btn7.disabled = true;
+    btn7.textContent = '🎉 Selesai!';
+    confetti(35); sWin();
+  }
+});
+function reset7(){
+  step7 = 0;
+  groups7.forEach(function (g) { g.classList.remove('show'); });
+  starTotal.textContent = 'Jumlah bintang: 0';
+  eq7.classList.add('hidden');
+  btn7.disabled = false;
+  btn7.textContent = '👆 Hitung 1 Kelompok';
+}
+$('#reset7').addEventListener('click', function () { sClick(); reset7(); });
+// ===== soal cerita (pilihan jawaban) =====
+$$('.slide.quiz').forEach(function (q) {
+  var choices = $$('.choice', q), fb = $('.feedback', q), ex = $('.explain', q);
+  choices.forEach(function (ch) {
+    ch.addEventListener('click', function () {
+      if (q.getAttribute('data-done') === '1') return;
+      if (ch.getAttribute('data-correct') === '1') {
+        q.setAttribute('data-done', '1');
+        ch.classList.add('correct');
+        choices.forEach(function (c) { if (c !== ch) c.classList.add('dim'); });
+        fb.textContent = '🎉 Betul sekali! Kamu pintar!';
+        ex.classList.remove('hidden');
+        confetti(40); sCorrect();
+      } else {
+        ch.classList.add('shake');
+        sWrong();
+        setTimeout(function () { ch.classList.remove('shake'); }, 600);
+        fb.textContent = '😊 Belum tepat, coba hitung lagi ya!';
+      }
+    });
+  });
+});
+
+// ===== game =====
+var R = 5;
+var G = { mode: null, round: 0, score: 0, q: null, lock: false };
+var modeSelect = $('#modeSelect'), arena = $('#gameArena'), endPanel = $('#gameEnd');
+var gameQ = $('#gameQ'), gameScoreEl = $('#gameScore');
+var balloonArea = $('#balloonArea'), countArea = $('#countArea');
+var easyQ = [[2, 2], [2, 3], [3, 2], [2, 4], [4, 2], [3, 3]];
+var hardQ = [[2, 5], [5, 2], [3, 4], [4, 3], [3, 5], [5, 3], [4, 4], [4, 5], [5, 4], [5, 5]];
+var bColors = ['b-red', 'b-blue', 'b-green', 'b-purple', 'b-orange'];
+var cEms = ['🍎', '🐟', '⭐', '🎈', '🌸', '🐔', '🍬', '🦋', '🍭', '🐝'];
+
+$$('#modeSelect .modecard').forEach(function (m) {
+  m.addEventListener('click', function () { sClick(); startGame(m.getAttribute('data-mode')); });
+});
+$('#quitGame').addEventListener('click', function () { sClick(); showSelect(); });
+$('#againGame').addEventListener('click', function () { sClick(); startGame(G.mode); });
+$('#otherMode').addEventListener('click', function () { sClick(); showSelect(); });
+
+function showSelect(){
+  arena.classList.add('hidden');
+  endPanel.classList.add('hidden');
+  modeSelect.classList.remove('hidden');
+}
+function startGame(mode){
+  G.mode = mode; G.round = 0; G.score = 0;
+  modeSelect.classList.add('hidden');
+  endPanel.classList.add('hidden');
+  arena.classList.remove('hidden');
+  updScore();
+  nextRound();
+}
+function updScore(){ gameScoreEl.textContent = '⭐ ' + G.score + ' / ' + R; }
+function nextRound(){
+  G.lock = false;
+  G.round++;
+  if (G.round > R) { endGame(); return; }
+  var pool = (G.round <= 2 ? easyQ : hardQ);
+  var p = pool[Math.floor(Math.random() * pool.length)];
+  G.q = { a: p[0], b: p[1], ans: p[0] * p[1] };
+  gameQ.textContent = G.q.a + ' × ' + G.q.b + ' = ?';
+  gameQ.classList.remove('bounce');
+  void gameQ.offsetWidth;
+  gameQ.classList.add('bounce');
+  if (G.mode === 'balon') {
+    balloonArea.classList.remove('hidden');
+    countArea.classList.add('hidden');
+    renderBalloons();
+  } else {
+    balloonArea.classList.add('hidden');
+    countArea.classList.remove('hidden');
+    renderCount();
+  }
+}
+function wrongOpts(ans){
+  var s = {}; s[ans] = true;
+  while (Object.keys(s).length < 3) {
+    var d = ans + Math.floor(Math.random() * 7) - 3;
+    if (d > 0 && !s[d]) s[d] = true;
+  }
+  return shuffle(Object.keys(s).map(Number));
+}
+function renderBalloons(){
+  var opts = wrongOpts(G.q.ans);
+  balloonArea.innerHTML = opts.map(function (v, i) {
+    return '<button class="balloon ' + bColors[i % bColors.length] + '" style="animation-duration:' +
+      (2.8 + Math.random() * 1.4).toFixed(2) + 's;animation-delay:-' + (Math.random() * 2).toFixed(2) +
+      's" data-v="' + v + '">' + v + '</button>';
+  }).join('');
+  $$('.balloon', balloonArea).forEach(function (b) {
+    b.addEventListener('click', function () { onBalloon(b); });
+  });
+}
+function onBalloon(b){
+  if (G.lock) return;
+  var v = parseInt(b.getAttribute('data-v'), 10);
+  if (v === G.q.ans) {
+    G.lock = true;
+    b.classList.add('pop');
+    sPop();
+    G.score++; updScore();
+    setTimeout(function () { sCorrect(); confetti(22); }, 160);
+    setTimeout(nextRound, 1100);
+  } else {
+    b.classList.add('nope');
+    sWrong();
+    setTimeout(function () { b.classList.remove('nope'); }, 550);
+  }
+}
+function renderCount(){
+  var em = cEms[Math.floor(Math.random() * cEms.length)];
+  var g = G.q.a, m = G.q.b;
+  var labels = ['Kelompok 1', 'Kelompok 2', 'Kelompok 3', 'Kelompok 4', 'Kelompok 5'];
+  var html = '<div class="baskets">' +
+    Array.apply(null, Array(g)).map(function (_, i) {
+      return '<div class="ggroup"><div class="glabel">' + labels[i] + '</div><div class="gitems">' +
+        Array(m + 1).join(em) + '</div></div>';
+    }).join('') +
+    '</div><div class="choices" style="margin-top:6px">' +
+    wrongOpts(G.q.ans).map(function (v) {
+      return '<button class="choice gopt" data-v="' + v + '">' + v + '</button>';
+    }).join('') + '</div>';
+  countArea.innerHTML = html;
+  $$('.gopt', countArea).forEach(function (b) {
+    b.addEventListener('click', function () { onGopt(b); });
+  });
+}
+function onGopt(b){
+  if (G.lock) return;
+  var v = parseInt(b.getAttribute('data-v'), 10);
+  if (v === G.q.ans) {
+    G.lock = true;
+    b.classList.add('correct');
+    $$('.gopt', countArea).forEach(function (c) { if (c !== b) c.classList.add('dim'); });
+    sCorrect(); confetti(22);
+    G.score++; updScore();
+    setTimeout(nextRound, 1000);
+  } else {
+    b.classList.add('shake');
+    sWrong();
+    setTimeout(function () { b.classList.remove('shake'); }, 550);
+  }
+}
+function endGame(){
+  arena.classList.add('hidden');
+  endPanel.classList.remove('hidden');
+  var sc = G.score;
+  $('#endStars').textContent = '⭐'.repeat(sc) + '☆'.repeat(R - sc);
+  var t, m, e;
+  if (sc === R) { t = 'KAMU JUARA! 🏆'; m = 'Luar biasa! Semua jawabanmu benar!'; e = '🏆'; }
+  else if (sc >= 3) { t = 'KAMU HEBAT! 🌟'; m = 'Hebat sekali! Sedikit lagi sempurna!'; e = '🌟'; }
+  else { t = 'AYO COBA LAGI! 💪'; m = 'Tidak apa-apa, berlatih lagi supaya makin jago!'; e = '💪'; }
+  $('#endTitle').textContent = t;
+  $('#endMsg').textContent = m;
+  $('#endEmoji').textContent = e;
+  sWin(); confetti(60);
+}
+
+// ===== mulai =====
+go(0);
+</script>
+</body>
+</html>
