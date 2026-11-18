@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KALI BAGI QUEST ✖️ Latihan Seru Perkalian &amp; Pembagian — Kelas 3 SD</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✖️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#1e293b;--bg1:#0b1443;--bg2:#31216b;
+  --yellow:#ffd93d;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;
+  --sky:#38bdf8;--orange:#fb923c;--purple:#8b5cf6;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Baloo 2','Comic Sans MS','Chalkboard SE','Segoe UI',sans-serif;
+  background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 55%,#1b1040 100%);
+  background-attachment:fixed;color:var(--ink);min-height:100vh;overflow-x:hidden}
+/* ====== dekorasi latar angkasa ====== */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+   radial-gradient(2px 2px at 12% 22%,#ffffff88 50%,transparent 51%),
+   radial-gradient(1.6px 1.6px at 68% 12%,#ffffff66 50%,transparent 51%),
+   radial-gradient(2px 2px at 84% 38%,#ffffff77 50%,transparent 51%),
+   radial-gradient(1.4px 1.4px at 32% 62%,#ffffff55 50%,transparent 51%),
+   radial-gradient(2px 2px at 55% 80%,#ffffff66 50%,transparent 51%),
+   radial-gradient(1.6px 1.6px at 8% 88%,#ffffff55 50%,transparent 51%),
+   radial-gradient(2px 2px at 92% 74%,#ffffff77 50%,transparent 51%),
+   radial-gradient(1.4px 1.4px at 44% 42%,#ffffff44 50%,transparent 51%);
+  animation:twinkle 3.5s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+.ffloat{position:fixed;font-size:2.1rem;opacity:.45;pointer-events:none;z-index:0;animation:floaty 9s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-24px) rotate(10deg)}}
+/* ====== kerangka ====== */
+#app{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:14px 14px 46px}
+.screen{display:none;animation:fadein .45s ease}
+.screen.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card{background:#fff;border-radius:24px;padding:20px;box-shadow:0 10px 0 rgba(8,12,40,.35),0 26px 60px rgba(0,0,0,.35)}
+h1,h2,h3{line-height:1.2}
+button{font-family:inherit}
+/* ====== layar awal ====== */
+.start-hero{text-align:center;padding:26px 14px 24px}
+.logo-badge{font-size:66px;display:inline-block;animation:wiggle 3.2s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg) translateY(-6px)}}
+.start-hero h1{font-size:clamp(40px,9vw,62px);color:#fff;letter-spacing:3px;text-shadow:0 6px 0 rgba(0,0,0,.35)}
+.start-hero h1 span{color:var(--yellow)}
+.subtitle{color:#c7d2fe;font-weight:700;margin:4px 0 10px;font-size:16.5px}
+.mascot-big{font-size:88px;line-height:1.1;animation:bounce 2.4s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.bubble{position:relative;background:#eef2ff;border:3px solid #c7d2fe;border-radius:16px;padding:10px 16px;font-weight:700;color:#3730a3;font-size:15.5px;margin-top:10px;display:inline-block;max-width:520px}
+.name-wrap{margin:16px auto 6px;max-width:360px}
+#nameInput{width:100%;font-family:inherit;font-size:19px;font-weight:800;text-align:center;padding:13px 18px;border:3px solid #cbd5e1;border-radius:999px;outline:none;color:var(--ink)}
+#nameInput:focus{border-color:var(--blue);box-shadow:0 0 0 4px #3b82f633}
+.name-hint{color:#94a3b8;font-size:13px;font-weight:700;margin-top:5px}
+.rules{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 6px}
+.rule{background:rgba(9,14,48,.75);border:2px solid rgba(255,255,255,.16);color:#e2e8f0;padding:7px 13px;border-radius:999px;font-weight:700;font-size:13.5px}
+.btn{font-family:inherit;font-weight:800;border:none;border-radius:18px;padding:13px 22px;font-size:18px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s;letter-spacing:.3px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.btn-primary{background:linear-gradient(180deg,#60a5fa,#3b82f6);color:#fff}
+.btn-success{background:linear-gradient(180deg,#4ade80,#22c55e);color:#053b16}
+.btn-warn{background:linear-gradient(180deg,#fbbf24,#f59e0b);color:#4a2c00}
+.btn-ghost{background:#f1f5f9;color:#334155;box-shadow:0 6px 0 #cbd5e1}
+.btn-big{font-size:22px;padding:16px 36px;border-radius:22px}
+.best-line{color:#a5b4fc;font-weight:700;margin-top:14px;font-size:14.5px}
+/* ====== HUD ====== */
+.hud{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.hud-group{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.chip{background:rgba(9,14,48,.78);border:2px solid rgba(255,255,255,.16);color:#e2e8f0;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13.5px;white-space:nowrap}
+.chip b{color:var(--yellow)}
+.icon-btn{background:rgba(9,14,48,.78);border:2px solid rgba(255,255,255,.16);color:#fff;font-size:16px;border-radius:999px;width:38px;height:38px;cursor:pointer;transition:transform .12s}
+.icon-btn:hover{transform:scale(1.1)}
+.progress-wrap{margin:4px 0 16px}
+.progress{position:relative;height:17px;background:rgba(9,14,48,.65);border-radius:999px;border:2px solid rgba(255,255,255,.18)}
+#progressFill{height:100%;width:0%;background:linear-gradient(90deg,var(--yellow),#4ade80);border-radius:999px;transition:width .5s ease}
+#rocket{position:absolute;top:-15px;left:0;transform:translateX(-50%);font-size:24px;transition:left .5s ease;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))}
+#missionLabel{text-align:center;color:#c7d2fe;font-weight:800;font-size:13.5px;margin-top:7px;letter-spacing:.4px}
+/* ====== kartu soal ====== */
+.qcard{margin-bottom:18px}
+.qcard.wrongflash{animation:shake .45s}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.topic-chip{padding:5px 13px;border-radius:999px;font-weight:800;font-size:13.5px}
+.topic-chip.p{background:#ffedd5;color:#c2410c}
+.topic-chip.d{background:#dbeafe;color:#1d4ed8}
+.qnum{color:#64748b;font-weight:800;font-size:14px}
+.qimg{margin:14px 0 4px;padding:14px 10px;background:#f8fafc;border:3px dashed #cbd5e1;border-radius:18px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.pbox{background:#fff;border:3px solid #475569;border-radius:16px;padding:8px 10px;display:inline-flex;flex-direction:column;gap:5px;box-shadow:0 4px 0 rgba(30,41,59,.15);min-width:110px;min-height:56px;justify-content:center;align-items:center}
+.prow{display:flex;gap:6px;justify-content:center}
+.pcell{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1}
+.pcell.qm{border:3px dashed #94a3b8;border-radius:10px;color:#94a3b8;font-weight:800;font-size:22px;background:#fffbeb}
+.pline{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;align-items:center}
+.pline .pcell{width:52px;height:52px;background:#fff;border:3px solid #475569;border-radius:14px;font-size:30px;box-shadow:0 4px 0 rgba(30,41,59,.15)}
+.pline .pcell.qm{background:#fffbeb}
+.qtext{font-size:19px;font-weight:700;margin:14px 0 4px;line-height:1.55}
+.qteks{background:#f1f5f9;border-left:6px solid var(--sky);border-radius:12px;padding:12px 14px;font-weight:600;font-size:16.5px;line-height:1.6;margin:10px 0 2px;color:#334155}
+/* pilihan jawaban */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px}
+@media (max-width:540px){.opts{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:3px solid #e2e8f0;background:#f8fafc;border-radius:16px;font-weight:800;font-size:17.5px;color:var(--ink);cursor:pointer;text-align:left;transition:transform .13s,box-shadow .13s;box-shadow:0 4px 0 #d7dfeb;font-family:inherit}
+.opt:hover{transform:translateY(-2px)}
+.opt .letter{width:34px;height:34px;border-radius:10px;background:#1e293b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15.5px;flex:none}
+.opt.sel{background:#e0edff;border-color:var(--blue);box-shadow:0 4px 0 #93b8f0}
+.opt.ok{background:#dcfce7;border-color:#16a34a;box-shadow:0 4px 0 #86efac;animation:pop .35s}
+.opt.no{background:#fee2e2;border-color:#dc2626;box-shadow:0 4px 0 #fca5a5;animation:shake .4s;opacity:.8}
+.opt.dis{pointer-events:none;opacity:.6}
+.opt.ok.dis,.opt.no.dis{opacity:1}
+.opt.emoji .txt{font-size:36px;line-height:1.2}
+.opt .txt{word-break:break-word}
+.input-row{display:flex;gap:10px;margin-top:16px}
+#ansInput{flex:1;font-family:inherit;font-size:23px;font-weight:800;text-align:center;padding:12px;border:3px solid #cbd5e1;border-radius:16px;outline:none;color:var(--ink);min-width:0}
+#ansInput:focus{border-color:var(--blue);box-shadow:0 0 0 4px #3b82f633}
+#ansInput.right{border-color:#16a34a;background:#f0fdf4}
+#ansInput.shake{animation:shake .4s;border-color:#dc2626}
+.input-hint{color:#94a3b8;font-size:13px;font-weight:700;margin-top:7px;text-align:center}
+/* umpan balik & pembahasan */
+.feedback{display:none;margin-top:14px;padding:13px 16px;border-radius:16px;font-weight:800;font-size:17.5px;line-height:1.45}
+.feedback.ok{display:block;background:#dcfce7;color:#166534;border:3px solid #86efac;animation:pop .35s}
+.feedback.no{display:block;background:#fee2e2;color:#991b1b;border:3px solid #fca5a5;animation:shake .4s}
+.exp-panel{display:none;margin-top:12px;background:#fffbeb;border:3px solid #fcd34d;border-radius:16px;padding:14px 16px}
+.exp-panel h4{color:#92400e;font-size:16.5px;margin-bottom:6px;letter-spacing:.3px}
+.exp-panel p{font-size:16px;line-height:1.6;color:#713f12;font-weight:600}
+.mascot-row{display:flex;align-items:center;gap:12px;margin-top:14px}
+.mascot{font-size:40px;line-height:1;animation:bounce 2.4s ease-in-out infinite;flex:none}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.action-row.center{justify-content:center}
+/* ====== overlay misi ====== */
+.overlay{position:fixed;inset:0;background:rgba(8,14,52,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:50;padding:18px}
+.overlay.active{display:flex}
+.overlay-card{background:#fff;border-radius:28px;padding:32px 26px;text-align:center;max-width:440px;width:100%;animation:pop .5s;box-shadow:0 14px 0 rgba(0,0,0,.3)}
+.mission-emoji{font-size:76px;line-height:1.15;animation:bounce 2s ease-in-out infinite}
+.overlay-card h2{font-size:34px;margin-top:6px;letter-spacing:1px}
+#lvSub{color:var(--purple);font-weight:800;font-size:21px;margin-top:2px}
+#lvMsg{color:#475569;font-weight:700;margin:10px 0 18px;font-size:16px;line-height:1.55}
+/* ====== toast lencana ====== */
+#toastBadge{position:fixed;top:14px;left:50%;transform:translate(-50%,-140px);background:#fff;border-radius:18px;padding:12px 22px;font-weight:800;z-index:60;box-shadow:0 12px 34px rgba(0,0,0,.4);border:3px solid var(--yellow);transition:transform .45s ease;display:flex;gap:10px;align-items:center;font-size:16px;white-space:nowrap}
+#toastBadge.show{transform:translate(-50%,0)}
+#toastBadge .t-em{font-size:30px}
+/* ====== layar akhir ====== */
+.final-hero{text-align:center;padding:26px 16px}
+.trophy{font-size:92px;line-height:1.15;animation:pop .7s}
+.rank{font-size:clamp(26px,6vw,36px);font-weight:800;color:#0b1443;margin:8px 0 2px;letter-spacing:1px;text-shadow:0 3px 0 #ffd93d}
+.fmsg{color:#475569;font-weight:700;font-size:16px;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;margin:18px 0 6px}
+.stat{background:#f8fafc;border:3px solid #e2e8f0;border-radius:18px;padding:12px 8px}
+.stat b{font-size:25px;display:block;color:var(--ink)}
+.stat span{font-size:12.5px;color:#64748b;font-weight:800}
+.bh{margin:16px 0 10px;color:#0b1443;letter-spacing:.5px;font-size:20px}
+#screen-final .best-line{color:#64748b}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px}
+.badge-card{background:#fff;border:3px solid #e2e8f0;border-radius:16px;padding:12px 8px;text-align:center}
+.badge-card .b-em{font-size:36px;line-height:1.2}
+.badge-card .b-name{font-weight:800;font-size:14px;margin-top:2px}
+.badge-card .b-desc{font-size:11.5px;color:#64748b;font-weight:700;line-height:1.35;margin-top:2px}
+.badge-card.locked{opacity:.32;filter:grayscale(1)}
+.badge-card.earned{border-color:var(--yellow);box-shadow:0 4px 0 #fbbf24;animation:pop .5s}
+/* ====== layar pengayaan ====== */
+.enrich-head{text-align:center;margin-bottom:16px}
+.enrich-head h2{font-size:30px;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+.enrich-sub{color:#c7d2fe;font-weight:700;margin-top:4px;font-size:15.5px}
+.link-card{display:flex;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:15px 16px;margin-bottom:12px;border:3px solid #e2e8f0;box-shadow:0 6px 0 rgba(8,12,40,.25);text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.link-card:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(8,12,40,.25)}
+.lc-emoji{font-size:38px;background:#fef9c3;border:3px solid #fde68a;border-radius:14px;width:66px;height:66px;display:flex;align-items:center;justify-content:center;flex:none}
+.lc-title{font-weight:800;font-size:17px;display:block}
+.lc-sub{font-size:13.5px;color:#64748b;font-weight:700;display:block;margin-top:1px}
+.lc-arrow{margin-left:auto;font-size:24px;font-weight:800;color:#94a3b8}
+.enrich-note{color:#94a3b8;font-weight:700;font-size:13px;text-align:center;margin-top:4px}
+/* ====== konfeti ====== */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+#confetti i{position:absolute;top:-18px;display:block;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(760deg)}}
+@keyframes pop{0%{transform:scale(.55);opacity:0}70%{transform:scale(1.09)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<span class="ffloat" style="top:9%;left:4%;animation-delay:.2s">🪐</span>
+<span class="ffloat" style="top:16%;right:6%;animation-delay:1.4s">⭐</span>
+<span class="ffloat" style="top:56%;left:2.5%;animation-delay:2.6s">🛸</span>
+<span class="ffloat" style="top:72%;right:4%;animation-delay:.9s">☄️</span>
+<span class="ffloat" style="top:38%;right:10%;animation-delay:3.4s">🌙</span>
+
+<div id="app">
+
+  <!-- ================= LAYAR AWAL ================= -->
+  <section id="screen-start" class="screen active">
+    <div class="start-hero">
+      <div class="logo-badge">🧮</div>
+      <h1>KALI <span>BAGI</span> QUEST</h1>
+      <p class="subtitle">Petualangan Seru Perkalian &amp; Pembagian · Kelas 3 SD · Bab 4</p>
+      <div class="mascot-big">🤖</div><br>
+      <div class="bubble" id="bubbleStart">Hai, Kadet! Aku <b>MIMO</b>, robot pemandumu! 🤖<br>Ada <b>50 misi soal</b> menantimu. Siap menjadi <b>Master Kali-Bagi</b>?</div>
+      <div class="name-wrap">
+        <input id="nameInput" type="text" maxlength="16" placeholder="Tulis namamu di sini…" autocomplete="off">
+        <p class="name-hint">✏️ Kosongkan saja kalau tidak mau, Kadet!</p>
+      </div>
+      <div class="rules">
+        <span class="rule">🧭 50 Misi Soal</span>
+        <span class="rule">💎 Kumpulkan Permata</span>
+        <span class="rule">⭐ Raih 3 Bintang</span>
+        <span class="rule">🔥 Jaga Streak</span>
+        <span class="rule">🎖️ Kumpulkan Lencana</span>
+        <span class="rule">💡 Ada Pembahasan</span>
+      </div>
+      <div class="action-row center" style="margin-top:14px">
+        <button class="btn btn-primary btn-big" id="btnStart">🚀 MULAI MISI</button>
+      </div>
+      <div class="action-row center">
+        <button class="btn btn-warn" id="btnStartEnrich">🎁 Slide Pengayaan</button>
+      </div>
+      <p class="best-line" id="bestLine"></p>
+    </div>
+  </section>
+
+  <!-- ================= LAYAR KUIS ================= -->
+  <section id="screen-quiz" class="screen">
+    <div class="hud">
+      <div class="hud-group">
+        <span class="chip" id="hudMission">🌱 Misi 1</span>
+        <span class="chip" id="hudQ">Soal 1/50</span>
+      </div>
+      <div class="hud-group">
+        <span class="chip">💎 <b id="hudScore">0</b></span>
+        <span class="chip">🔥 <b id="hudStreak">0</b></span>
+        <button class="icon-btn" id="btnMute" title="Suara nyala/mati">🔊</button>
+        <button class="icon-btn" id="btnGift" title="Slide Pengayaan">🎁</button>
+        <button class="icon-btn" id="btnRestart" title="Ulangi dari awal">↺</button>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress"><div id="progressFill"></div><div id="rocket">🚀</div></div>
+      <div id="missionLabel">Misi 1 · Kadet Kali-Bagi 🌱</div>
+    </div>
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="topic-chip p" id="qTopic">✖️ Perkalian</span>
+        <span class="qnum" id="qNum">Soal 1 dari 50</span>
+      </div>
+      <div id="qTeks" class="qteks" style="display:none"></div>
+      <div id="qImg" class="qimg"></div>
+      <p class="qtext" id="qText"></p>
+      <div id="optWrap"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="mascot-row">
+        <div class="mascot">🤖</div>
+        <div class="bubble" id="mascotBubble" style="margin-top:0">Hitung pelan-pelan, ya! 🧮</div>
+      </div>
+      <div class="exp-panel" id="expPanel">
+        <h4>💡 Pembahasan</h4>
+        <p id="expText"></p>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" id="btnCheck" disabled>✅ Cek Jawaban</button>
+        <button class="btn btn-ghost" id="btnExp" style="display:none">💡 Lihat Pembahasan</button>
+        <button class="btn btn-success" id="btnNext" style="display:none">Soal Berikutnya ➜</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAYAR AKHIR ================= -->
+  <section id="screen-final" class="screen">
+    <div class="card final-hero">
+      <div class="trophy" id="fTrophy">🏆</div>
+      <div class="rank" id="fRank">MASTER KALI-BAGI</div>
+      <p class="fmsg" id="fMsg"></p>
+      <div class="stats">
+        <div class="stat"><b id="fScore">0</b><span>💎 PERMATA</span></div>
+        <div class="stat"><b id="fStars">0/150</b><span>⭐ BINTANG</span></div>
+        <div class="stat"><b id="fAcc">0%</b><span>✅ AKURASI</span></div>
+        <div class="stat"><b id="fTime">0:00</b><span>⏱️ WAKTU</span></div>
+      </div>
+      <h3 class="bh">🎖️ Koleksi Lencana</h3>
+      <div class="badges-grid" id="badgesGrid"></div>
+      <p class="best-line" id="fBest"></p>
+      <div class="action-row center">
+        <button class="btn btn-primary btn-big" id="btnReplay">🔄 Main Lagi</button>
+        <button class="btn btn-success btn-big" id="btnToEnrich">🎁 Lanjut Pengayaan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAYAR PENGAYAAN ================= -->
+  <section id="screen-enrich" class="screen">
+    <div class="enrich-head">
+      <h2>🎁 Ruang Pengayaan</h2>
+      <p class="enrich-sub">Mau belajar makin jago? Klik salah satu tombol di bawah, ya!</p>
+    </div>
+    <div class="card">
+      <a class="link-card" href="https://nandarizky0407-bot.github.io/POLA/polabilangan.html" target="_blank" rel="noopener">
+        <span class="lc-emoji">📘</span>
+        <span><span class="lc-title">Materi Pola Bilangan</span><span class="lc-sub">Belajar ulang pola bilangan dengan cara seru</span></span>
+        <span class="lc-arrow">➜</span>
+      </a>
+      <a class="link-card" href="https://nandarizky0407-bot.github.io/POLA/polagambar.html" target="_blank" rel="noopener">
+        <span class="lc-emoji">🎨</span>
+        <span><span class="lc-title">Materi Pola Gambar</span><span class="lc-sub">Belajar ulang pola gambar dengan cara seru</span></span>
+        <span class="lc-arrow">➜</span>
+      </a>
+      <a class="link-card" href="https://wayground.com/activity/admin/quiz/6a926c42d8be15b2660b0777" target="_blank" rel="noopener">
+        <span class="lc-emoji">🎮</span>
+        <span><span class="lc-title">Kuis Latihan Interaktif</span><span class="lc-sub">Uji kemampuanmu di kuis latihan interaktif</span></span>
+        <span class="lc-arrow">➜</span>
+      </a>
+      <p class="enrich-note">🔗 Tautan terbuka di tab baru. Minta pendampingan guru atau orang tua, ya! 😊</p>
+      <div class="action-row center">
+        <button class="btn btn-ghost" id="btnBackEnrich">⬅ Kembali</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- overlay kenaikan misi -->
+<div class="overlay" id="overlayLevel">
+  <div class="overlay-card">
+    <div class="mission-emoji" id="lvEmoji">🚀</div>
+    <h2 id="lvTitle">MISI 1</h2>
+    <p id="lvSub">Kadet Kali-Bagi</p>
+    <p id="lvMsg">Selamat datang, Kadet!</p>
+    <button class="btn btn-primary btn-big" id="btnLvNext">Lanjut Misi! 💪</button>
+  </div>
+</div>
+
+<!-- toast lencana -->
+<div id="toastBadge"><span class="t-em">🎖️</span><span id="toastText">Lencana baru!</span></div>
+
+<!-- kontainer konfeti -->
+<div id="confetti"></div>
+<script>
+// ============ HELPER VISUAL POLA ============
+function boxRow(cells){
+  return '<div class="prow">' + cells.map(function(c){
+    return '<span class="pcell' + (c === '?' ? ' qm' : '') + '">' + c + '</span>';
+  }).join('') + '</div>';
+}
+// kotak berisi baris-baris objek; rows: array (tiap item bisa string atau array string)
+function box(rows, cls){
+  rows = rows.map(function(r){ return Array.isArray(r) ? r : [r]; });
+  return '<div class="pbox ' + (cls || '') + '">' + rows.map(boxRow).join('') + '</div>';
+}
+// baris panjang pola berulang
+function line(cells){
+  return '<div class="pline">' + cells.map(function(c){
+    return '<span class="pcell' + (c === '?' ? ' qm' : '') + '">' + c + '</span>';
+  }).join('') + '</div>';
+}
+// ulang array n kali
+function rep(arr, n){
+  var out = [];
+  for (var i = 0; i < n; i++) out = out.concat(arr);
+  return out;
+}
+function many(em, n){
+  var out = [];
+  for (var i = 0; i < n; i++) out.push(em);
+  return out;
+}
+
+</script>
+<script>
+// ============ DATA SOAL 1-15 (berdasarkan file SOAL LATIHAN SUMATIF MATEMATIKA BAB 4 TA 2026-2027) ============
+const QUESTIONS = [
+
+// ---- SOAL 1: gambar 6 kotak isi 4 titik -> hasil 6 x 4 (file: no. 1)
+{ t:'P', type:'mc',
+  img: box([many('🔴',4)]) + box([many('🔴',4)]) + box([many('🔴',4)]) + box([many('🔴',4)]) + box([many('🔴',4)]) + box([many('🔴',4)]),
+  q:'Perhatikan gambar di atas! Ada 6 kotak, setiap kotak berisi 4 titik. Hasil dari <b>6 × 4</b> adalah …',
+  opts:['20','24','28','30'], ans:1,
+  exp:'6 × 4 artinya menjumlahkan angka 4 sebanyak 6 kali: 4 + 4 + 4 + 4 + 4 + 4 = <b>24</b>. Pada gambar terlihat 6 kotak berisi 4 titik, jadi seluruhnya 24 titik. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 2: penjumlahan berulang 5+5+5+5 (file: no. 2)
+{ t:'P', type:'mc',
+  img:'',
+  q:'Bentuk perkalian dari penjumlahan berulang <b>5 + 5 + 5 + 5</b> adalah …',
+  opts:['4 × 5','5 × 5','4 × 4','5 × 4 × 2'], ans:0,
+  exp:'Angka 5 muncul 4 kali, artinya 5 dijumlahkan 4 kali. Bentuk perkaliannya <b>4 × 5</b> = 20. Jawaban: <b>A</b>.' },
+
+// ---- SOAL 3: 36 : 6 (file: no. 3)
+{ t:'D', type:'mc',
+  img:'',
+  q:'Hasil dari <b>36 : 6</b> adalah …',
+  opts:['5','6','7','8'], ans:1,
+  exp:'Cari pasangan perkaliannya: 6 × 6 = 36, jadi 36 : 6 = <b>6</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 4: 7 kantong jeruk isi 8 (file: no. 4)
+{ t:'P', type:'mc',
+  img:'',
+  teks:'Ibu membeli 7 kantong jeruk. Setiap kantong berisi 8 buah jeruk.',
+  q:'Jumlah seluruh jeruk yang dibeli Ibu adalah …',
+  opts:['48','54','56','64'], ans:2,
+  exp:'7 kantong × 8 jeruk = 7 × 8 = 8 + 8 + 8 + 8 + 8 + 8 + 8 = <b>56</b> jeruk. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 5: 48 pensil dibagi 8 siswa (file: no. 5)
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Pak Guru memiliki 48 pensil. Pensil tersebut dibagikan sama banyak kepada 8 siswa.',
+  q:'Setiap siswa mendapatkan …',
+  opts:['5 pensil','6 pensil','7 pensil','8 pensil'], ans:1,
+  exp:'48 : 8 = <b>6</b> karena 8 × 6 = 48. Jadi setiap siswa mendapat 6 pensil. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 6: operasi 4 x 9 = 36 -> penjumlahan berulang (file: no. 6)
+{ t:'P', type:'mc',
+  img: line(['4','×','9','=','36']),
+  q:'Perhatikan operasi di atas! Bentuk penjumlahan yang tepat berdasarkan perkalian tersebut adalah …',
+  opts:['4 + 9 + 4 + 9 = 36','9 + 4 + 9 + 4 = 36','4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 = 36','9 + 9 + 9 + 9 = 36'], ans:3,
+  exp:'4 × 9 dibaca "4 kali 9", artinya angka 9 dijumlahkan sebanyak 4 kali: <b>9 + 9 + 9 + 9 = 36</b>. Hati-hati: pilihan berisi 4 + 4 + … (sembilan kali) hasilnya juga 36, tetapi pola itu adalah bentuk 9 × 4, bukan 4 × 9. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 7: cek jawaban Rina 6 x 7 = 36 (file: no. 7)
+{ t:'P', type:'mc',
+  img:'',
+  q:'Rina menghitung <b>6 × 7 = 36</b>. Menurutmu, apakah jawaban Rina benar?',
+  opts:['Benar, karena 6 × 7 = 36','Salah, karena hasilnya 40','Benar, karena hasilnya 48','Salah, karena hasilnya 42'], ans:3,
+  exp:'6 × 7 = 7 + 7 + 7 + 7 + 7 + 7 = <b>42</b>. Jadi jawaban Rina <b>salah</b>, hasil yang benar adalah 42, bukan 36. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 8: cek jawaban Budi 5 kotak pensil (file: no. 8)
+{ t:'P', type:'mc',
+  img:'',
+  teks:'Budi memiliki 5 kotak pensil. Setiap kotak berisi 6 pensil. Ia berkata jumlah pensilnya adalah 35.',
+  q:'Penilaian yang tepat terhadap jawaban Budi adalah …',
+  opts:['Benar, karena 5 × 6 = 35','Salah, seharusnya 30 pensil','Salah, seharusnya 25 pensil','Benar, karena 5 + 6 = 35'], ans:1,
+  exp:'Banyak pensil = 5 × 6 = <b>30</b>, bukan 35. Jawaban Budi salah, seharusnya 30 pensil. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 9: 24 permen dibagi, hasil 6 per teman (file: no. 9)
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Siti memiliki 24 permen. Ia ingin membagikan permen tersebut sama banyak kepada beberapa teman.',
+  q:'Pembagian yang menghasilkan 6 permen untuk setiap teman adalah …',
+  opts:['24 : 2','24 : 3','24 : 4','24 : 6'], ans:2,
+  exp:'Cari pembagian yang hasilnya 6: 24 : 4 = 6 karena 4 × 6 = 24. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 10: 32 siswa menjadi 4 kelompok (file: no. 10)
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Andi ingin membuat 4 kelompok belajar dengan jumlah anggota yang sama. Jika tersedia 32 siswa.',
+  q:'Operasi yang tepat untuk menentukan jumlah anggota setiap kelompok adalah …',
+  opts:['32 × 4','32 + 4','32 − 4','32 : 4'], ans:3,
+  exp:'Membagi 32 siswa ke dalam 4 kelompok sama banyak berarti <b>pembagian</b>: 32 : 4 = 8 anggota per kelompok. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 11: isian a. 4 x 5  b. 12 : 2 (file: no. 11)
+{ t:'P', type:'mc',
+  img:'',
+  q:'Isilah titik-titik berikut!<br>a. <b>4 × 5 = …</b><br>b. <b>12 : 2 = …</b>',
+  opts:['25 dan 6','20 dan 4','10 dan 6','20 dan 6'], ans:3,
+  exp:'a. 4 × 5 = 5 + 5 + 5 + 5 = <b>20</b>. b. 12 : 2 = <b>6</b> karena 2 × 6 = 12. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 12: 6 bungkus roti isi 8 (file: no. 12, isian)
+{ t:'P', type:'input',
+  img:'',
+  teks:'Ayah membeli 6 bungkus roti. Setiap bungkus berisi 8 roti.',
+  q:'Jumlah seluruh roti yang dibeli Ayah adalah … roti.',
+  ans:'48',
+  exp:'6 bungkus × 8 roti = 6 × 8 = 8 + 8 + 8 + 8 + 8 + 8 = <b>48</b> roti.' },
+
+// ---- SOAL 13: 56 buku dibagi 7 siswa (file: no. 13, isian)
+{ t:'D', type:'input',
+  img:'',
+  teks:'Sebanyak 56 buku akan dibagikan sama banyak kepada 7 siswa.',
+  q:'Buku yang diterima setiap siswa adalah … buku.',
+  ans:'8',
+  exp:'56 : 7 = <b>8</b> karena 7 × 8 = 56. Setiap siswa menerima 8 buku.' },
+
+// ---- SOAL 14: Dina 8x7=54 vs Rani 8x7=56 (file: no. 14, uraian)
+{ t:'P', type:'mc',
+  img:'',
+  teks:'Dina menghitung 8 × 7 = 54, sedangkan Rani menghitung 8 × 7 = 56.',
+  q:'Menurutmu, siapa yang memiliki jawaban benar?',
+  opts:['Dina, karena 8 × 7 = 54','Keduanya benar','Keduanya salah, hasilnya 55','Rani, karena 8 × 7 = 56'], ans:3,
+  exp:'Cara menghitung 8 × 7: 7 + 7 + 7 + 7 + 7 + 7 + 7 + 7 = <b>56</b>, atau 8 + 8 + 8 + 8 + 8 + 8 + 8 = 56. Jadi yang benar adalah <b>Rani</b>, karena 8 × 7 = 56. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 15: buat soal cerita (file: no. 15, adaptasi pilihan)
+{ t:'P', type:'mc',
+  img:'',
+  q:'Untuk membuat soal cerita perkalian <b>6 × 4</b>, kalimat soal cerita yang tepat adalah …',
+  opts:['Ibu membeli 6 kantong permen. Setiap kantong berisi 4 permen. Banyak permen seluruhnya adalah …','Ibu membeli 4 kantong permen. Setiap kantong berisi 6 permen. Banyak permen seluruhnya adalah …','Ibu membeli 24 permen, lalu membaginya sama banyak kepada 4 anak. Banyak permen setiap anak adalah …','Ibu membeli 6 kantong permen dan 4 kotak kue. Banyak makanan yang dibeli Ibu adalah …'], ans:0,
+  exp:'6 × 4 artinya ada <b>6 kelompok, setiap kelompok berisi 4</b>. Jadi kalimat yang tepat: "6 kantong permen, setiap kantong berisi 4 permen" (6 × 4 = 24). Kalimat 4 kantong berisi 6 permen berbentuk 4 × 6, dan membagi 24 permen kepada 4 anak berbentuk pembagian 24 : 4.<br>⭐ Tantanganmu: buatlah satu soal cerita perkalian atau pembagian versimu sendiri tentang kehidupan sehari-hari, lalu minta guru atau temanmu menjawabnya! Jawaban: <b>A</b>.' }
+
+];
+
+</script>
+<script>
+// ============ DATA SOAL 16-50 (35 soal tambahan, setipe dengan file BAB 4) ============
+QUESTIONS.push(
+
+// ---- SOAL 16: gambar 4 kotak donat -> bentuk perkalian
+{ t:'P', type:'mc',
+  img: box([many('🍩',5)]) + box([many('🍩',5)]) + box([many('🍩',5)]) + box([many('🍩',5)]),
+  q:'Perhatikan gambar di atas! Ada 4 kotak, setiap kotak berisi 5 donat. Bentuk perkalian yang tepat adalah …',
+  opts:['4 × 5','5 × 4 × 2','4 × 4','3 × 5'], ans:0,
+  exp:'Ada 4 kotak × 5 donat = <b>4 × 5</b> = 5 + 5 + 5 + 5 = 20 donat. Jawaban: <b>A</b>.' },
+
+// ---- SOAL 17: hasil 7 x 3
+{ t:'P', type:'mc',
+  img:'',
+  q:'Hasil dari <b>7 × 3</b> adalah …',
+  opts:['18','21','24','27'], ans:1,
+  exp:'7 × 3 = 3 + 3 + 3 + 3 + 3 + 3 + 3 = <b>21</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 18: hasil 9 x 2 (isian)
+{ t:'P', type:'input',
+  img:'',
+  q:'Hasil dari <b>9 × 2</b> adalah …',
+  ans:'18',
+  exp:'9 × 2 = 9 + 9 = <b>18</b>.' },
+
+// ---- SOAL 19: penjumlahan berulang dari 3 x 6
+{ t:'P', type:'mc',
+  img:'',
+  q:'Bentuk penjumlahan berulang dari <b>3 × 6</b> adalah …',
+  opts:['6 + 6 + 6','3 + 3 + 3','6 + 3 + 6','3 + 6 + 3'], ans:0,
+  exp:'3 × 6 dibaca "3 kali 6", jadi angka 6 dijumlahkan 3 kali: <b>6 + 6 + 6</b> = 18. Jawaban: <b>A</b>.' },
+
+// ---- SOAL 20: tantangan 9 x 7
+{ t:'P', type:'mc', challenge:true,
+  img:'',
+  q:'⭐ SOAL TANTANGAN ⭐<br>Hasil dari <b>9 × 7</b> adalah …',
+  opts:['56','63','64','72'], ans:1,
+  exp:'9 × 7 = 7 + 7 + 7 + 7 + 7 + 7 + 7 + 7 + 7 = <b>63</b>. Ingat juga 7 × 9 = 63. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 21: sifat pertukaran
+{ t:'P', type:'mc',
+  img:'',
+  q:'<b>4 × 6 = 24.</b> Berapakah hasil dari <b>6 × 4</b>?',
+  opts:['20','22','24','26'], ans:2,
+  exp:'Perkalian bersifat pertukaran (komutatif): 4 × 6 = 6 × 4 = <b>24</b>. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 22: dikali 1
+{ t:'P', type:'mc',
+  img:'',
+  q:'Hasil dari <b>7 × 1</b> adalah …',
+  opts:['0','1','7','8'], ans:2,
+  exp:'Setiap bilangan yang dikali 1 hasilnya bilangan itu sendiri: 7 × 1 = <b>7</b>. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 23: dikali 0
+{ t:'P', type:'mc',
+  img:'',
+  q:'Hasil dari <b>5 × 0</b> adalah …',
+  opts:['0','1','5','25'], ans:0,
+  exp:'Setiap bilangan yang dikali 0 hasilnya <b>0</b>. Jawaban: <b>A</b>.' },
+
+// ---- SOAL 24: gambar 3 kotak isi 10 bintang
+{ t:'P', type:'mc',
+  img: box([many('⭐',5), many('⭐',5)]) + box([many('⭐',5), many('⭐',5)]) + box([many('⭐',5), many('⭐',5)]),
+  q:'Perhatikan gambar di atas! Ada 3 kotak, setiap kotak berisi 10 bintang. Banyak bintang seluruhnya adalah …',
+  opts:['13','20','33','30'], ans:3,
+  exp:'3 kotak × 10 bintang = 3 × 10 = <b>30</b> bintang. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 25: soal cerita meja kantin
+{ t:'P', type:'mc',
+  img:'',
+  teks:'Di kantin sekolah tersedia 8 meja panjang. Setiap meja dapat diduduki 4 orang.',
+  q:'Banyak orang yang dapat duduk di seluruh meja adalah …',
+  opts:['24','28','32','36'], ans:2,
+  exp:'8 meja × 4 orang = 8 × 4 = <b>32</b> orang. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 26: roda motor (isian)
+{ t:'P', type:'input',
+  img:'',
+  teks:'Setiap sepeda motor memiliki 2 roda.',
+  q:'Banyak roda pada 9 sepeda motor adalah … roda.',
+  ans:'18',
+  exp:'9 motor × 2 roda = 9 × 2 = <b>18</b> roda.' },
+
+// ---- SOAL 27: bentuk perkalian 8+8+8
+{ t:'P', type:'mc',
+  img:'',
+  q:'Penjumlahan berulang <b>8 + 8 + 8</b> sama dengan perkalian …',
+  opts:['8 × 8','8 × 3 × 2','3 + 8','3 × 8'], ans:3,
+  exp:'Angka 8 muncul 3 kali, artinya 8 dijumlahkan 3 kali: <b>3 × 8</b> = 24. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 28: hasil 10 x 7 (isian)
+{ t:'P', type:'input',
+  img:'',
+  q:'Hasil dari <b>10 × 7</b> adalah …',
+  ans:'70',
+  exp:'Mengalikan dengan 10: kalikan 7 dengan 1, lalu tambahkan angka 0 → <b>70</b>.' },
+
+// ---- SOAL 29: tantangan 4 toples isi 12 kue
+{ t:'P', type:'mc', challenge:true,
+  img:'',
+  teks:'Ibu membuat kue untuk hari raya. Kue dimasukkan ke dalam 4 toples sama banyak. Setiap toples berisi 12 kue.',
+  q:'Banyak kue seluruhnya adalah …',
+  opts:['44','46','48','52'], ans:2,
+  exp:'4 toples × 12 kue = 12 + 12 + 12 + 12 = <b>48</b> kue. Trik: 4 × 12 = 4 × 10 + 4 × 2 = 40 + 8 = 48. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 30: melengkapi 6 x ... = 42
+{ t:'P', type:'mc',
+  img:'',
+  q:'Bilangan berapa yang membuat kalimat <b>6 × … = 42</b> menjadi benar?',
+  opts:['6','7','8','9'], ans:1,
+  exp:'6 × 7 = 42, jadi bilangan yang tepat adalah <b>7</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 31: hasil 5 x 9 (isian)
+{ t:'P', type:'input',
+  img:'',
+  q:'Hasil dari <b>5 × 9</b> adalah …',
+  ans:'45',
+  exp:'5 × 9 = 9 + 9 + 9 + 9 + 9 = <b>45</b>.' },
+
+// ---- SOAL 32: gambar 5 piring stroberi
+{ t:'P', type:'mc',
+  img: box([['🍓','🍓']]) + box([['🍓','🍓']]) + box([['🍓','🍓']]) + box([['🍓','🍓']]) + box([['🍓','🍓']]),
+  q:'Perhatikan gambar di atas! Ada 5 piring, setiap piring berisi 2 stroberi. Bentuk perkaliannya adalah …',
+  opts:['2 × 2','5 × 5','2 + 5','5 × 2'], ans:3,
+  exp:'5 piring × 2 stroberi = <b>5 × 2</b> = 10 stroberi. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 33: soal cerita harga buku
+{ t:'P', type:'mc',
+  img:'',
+  teks:'Rara membeli alat tulis di koperasi sekolah. Ia membeli 6 buku tulis seharga Rp2.000 per buku.',
+  q:'Uang yang harus dibayar Rara adalah …',
+  opts:['Rp8.000','Rp10.000','Rp12.000','Rp14.000'], ans:2,
+  exp:'6 × Rp2.000 = <b>Rp12.000</b>. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 34: tantangan dua langkah sapu
+{ t:'P', type:'mc', challenge:true,
+  img:'',
+  teks:'Untuk lomba kebersihan kelas, ada 4 kelompok. Setiap kelompok berisi 5 anak. Setiap anak membawa 2 sapu.',
+  q:'Banyak sapu seluruhnya adalah …',
+  opts:['30','35','40','45'], ans:2,
+  exp:'Anak seluruhnya: 4 × 5 = 20. Banyak sapu: 20 × 2 = <b>40</b>. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 35: hasil 42 : 7
+{ t:'D', type:'mc',
+  img:'',
+  q:'Hasil dari <b>42 : 7</b> adalah …',
+  opts:['5','6','7','8'], ans:1,
+  exp:'Cari pasangan perkaliannya: 7 × 6 = 42, jadi 42 : 7 = <b>6</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 36: hasil 45 : 9 (isian)
+{ t:'D', type:'input',
+  img:'',
+  q:'Hasil dari <b>45 : 9</b> adalah …',
+  ans:'5',
+  exp:'9 × 5 = 45, jadi 45 : 9 = <b>5</b>.' },
+
+// ---- SOAL 37: pengurangan berulang 20 : 4
+{ t:'D', type:'mc',
+  img:'',
+  q:'Perhatikan cara menghitung pembagian dengan pengurangan berulang!<br><b>20 − 4 = 16, 16 − 4 = 12, 12 − 4 = 8, 8 − 4 = 4, 4 − 4 = 0</b><br>Hasil dari <b>20 : 4</b> adalah …',
+  opts:['4','5','6','7'], ans:1,
+  exp:'Angka 4 dikurangkan sebanyak <b>5 kali</b> sampai habis (0). Berarti 20 : 4 = 5. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 38: 18 roti untuk 6 anak
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Bu Yanti membeli 18 roti untuk 6 anak. Roti dibagikan sama banyak.',
+  q:'Setiap anak mendapatkan …',
+  opts:['2 roti','3 roti','4 roti','6 roti'], ans:1,
+  exp:'18 : 6 = <b>3</b> karena 6 × 3 = 18. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 39: 72 botol ke 9 peti (isian)
+{ t:'D', type:'input',
+  img:'',
+  teks:'Untuk lomba lari, panitia menyediakan 72 botol air yang disusun ke dalam 9 peti sama banyak.',
+  q:'Banyak botol air dalam setiap peti adalah … botol.',
+  ans:'8',
+  exp:'72 : 9 = <b>8</b> karena 9 × 8 = 72.' },
+
+// ---- SOAL 40: kebalikan perkalian 35 : 5
+{ t:'D', type:'mc',
+  img:'',
+  q:'Jika <b>5 × 7 = 35</b>, maka <b>35 : 5 = …</b>',
+  opts:['5','6','7','8'], ans:2,
+  exp:'Pembagian adalah kebalikan perkalian: karena 5 × 7 = 35, maka 35 : 5 = <b>7</b>. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 41: keluarga fakta 8 x 4 = 32
+{ t:'D', type:'mc',
+  img:'',
+  q:'Jika <b>8 × 4 = 32</b>, maka hasil dari <b>32 : 4</b> dan <b>32 : 8</b> berturut-turut adalah …',
+  opts:['4 dan 8','4 dan 4','8 dan 8','8 dan 4'], ans:3,
+  exp:'Keluarga fakta 8 × 4 = 32: 32 : 4 = <b>8</b> dan 32 : 8 = <b>4</b>. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 42: gambar 24 permen ke 4 kotak
+{ t:'D', type:'mc',
+  img: box([many('🍬',6)]) + box([many('🍬',6)]) + box([many('🍬',6)]) + box([many('🍬',6)]),
+  q:'Perhatikan gambar di atas! 24 permen dibagikan sama banyak ke dalam 4 kotak. Isi setiap kotak adalah …',
+  opts:['4 permen','5 permen','6 permen','8 permen'], ans:2,
+  exp:'24 : 4 = <b>6</b> karena 4 × 6 = 24. Setiap kotak berisi 6 permen. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 43: 40 siswa menjadi 5 regu
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Guru membagi 40 siswa peserta lomba menjadi 5 regu sama banyak.',
+  q:'Setiap regu beranggotakan …',
+  opts:['6 siswa','7 siswa','8 siswa','9 siswa'], ans:2,
+  exp:'40 : 5 = <b>8</b> karena 5 × 8 = 40. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 44: hasil 63 : 7 (isian)
+{ t:'D', type:'input',
+  img:'',
+  q:'Hasil dari <b>63 : 7</b> adalah …',
+  ans:'9',
+  exp:'7 × 9 = 63, jadi 63 : 7 = <b>9</b>.' },
+
+// ---- SOAL 45: dibagi 1
+{ t:'D', type:'mc',
+  img:'',
+  q:'Hasil dari <b>9 : 1</b> adalah …',
+  opts:['0','1','8','9'], ans:3,
+  exp:'Setiap bilangan yang dibagi 1 hasilnya bilangan itu sendiri: 9 : 1 = <b>9</b>. Jawaban: <b>D</b>.' },
+
+// ---- SOAL 46: tantangan menabung Dita
+{ t:'D', type:'mc', challenge:true,
+  img:'',
+  teks:'Dita menabung Rp3.000 setiap hari. Setelah menabung selama 7 hari, uangnya dipakai membeli 3 buku cerita dengan harga sama.',
+  q:'Harga setiap buku cerita adalah …',
+  opts:['Rp6.000','Rp7.000','Rp8.000','Rp9.000'], ans:1,
+  exp:'Tabungan Dita: 7 × Rp3.000 = Rp21.000. Dibeli 3 buku sama harga: Rp21.000 : 3 = <b>Rp7.000</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 47: gambar 15 balon untuk 3 anak
+{ t:'D', type:'mc',
+  img: box([many('🎈',5)]) + box([many('🎈',5)]) + box([many('🎈',5)]),
+  q:'Perhatikan gambar di atas! 15 balon dibagikan sama banyak kepada 3 anak. Banyak balon setiap anak adalah …',
+  opts:['3 balon','4 balon','5 balon','6 balon'], ans:2,
+  exp:'15 : 3 = <b>5</b> karena 3 × 5 = 15. Setiap anak mendapat 5 balon. Jawaban: <b>C</b>.' },
+
+// ---- SOAL 48: keluarga fakta 6, 8, 48
+{ t:'D', type:'mc',
+  img:'',
+  q:'Angka <b>6, 8, dan 48</b> membentuk keluarga fakta perkalian dan pembagian. Pasangan yang benar adalah …',
+  opts:['6 × 8 = 48 dan 48 : 8 = 6','6 × 8 = 48 dan 48 : 6 = 48','6 + 8 = 48 dan 48 − 8 = 6','6 × 8 = 48 dan 48 × 8 = 6'], ans:0,
+  exp:'Keluarga fakta dari 6, 8, 48: 6 × 8 = 48, 8 × 6 = 48, 48 : 6 = 8, dan 48 : 8 = 6. Jawaban: <b>A</b>.' },
+
+// ---- SOAL 49: tantangan (36 : 6) x 4
+{ t:'D', type:'mc', challenge:true,
+  img:'',
+  q:'⭐ SOAL TANTANGAN ⭐<br>Hitunglah: <b>(36 : 6) × 4 = …</b>',
+  opts:['20','24','28','30'], ans:1,
+  exp:'Kerjakan yang di dalam kurung dulu: 36 : 6 = 6. Lalu 6 × 4 = <b>24</b>. Jawaban: <b>B</b>.' },
+
+// ---- SOAL 50: 64 buku ke 8 rak
+{ t:'D', type:'mc',
+  img:'',
+  teks:'Di perpustakaan sekolah, 64 buku cerita disusun sama banyak ke dalam 8 rak.',
+  q:'Banyak buku di setiap rak adalah …',
+  opts:['6 buku','7 buku','8 buku','9 buku'], ans:2,
+  exp:'64 : 8 = <b>8</b> karena 8 × 8 = 64. Jawaban: <b>C</b>.' }
+
+);
+
+</script>
+<script>
+// ============ KONFIGURASI MISI & LENCANA ============
+const MISSIONS = [
+  { no:1, name:'Kadet Kali-Bagi',   emoji:'🌱', msg:'Selamat datang di Misi 1! Hitung pelan-pelan dan teliti, Kadet!' },
+  { no:2, name:'Penjelajah Angka',  emoji:'🔍', msg:'Hebat, kamu naik level! Soalnya makin seru. Jangan menyerah!' },
+  { no:3, name:'Kapten Kali',       emoji:'🚀', msg:'Setengah perjalanan sudah dilewati! Kapten Kali selalu teliti, teruslah melaju!' },
+  { no:4, name:'Komandan Bagi',     emoji:'🛡️', msg:'Hampir di puncak, Komandan! Ingat, pembagian itu kebalikan perkalian!' },
+  { no:5, name:'Master Kali-Bagi',  emoji:'👑', msg:'Ini dia misi terakhir! Raih gelar Master Kali-Bagi! Semangat!' }
+];
+const TOTAL = QUESTIONS.length; // 50
+const TOTAL_P = QUESTIONS.filter(function(q){ return q.t === 'P'; }).length;
+const TOTAL_D = TOTAL - TOTAL_P;
+const MAX_STARS = TOTAL * 3;
+
+const BADGES = {
+  fire:  { e:'🔥', n:'Api Semangat',      d:'Benar 5 kali berturut-turut' },
+  target:{ e:'🎯', n:'Tepat Sasaran',     d:'10 jawaban benar langsung' },
+  brave: { e:'💪', n:'Pantang Menyerah',  d:'5 soal berhasil setelah salah' },
+  kali:  { e:'✖️', n:'Ahli Perkalian',    d:'Semua soal perkalian benar' },
+  bagi:  { e:'➗', n:'Ahli Pembagian',    d:'Semua soal pembagian benar' },
+  legend:{ e:'🏆', n:'Legenda Kali-Bagi', d:'Selesai dengan akurasi 90% ke atas' }
+};
+
+const SAY_OK = ['Hebat sekali! 🎉','Kamu jago! 💪','Benar! Kamu keren! 😎','Mantap! 🚀','Otakmu luar biasa! 🧠','Keren, lanjutkan! ✨'];
+const SAY_NO = ['Belum tepat, ayo coba lagi! 💪','Hampir benar! Hitung lagi pelan-pelan ya 🧮','Semangat! Kamu pasti bisa! 🌟','Coba hitung ulang dengan teliti 🙂'];
+const TIPS   = ['Hitung pelan-pelan, jangan terburu-buru! 🧮','Ingat, perkalian itu penjumlahan berulang ✖️','Pembagian itu kebalikan perkalian ➗','Kamu pasti bisa, Kadet! 💪'];
+
+// ============ STATUS PERMAINAN ============
+var S = {};
+function resetState(){
+  S = {
+    i: 0, score: 0, stars: 0, streak: 0, bestStreak: 0,
+    firstTry: 0, comebacks: 0, correct: 0, wrongs: 0,
+    attempts: 0, solved: false, revealed: false, sel: -1,
+    badges: [], topicOk: { P: [], D: [] },
+    t0: Date.now(), muted: false, name: 'Juara', fromScreen: 'screen-start'
+  };
+}
+resetState();
+
+// ============ ELEMEN ============
+function $(id){ return document.getElementById(id); }
+var el = {
+  start: $('screen-start'), quiz: $('screen-quiz'), final: $('screen-final'), enrich: $('screen-enrich'),
+  bubbleStart: $('bubbleStart'), nameInput: $('nameInput'), bestLine: $('bestLine'),
+  hudMission: $('hudMission'), hudQ: $('hudQ'), hudScore: $('hudScore'), hudStreak: $('hudStreak'),
+  progressFill: $('progressFill'), rocket: $('rocket'), missionLabel: $('missionLabel'),
+  qcard: $('qcard'), qTopic: $('qTopic'), qNum: $('qNum'), qTeks: $('qTeks'), qImg: $('qImg'), qText: $('qText'),
+  optWrap: $('optWrap'), feedback: $('feedback'), mascotBubble: $('mascotBubble'),
+  expPanel: $('expPanel'), expText: $('expText'),
+  btnCheck: $('btnCheck'), btnExp: $('btnExp'), btnNext: $('btnNext'),
+  overlayLevel: $('overlayLevel'), lvEmoji: $('lvEmoji'), lvTitle: $('lvTitle'), lvSub: $('lvSub'), lvMsg: $('lvMsg'), btnLvNext: $('btnLvNext'),
+  toastBadge: $('toastBadge'), toastText: $('toastText'),
+  fTrophy: $('fTrophy'), fRank: $('fRank'), fMsg: $('fMsg'), fScore: $('fScore'), fStars: $('fStars'),
+  fAcc: $('fAcc'), fTime: $('fTime'), badgesGrid: $('badgesGrid'), fBest: $('fBest'),
+  btnStart: $('btnStart'), btnStartEnrich: $('btnStartEnrich'),
+  btnMute: $('btnMute'), btnGift: $('btnGift'), btnRestart: $('btnRestart'),
+  btnReplay: $('btnReplay'), btnToEnrich: $('btnToEnrich'), btnBackEnrich: $('btnBackEnrich')
+};
+
+// ============ SUARA (Web Audio) ============
+var AC = null;
+function ac(){
+  if (!AC) {
+    try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; }
+  }
+  return AC;
+}
+function tone(f, d, type, delay, vol){
+  if (S.muted) return;
+  var c = ac(); if (!c) return;
+  var o = c.createOscillator(), g = c.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  o.connect(g); g.connect(c.destination);
+  var t = c.currentTime + (delay || 0);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol || 0.2, t + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.start(t); o.stop(t + d + 0.05);
+}
+function sClick(){ tone(600, 0.08, 'triangle', 0, 0.14); }
+function sCorrect(){ tone(523,0.12,'sine',0,0.24); tone(659,0.12,'sine',0.1,0.24); tone(784,0.22,'sine',0.2,0.24); }
+function sWrong(){ tone(220,0.22,'sawtooth',0,0.1); tone(160,0.28,'sawtooth',0.12,0.1); }
+function sLevel(){ [523,659,784,1047].forEach(function(f,i){ tone(f,0.15,'square',i*0.12,0.16); }); }
+function sBadge(){ tone(880,0.12,'sine',0,0.2); tone(1175,0.16,'sine',0.1,0.2); }
+function sFinish(){ [523,659,784,1047,784,1047,1319].forEach(function(f,i){ tone(f,0.18,'sine',i*0.14,0.2); }); }
+
+// ============ KONFETI ============
+var CONF_COLORS = ['#ffd93d','#4ade80','#38bdf8','#fb7185','#a78bfa','#fb923c'];
+function confetti(n){
+  var box = $('confetti');
+  for (var i = 0; i < (n || 60); i++){
+    var p = document.createElement('i');
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.background = CONF_COLORS[i % CONF_COLORS.length];
+    p.style.animationDelay = (Math.random() * 0.35) + 's';
+    p.style.animationDuration = (1.4 + Math.random() * 1.3) + 's';
+    var w = 6 + Math.random() * 8;
+    p.style.width = w + 'px';
+    p.style.height = (w * 0.55) + 'px';
+    p.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+    box.appendChild(p);
+    (function(node){ setTimeout(function(){ node.remove(); }, 3000); })(p);
+  }
+}
+
+// ============ NAVIGASI LAYAR ============
+function showScreen(id){
+  ['screen-start','screen-quiz','screen-final','screen-enrich'].forEach(function(s){
+    $(s).classList.remove('active');
+  });
+  $(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ============ MASKOT ============
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function say(text){ el.mascotBubble.innerHTML = text; }
+
+// ============ RENDER SOAL ============
+function missionOf(i){ return MISSIONS[Math.min(Math.floor(i / 10), MISSIONS.length - 1)]; }
+
+function renderHud(){
+  var m = missionOf(S.i);
+  el.hudMission.textContent = m.emoji + ' Misi ' + m.no;
+  el.hudQ.textContent = 'Soal ' + (S.i + 1) + '/' + TOTAL;
+  el.hudScore.textContent = S.score;
+  el.hudStreak.textContent = S.streak;
+  var pct = Math.round((S.i / TOTAL) * 100);
+  el.progressFill.style.width = pct + '%';
+  el.rocket.style.left = pct + '%';
+  el.missionLabel.textContent = 'Misi ' + m.no + ' · ' + m.name + ' ' + m.emoji;
+}
+
+function renderQuestion(){
+  var q = QUESTIONS[S.i];
+  S.attempts = 0; S.solved = false; S.revealed = false; S.sel = -1;
+  renderHud();
+
+  el.qTopic.textContent = (q.t === 'P' ? '✖️ Perkalian' : '➗ Pembagian');
+  el.qTopic.className = 'topic-chip ' + (q.t === 'P' ? 'p' : 'd');
+  el.qNum.textContent = 'Soal ' + (S.i + 1) + ' dari ' + TOTAL;
+  el.qNum.style.color = q.challenge ? '#b45309' : '#64748b';
+
+  if (q.teks){ el.qTeks.style.display = 'block'; el.qTeks.innerHTML = '📖 ' + q.teks; }
+  else { el.qTeks.style.display = 'none'; }
+
+  if (q.img){ el.qImg.style.display = 'flex'; el.qImg.innerHTML = q.img; }
+  else { el.qImg.style.display = 'none'; }
+
+  el.qText.innerHTML = q.q;
+  el.feedback.className = 'feedback'; el.feedback.innerHTML = '';
+  el.expPanel.style.display = 'none';
+  el.btnCheck.style.display = ''; el.btnCheck.disabled = true;
+  el.btnExp.style.display = 'none';
+  el.btnNext.style.display = 'none';
+  el.btnNext.innerHTML = (S.i === TOTAL - 1) ? 'Lihat Hasil 🏁' : 'Soal Berikutnya ➜';
+  say(TIPS[S.i % TIPS.length]);
+
+  if (q.type === 'mc'){
+    var letters = ['A','B','C','D'];
+    // acak posisi pilihan agar tidak bisa dihafal
+    S.shuffled = q.opts.map(function(_, k){ return k; });
+    for (var sh = S.shuffled.length - 1; sh > 0; sh--){
+      var sj = Math.floor(Math.random() * (sh + 1));
+      var st = S.shuffled[sh]; S.shuffled[sh] = S.shuffled[sj]; S.shuffled[sj] = st;
+    }
+    el.optWrap.innerHTML = '<div class="opts">' + S.shuffled.map(function(origIdx, pos){
+      return '<button type="button" class="opt' + (q.emoji ? ' emoji' : '') + '" data-i="' + pos + '">' +
+             '<span class="letter">' + letters[pos] + '</span><span class="txt">' + q.opts[origIdx] + '</span></button>';
+    }).join('') + '</div>';
+    Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(btn){
+      btn.addEventListener('click', function(){ selectOpt(btn); });
+    });
+  } else {
+    el.optWrap.innerHTML =
+      '<div class="input-row"><input id="ansInput" type="text" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="Ketik angkanya…">' +
+      '</div><p class="input-hint">✏️ Tulis hanya angkanya, lalu tekan Cek Jawaban ya!</p>';
+    var inp = $('ansInput');
+    inp.addEventListener('input', function(){
+      el.btnCheck.disabled = inp.value.trim() === '';
+      inp.classList.remove('shake');
+    });
+    inp.addEventListener('keydown', function(ev){
+      if (ev.key === 'Enter' && !el.btnCheck.disabled) checkAnswer();
+    });
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function correctPos(){
+  return S.shuffled.indexOf(QUESTIONS[S.i].ans);
+}
+function selectOpt(btn){
+  if (S.solved || S.revealed) return;
+  sClick();
+  S.sel = parseInt(btn.getAttribute('data-i'), 10);
+  Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(b){
+    b.classList.remove('sel');
+  });
+  btn.classList.add('sel');
+  el.btnCheck.disabled = false;
+}
+
+// ============ CEK JAWABAN ============
+function parseNum(v){
+  var n = parseInt(String(v).replace(/[^\d]/g, ''), 10);
+  return isNaN(n) ? null : n;
+}
+function isCorrect(q){
+  if (q.type === 'mc') return S.sel === correctPos();
+  var inp = $('ansInput');
+  return inp && parseNum(inp.value) === parseNum(q.ans);
+}
+function lockOptions(){
+  Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(b){
+    b.classList.add('dis');
+  });
+}
+
+function checkAnswer(){
+  var q = QUESTIONS[S.i];
+  if (S.solved || S.revealed) return;
+  var ok = isCorrect(q);
+  if (ok){
+    S.solved = true;
+    var pts = (S.attempts === 0) ? 10 : (S.attempts === 1 ? 5 : 2);
+    var st  = (S.attempts === 0) ? 3  : (S.attempts === 1 ? 2 : 1);
+    S.score += pts; S.stars += st; S.correct++;
+    if (q.t === 'P' || q.t === 'D') S.topicOk[q.t].push(S.i);
+    if (S.attempts === 0){ S.firstTry++; S.streak++; S.bestStreak = Math.max(S.bestStreak, S.streak); }
+    else { S.comebacks++; S.streak = 0; }
+
+    var starStr = '';
+    for (var i = 0; i < 3; i++) starStr += (i < st ? '⭐' : '☆');
+    el.feedback.className = 'feedback ok';
+    el.feedback.innerHTML = '🎉 <b>Benar!</b> +' + pts + ' permata &nbsp;' + starStr;
+
+    if (q.type === 'mc'){
+      var cp = correctPos();
+      Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(b){
+        b.classList.add('dis');
+        if (parseInt(b.getAttribute('data-i'), 10) === cp) b.classList.add('ok');
+      });
+    } else {
+      var inp = $('ansInput');
+      if (inp){ inp.disabled = true; inp.classList.add('right'); }
+    }
+
+    el.btnCheck.style.display = 'none';
+    el.btnExp.style.display = 'none';
+    el.btnNext.style.display = '';
+    showExp();
+    say(pick(SAY_OK));
+    sCorrect();
+    confetti(55);
+    renderHud();
+    checkBadges();
+  } else {
+    S.attempts++; S.wrongs++; S.streak = 0;
+    renderHud();
+    sWrong();
+    el.qcard.classList.remove('wrongflash');
+    void el.qcard.offsetWidth;
+    el.qcard.classList.add('wrongflash');
+    if (q.type === 'mc'){
+      Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(b){
+        if (parseInt(b.getAttribute('data-i'), 10) === S.sel){ b.classList.add('no','dis'); b.classList.remove('sel'); }
+      });
+      S.sel = -1;
+      el.btnCheck.disabled = true;
+    } else {
+      var inp2 = $('ansInput');
+      if (inp2){ inp2.classList.add('shake'); inp2.value = ''; }
+      el.btnCheck.disabled = true;
+    }
+    if (S.attempts >= 3){
+      el.feedback.className = 'feedback no';
+      el.feedback.innerHTML = '😅 Sudah 3 kali mencoba. Tidak apa-apa, yuk kita pelajari pembahasannya!';
+      revealAnswer(false);
+    } else {
+      el.feedback.className = 'feedback no';
+      el.feedback.innerHTML = '❌ <b>Belum tepat.</b> Coba lagi ya, kamu masih punya kesempatan!';
+      el.btnExp.style.display = '';
+      say(pick(SAY_NO));
+    }
+  }
+}
+
+function revealAnswer(byButton){
+  var q = QUESTIONS[S.i];
+  if (S.solved || S.revealed) return;
+  S.revealed = true;
+  el.feedback.className = 'feedback no';
+  var correctTxt = (q.type === 'mc')
+    ? 'Jawaban yang benar: <b>' + String.fromCharCode(65 + correctPos()) + '. ' + q.opts[q.ans] + '</b>'
+    : 'Jawaban yang benar: <b>' + q.ans + '</b>';
+  el.feedback.innerHTML = (byButton ? '💡 Yuk kita pelajari bersama!<br>' : '') + correctTxt;
+  if (q.type === 'mc'){
+    var cp2 = correctPos();
+    Array.prototype.forEach.call(el.optWrap.querySelectorAll('.opt'), function(b){
+      b.classList.add('dis');
+      if (parseInt(b.getAttribute('data-i'), 10) === cp2) b.classList.add('ok');
+    });
+  } else {
+    var inp = $('ansInput');
+    if (inp){ inp.disabled = true; inp.value = q.ans; inp.classList.remove('shake'); }
+  }
+  el.btnCheck.style.display = 'none';
+  el.btnExp.style.display = 'none';
+  el.btnNext.style.display = '';
+  showExp();
+  say('Tidak apa-apa, dari pembahasan kita jadi tahu caranya! 💡');
+  sClick();
+}
+
+function showExp(){
+  // hapus rujukan huruf statis karena posisi pilihan diacak
+  el.expText.innerHTML = QUESTIONS[S.i].exp.replace(/\s*Jawaban:\s*<b>[A-D]<\/b>\.?\s*$/, '');
+  el.expPanel.style.display = 'block';
+}
+
+function nextQuestion(){
+  sClick();
+  S.i++;
+  if (S.i >= TOTAL){ finish(); return; }
+  if (S.i % 10 === 0){ showLevel(S.i / 10); }
+  else { renderQuestion(); }
+}
+
+// ============ OVERLAY MISI ============
+function showLevel(mi){
+  var m = MISSIONS[mi];
+  el.lvEmoji.textContent = m.emoji;
+  el.lvTitle.textContent = 'MISI ' + m.no;
+  el.lvSub.textContent = m.name;
+  el.lvMsg.textContent = m.msg;
+  el.overlayLevel.classList.add('active');
+  sLevel();
+  confetti(40);
+}
+el.btnLvNext.addEventListener('click', function(){
+  sClick();
+  el.overlayLevel.classList.remove('active');
+  renderQuestion();
+});
+
+// ============ LENCANA ============
+function earnBadge(key){
+  if (S.badges.indexOf(key) !== -1) return;
+  S.badges.push(key);
+  var b = BADGES[key];
+  el.toastText.innerHTML = 'Lencana baru: <b>' + b.n + '</b>!';
+  el.toastBadge.querySelector('.t-em').textContent = b.e;
+  el.toastBadge.classList.add('show');
+  sBadge();
+  setTimeout(function(){ el.toastBadge.classList.remove('show'); }, 3200);
+}
+function checkBadges(){
+  if (S.streak >= 5) earnBadge('fire');
+  if (S.firstTry >= 10) earnBadge('target');
+  if (S.comebacks >= 5) earnBadge('brave');
+  if (S.topicOk.P.length === TOTAL_P) earnBadge('kali');
+  if (S.topicOk.D.length === TOTAL_D) earnBadge('bagi');
+}
+
+// ============ SELESAI ============
+function fmtTime(ms){
+  var s = Math.floor(ms / 1000);
+  var m = Math.floor(s / 60);
+  return m + ':' + ('0' + (s % 60)).slice(-2);
+}
+function finish(){
+  var acc = Math.round((S.correct / TOTAL) * 100);
+  var used = Date.now() - S.t0;
+  if (acc >= 90) earnBadge('legend');
+  var rank, trophy, msg;
+  if (acc >= 90){ trophy = '🏆'; rank = 'GRAND MASTER KALI-BAGI'; msg = 'Luar biasa, ' + S.name + '! Kamu Master Kali-Bagi sejati! 🎉'; }
+  else if (acc >= 75){ trophy = '🥇'; rank = 'MASTER KALI-BAGI'; msg = 'Hebat sekali, ' + S.name + '! Sedikit lagi menuju puncak!'; }
+  else if (acc >= 50){ trophy = '🥈'; rank = 'PETUALANG KALI-BAGI'; msg = 'Bagus, ' + S.name + '! Terus berlatih agar jadi Master Kali-Bagi!'; }
+  else { trophy = '🥉'; rank = 'KADET KALI-BAGI'; msg = 'Jangan menyerah, ' + S.name + '! Ulangi misinya, pasti makin jago!'; }
+  el.fTrophy.textContent = trophy;
+  el.fRank.textContent = rank;
+  el.fMsg.textContent = msg;
+  el.fScore.textContent = S.score;
+  el.fStars.textContent = S.stars + '/' + MAX_STARS;
+  el.fAcc.textContent = acc + '%';
+  el.fTime.textContent = fmtTime(used);
+  el.badgesGrid.innerHTML = Object.keys(BADGES).map(function(k){
+    var b = BADGES[k], got = S.badges.indexOf(k) !== -1;
+    return '<div class="badge-card ' + (got ? 'earned' : 'locked') + '">' +
+           '<div class="b-em">' + b.e + '</div><div class="b-name">' + b.n + '</div>' +
+           '<div class="b-desc">' + b.d + '</div></div>';
+  }).join('');
+  var best = null;
+  try { best = JSON.parse(localStorage.getItem('kaliBagiBest') || 'null'); } catch (e) {}
+  if (!best || S.score > best.score){
+    best = { name: S.name, score: S.score, stars: S.stars };
+    try { localStorage.setItem('kaliBagiBest', JSON.stringify(best)); } catch (e) {}
+    el.fBest.textContent = '🎊 Rekor baru! Skor terbaikmu sekarang: ' + best.score + ' permata';
+  } else {
+    el.fBest.textContent = '🏅 Skor terbaik: ' + best.name + ' — ' + best.score + ' permata';
+  }
+  showScreen('screen-final');
+  sFinish();
+  confetti(150);
+  setTimeout(function(){ confetti(90); }, 700);
+  setTimeout(function(){ confetti(90); }, 1400);
+}
+
+// ============ MULAI / ULANG ============
+function startGame(){
+  var nm = (el.nameInput.value || '').trim();
+  S.name = nm || 'Juara';
+  el.bubbleStart.innerHTML = 'Siap bertualang, <b>' + S.name + '</b>? Ayo bantu MIMO menaklukkan 50 misi kali & bagi! 🤖💪';
+  ac(); // aktifkan audio lewat sentuhan pengguna
+  sClick();
+  resetState();
+  S.name = nm || 'Juara';
+  showScreen('screen-quiz');
+  showLevel(0);
+}
+
+// ============ PENGAYAAN ============
+function openEnrich(from){
+  S.fromScreen = from;
+  sClick();
+  showScreen('screen-enrich');
+}
+
+// ============ EVENT ============
+el.btnStart.addEventListener('click', startGame);
+el.nameInput.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') startGame(); });
+el.btnCheck.addEventListener('click', checkAnswer);
+el.btnExp.addEventListener('click', function(){ sClick(); revealAnswer(true); });
+el.btnNext.addEventListener('click', nextQuestion);
+el.btnReplay.addEventListener('click', function(){
+  sClick();
+  resetState();
+  showScreen('screen-quiz');
+  showLevel(0);
+});
+el.btnToEnrich.addEventListener('click', function(){ openEnrich('screen-final'); });
+el.btnStartEnrich.addEventListener('click', function(){ openEnrich('screen-start'); });
+el.btnGift.addEventListener('click', function(){ openEnrich('screen-quiz'); });
+el.btnBackEnrich.addEventListener('click', function(){ sClick(); showScreen(S.fromScreen || 'screen-start'); });
+el.btnMute.addEventListener('click', function(){
+  S.muted = !S.muted;
+  el.btnMute.textContent = S.muted ? '🔇' : '🔊';
+  if (!S.muted) sClick();
+});
+el.btnRestart.addEventListener('click', function(){
+  if (window.confirm('Ulangi petualangan dari awal?')){
+    sClick();
+    resetState();
+    showScreen('screen-start');
+  }
+});
+
+// ============ REKOR TERSIMPAN ============
+(function(){
+  var best = null;
+  try { best = JSON.parse(localStorage.getItem('kaliBagiBest') || 'null'); } catch (e) {}
+  if (best && best.score > 0){
+    el.bestLine.textContent = '🏅 Rekor terbaik: ' + best.name + ' — ' + best.score + ' permata, ' + best.stars + ' bintang';
+  }
+  var savedName = '';
+  try { savedName = localStorage.getItem('kaliBagiName') || ''; } catch (e) {}
+  if (savedName) el.nameInput.value = savedName;
+  el.nameInput.addEventListener('input', function(){
+    try { localStorage.setItem('kaliBagiName', el.nameInput.value.trim()); } catch (e) {}
+  });
+})();
+
+</script>
+</body>
+</html>
